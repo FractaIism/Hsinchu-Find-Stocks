@@ -1,4 +1,5 @@
 from libraries import *
+from globals import *
 
 def searchProduct(product_name):
     """Search for a product on 新竹倉庫
@@ -52,3 +53,16 @@ def searchProduct(product_name):
         # case 1: search returned no results
         # case 2: webpage fucked up, returned wrong format (assume no results)
         return "-"
+
+def getProductList(ws):
+    firstCell = ws.range('E2')  # type:xlwings.Range
+    lastCell = ws.range('E:E').end("down")  # type:xlwings.Range
+    product_list = ws.range(firstCell, lastCell).value
+    return product_list
+
+def clearResults():
+    ws = xlwings.Book(bookname).sheets[0]
+    firstCell = ws.range('F2')
+    lastCell = ws.range('F1048576').end("up")
+    cells = ws.range(firstCell, lastCell)
+    cells.clear()
