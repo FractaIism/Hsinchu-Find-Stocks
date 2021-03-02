@@ -2,20 +2,20 @@ import libraries
 from globals import *
 from utilities import *
 
+# todo: manual search the test cases to find special cases
 def main():
+    logging.basicConfig(filename = "main.log", filemode = 'w', level = logging.DEBUG)
+    logNprint = functools.partial(logNprint_Template, logging.getLogger())
     ws = xlwings.Book(bookname).sheets[0]
     product_list = getProductList(ws)
-    print(len(product_list), product_list)
-    # for index, product in enumerate(product_list):
-    #     print(f"Search product: {product}")
-    #     result = searchProduct(product)
-    #     ws[f'F{2 + index}'].value = result
+    logNprint(len(product_list), product_list)
     t1 = time.time()
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = [executor.submit(searchProduct, product) for product in product_list]
-        results = [[future.result()] for future in futures]
+    with concurrent.futures.ThreadPoolExecutor(max_workers = len(product_list)) as executor:
+        results = executor.map(searchProduct, product_list)
+    results = [[res] for res in list(results)]
+    print(results)
     t2 = time.time()
-    print("Time elapsed: %.3f" % float(t2 - t1))
+    logNprint("Time elapsed: %.3f" % float(t2 - t1))
     ws['f2'].value = results
 
 if __name__ == '__main__':

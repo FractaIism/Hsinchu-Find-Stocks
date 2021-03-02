@@ -5,6 +5,8 @@ def searchProduct(product_name):
     """Search for a product on 新竹倉庫
     Input: product name
     Output: list of products names found"""
+    print(f"Searching for: {product_name}")
+    logging.info(f"Searching for: {product_name}")
 
     # send HTTP request to perform search
     url = "https://lisp-tw.hct.com.tw/AA005.jsp"
@@ -44,21 +46,29 @@ def searchProduct(product_name):
     soup = BeautifulSoup(resp.text, 'html.parser')
     # print(soup.prettify())
     try:
-        table = soup.find_all('table')[3]  # type:BeautifulSoup
-        tr = table.find_all('tr')[1]  # type:BeautifulSoup
+        tables = soup.find_all('table')
+        if len(tables) < 3:
+            # case 1: webpage derped out, returned wrong format (assume no results)
+            return 'X'
+        table = tables[3]  # type:BeautifulSoup
+        trs = table.find_all('tr')
+        if len(trs) < 2:
+            # case 2: no search results #todo: perform transformations to search again
+            return '-'
+        tr = trs[1]  # type:BeautifulSoup
         td = tr.find_all('td')[1]  # type:BeautifulSoup
         # print(td.text)
         return td.text
-    except IndexError as IE:
+    except Exception:
         # case 1: search returned no results
-        # case 2: webpage fucked up, returned wrong format (assume no results)
+
         return "-"
 
 def getProductList(ws):
     firstCell = ws.range('E2')  # type:xlwings.Range
     lastCell = ws.range('E:E').end("down")  # type:xlwings.Range
     product_list = ws.range(firstCell, lastCell).value
-    return product_list
+    return product_list if isinstance(product_list, list) else [product_list]
 
 def clearResults():
     ws = xlwings.Book(bookname).sheets[0]
@@ -66,3 +76,12 @@ def clearResults():
     lastCell = ws.range('F1048576').end("up")
     cells = ws.range(firstCell, lastCell)
     cells.clear()
+
+def logNprint_Template(logger: logging.Logger, msg: str, *args: list[str]):
+    """template to create logNprint functions
+    literally 'log and print', two functions in one line
+    Seeing multiple lines with the same message is annoying, and harder to maintain"""
+    print(msg, *args)
+    logger.info(msg)
+    for arg in args:
+        logger.info(arg)
