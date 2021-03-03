@@ -3,6 +3,7 @@ import browser_cookie3
 import xlwings
 from bs4 import BeautifulSoup
 import concurrent.futures
+import fake_useragent
 
 import os
 import time
