@@ -14,3 +14,6 @@ def logNprint(msg, *args):
     for m in [msg, *args]:
         print(m)
         logging.info(m)
+
+# start session to preserve cookies
+session = requests.Session()

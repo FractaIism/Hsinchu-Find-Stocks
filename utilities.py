@@ -6,11 +6,10 @@ def searchProduct(product_name):
     Search for a product on 新竹倉庫 by 報表查詢
     Input: product name
     Output: list of products names found"""
-    print(f"Searching for: {product_name}")
-    logging.info(f"Searching for: {product_name}")
+    logNprint(f"Searching for: {product_name}")
 
     # send HTTP request to perform search
-    url = "https://lisp-tw.hct.com.tw/AA005.jsp"
+    url = "http://lisp-tw.hct.com.tw/AA005.jsp"
     cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
     cookie = cookie_jar.__iter__().__next__()
     headers = {
@@ -79,35 +78,41 @@ def listWarehouse():
     Input: None
     Output: List of product names in the warehouse"""
 
+    # first log in (or else subsequent code will fail)
+    HCTLISP_login()
     # fetch warehouse inventory listing
     url = "https://lisp-tw.hct.com.tw/AA004.jsp"
-    cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
-    cookie = cookie_jar.__iter__().__next__()
-    headers = {
-        "Host"                     : "lisp-tw.hct.com.tw",
-        "Connection"               : "keep-alive",
-        "Cache-Control"            : "max-age=0",
-        "sec-ch-ua"                : '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
-        "sec-ch-ua-mobile"         : "?0",
-        "Upgrade-Insecure-Requests": "1",
-        "Origin"                   : "https://lisp-tw.hct.com.tw",
-        "Content-Type"             : "application/x-www-form-urlencoded",
-        "User-Agent"               : user_agent.random,
-        "Accept"                   : "*/*",
-        "Sec-Fetch-Site"           : "same-origin",
-        "Sec-Fetch-Mode"           : "navigate",
-        "Sec-Fetch-User"           : "?1",
-        "Sec-Fetch-Dest"           : "frame",
-        "Referer"                  : "https://lisp-tw.hct.com.tw/AA005.jsp",
-        "Accept-Encoding"          : "gzip, deflate, br",
-        "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Cookie"                   : f"{cookie.name}={cookie.value}",  # this is necessary for some reason...
-    }
-    response = requests.get(url = url, headers = headers, cookies = cookie_jar)
+    # cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
+    # cookie = cookie_jar.__iter__().__next__()
+    # headers = {
+    #     "Host"                     : "lisp-tw.hct.com.tw",
+    #     "Connection"               : "keep-alive",
+    #     "Cache-Control"            : "max-age=0",
+    #     "sec-ch-ua"                : '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
+    #     "sec-ch-ua-mobile"         : "?0",
+    #     "Upgrade-Insecure-Requests": "1",
+    #     "Origin"                   : "https://lisp-tw.hct.com.tw",
+    #     "Content-Type"             : "application/x-www-form-urlencoded",
+    #     "User-Agent"               : user_agent.random,
+    #     "Accept"                   : "*/*",
+    #     "Sec-Fetch-Site"           : "same-origin",
+    #     "Sec-Fetch-Mode"           : "navigate",
+    #     "Sec-Fetch-User"           : "?1",
+    #     "Sec-Fetch-Dest"           : "frame",
+    #     "Referer"                  : "https://lisp-tw.hct.com.tw/AA005.jsp",
+    #     "Accept-Encoding"          : "gzip, deflate, br",
+    #     "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+    #     "Cookie"                   : f"{cookie.name}={cookie.value}",  # this is necessary for some reason...
+    # }(
+    response = session.get(url = url)
     # extract products from HTML table using BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
+
     # structure: table > (NO TBODY) > tr*N
-    table = soup.find_all('table')[1]  # type:BeautifulSoup
+    try:
+        table = soup.find_all('table')[1]  # type:BeautifulSoup
+    except IndexError:
+        raise Exception("You are not logged in.")
     trs = table.find_all('tr')  # type:list[BeautifulSoup]
     # preallocate list for slight performance gains
     ware_list = [r"¯\_(ツ)_/¯" for x in range(len(trs))]  # type:list[str]
@@ -132,3 +137,102 @@ def isSameProduct(product1: str, product2: str):
         return True
     else:
         return False
+
+class Timer:
+    def __init__(self):
+        self.initial_time = None
+        self.last_time = None
+
+    def checkpoint(self, name: str):
+        logNprint("*" * 50)
+        logNprint(f"Checkpoint: {name}")
+        if self.last_time is None:
+            self.initial_time = self.last_time = time.time()
+            logNprint(f"Time diff: 0")
+            logNprint(f"Total time: 0")
+        else:
+            cur_time = time.time()
+            logNprint(f"Time diff: {cur_time - self.last_time}")
+            logNprint(f"Total time: {cur_time - self.initial_time}")
+            self.last_time = cur_time
+        logNprint("*" * 50)
+
+def HCTLISP_login():
+    """Login to HCTLISP to make the cookie "logged-in" so further operations can be performed."""
+
+    def visitLoginPage():
+        """Visit the login page to generate a cookie.
+        Input: None
+        Output: Cookies for lisp-tw.hct.com.tw"""
+        url = "https://lisp-tw.hct.com.tw/login.jsp"
+        response = requests.get(url = url, headers = headers)
+        logging.debug(f"Login page cookie = {response.cookies}")
+        return response.cookies
+
+    # send HTTP request to perform search
+    url = "http://lisp-tw.hct.com.tw/checklogin.jsp"
+    headers = {
+        "Host"                     : "lisp-tw.hct.com.tw",
+        "Connection"               : "keep-alive",
+        "Cache-Control"            : "max-age=0",
+        "sec-ch-ua"                : '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
+        "sec-ch-ua-mobile"         : "?0",
+        "Upgrade-Insecure-Requests": "1",
+        "Origin"                   : "https://lisp-tw.hct.com.tw",
+        "Content-Type"             : "application/x-www-form-urlencoded",  # "User-Agent"               : user_agent.random,  # maybe not needed?
+        "Accept"                   : "*/*",
+        "Sec-Fetch-Site"           : "same-origin",
+        "Sec-Fetch-Mode"           : "navigate",
+        "Sec-Fetch-User"           : "?1",
+        "Sec-Fetch-Dest"           : "frame",  # differs
+        "Accept-Encoding"          : "gzip, deflate, br",
+        "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+        # set Cookie when logging in
+    }
+    cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
+    try:
+        # Try to get cookie from chrome
+        cookie = cookie_jar.__iter__().__next__()
+        print(cookie)
+    except StopIteration:
+        # Cookie not found, create one by visiting login page
+        cookie_jar = visitLoginPage()
+        cookie = cookie_jar.__iter__().__next__()
+    finally:
+        logging.debug(f"Chrome cookie = {cookie_jar}")
+
+    # headers = {
+    #     "Host"                     : "lisp-tw.hct.com.tw",
+    #     "Connection"               : "keep-alive",
+    #     "Cache-Control"            : "max-age=0",
+    #     "sec-ch-ua"                : '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
+    #     "sec-ch-ua-mobile"         : "?0",
+    #     "Upgrade-Insecure-Requests": "1",
+    #     "Origin"                   : "https://lisp-tw.hct.com.tw",
+    #     "Content-Type"             : "application/x-www-form-urlencoded",
+    #     "User-Agent"               : user_agent.random,
+    #     "Accept"                   : "*/*",
+    #     "Sec-Fetch-Site"           : "same-origin",
+    #     "Sec-Fetch-Mode"           : "navigate",
+    #     "Sec-Fetch-User"           : "?1",
+    #     "Sec-Fetch-Dest"           : "frame",
+    #     "Accept-Encoding"          : "gzip, deflate, br",
+    #     "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+    #     "Cookie"                   : f"{cookie.name}={cookie.value}",  # this is necessary for some reason...
+    # }
+    headers.update({
+        "Cookie": f"{cookie.name}={cookie.value}",  # this header is necessary for some reason...
+    })
+    data = {
+        "USER_ID" : "USER",
+        "PASSWORD": "Suntrail",
+        "CUST"    : "SI",
+    }
+    session.cookies.set_cookie(cookie)
+    session.headers.update(headers)
+    # Inconsistent bug: SSL wrong version...
+    # Solution 1: Use HTTP instead of HTTPS in URL
+    # Solution 2: Add param verify=False to requests.post()
+    # response = requests.post(url = url, headers = headers, data = data, cookies = cookie_jar, verify = False)
+    response = session.post(url = url, data = data, verify = False)
+    return
