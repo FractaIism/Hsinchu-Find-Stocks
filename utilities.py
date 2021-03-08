@@ -236,3 +236,61 @@ def HCTLISP_login():
     # response = requests.post(url = url, headers = headers, data = data, cookies = cookie_jar, verify = False)
     response = session.post(url = url, data = data, verify = False)
     return
+
+def getBrandList() -> list[tuple[str, str, str]]:
+    """Get brand names (Chinese and English and Alias)
+    Input: None
+    Output: Dict of brand names as keys and empty lists as values"""
+    ws = xlwings.Book(bookname).sheets["廠牌列表"]
+    brand_list = []
+    row = 2
+    while ws[f"A{row}"].value or ws[f"B{row}"].value:
+        brand_list.append((ws[f"A{row}"].value, ws[f"B{row}"].value, ws[f"C{row}"].value))
+        row += 1
+    return brand_list
+
+def makeDictByBrand(ware_list: list[str], brand_list: list[tuple[str, str, str]]):
+    """Make a dict to classify wares by brand name
+    Input: product list and brand list
+    Output: dict with keys=brand name and values=list of products pertaining to the brand"""
+
+    # initialize empty lists for each brand
+    ware_dict = {
+        'unknown': [],
+        'all'    : ware_list,
+    }
+    for ch, eng, alias in brand_list:
+        # chinese, english, and alias brand names all point to the same list
+        ware_dict[ch] = ware_dict[eng] = ware_dict[alias] = []
+    # add products to their brand list
+    for product in ware_list:
+        try:
+            for brand in brand_list:
+                ch, eng, alias = brand
+                if ch is not None and re.match(ch, product, flags = re.IGNORECASE):
+                    # ware_dict[ch].append(product)
+                    ware_dict[ch].append(removeBrand(product, brand))
+                    raise ConnectionError
+                elif eng is not None and re.match(eng, product, flags = re.IGNORECASE):
+                    # ware_dict[eng].append(product)
+                    ware_dict[eng].append(removeBrand(product, brand))
+                    raise ConnectionError
+                elif alias is not None and re.match(alias, product, flags = re.IGNORECASE):
+                    # ware_dict[alias].append(product)
+                    ware_dict[alias].append(removeBrand(product, brand))
+                    raise ConnectionError
+            # if any of the above succeeds, this line is skipped
+            ware_dict['unknown'].append(product)
+        except ConnectionError:
+            # use a dummy exception
+            continue
+    return ware_dict
+
+def removeBrand(product_name: str, brand: tuple[str, str, str]):
+    """Remove brand info from product name.
+    Input: Product name
+    Output: Product name without chinese or english brand name"""
+    for pattern in brand:
+        if pattern is not None:
+            product_name = re.sub(pattern, "", product_name, flags = re.IGNORECASE)
+    return product_name.strip()

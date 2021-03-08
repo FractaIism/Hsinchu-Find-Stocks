@@ -5,7 +5,10 @@ from utilities import *
 def main():
     timer = Timer()
     timer.checkpoint("Initial")
-    ws = xlwings.Book(bookname).sheets[0]
+    # use in development
+    # ws = xlwings.Book(bookname).sheets[0]
+    # use in production
+    ws = xlwings.sheets.active
     timer.checkpoint("Got sheet")
 
     product_list = getProductList(ws)
