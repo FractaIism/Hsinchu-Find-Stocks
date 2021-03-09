@@ -81,29 +81,8 @@ def listWarehouse():
     # first log in (or else subsequent code will fail)
     HCTLISP_login()
     # fetch warehouse inventory listing
-    url = "https://lisp-tw.hct.com.tw/AA004.jsp"
-    # cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
-    # cookie = cookie_jar.__iter__().__next__()
-    # headers = {
-    #     "Host"                     : "lisp-tw.hct.com.tw",
-    #     "Connection"               : "keep-alive",
-    #     "Cache-Control"            : "max-age=0",
-    #     "sec-ch-ua"                : '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
-    #     "sec-ch-ua-mobile"         : "?0",
-    #     "Upgrade-Insecure-Requests": "1",
-    #     "Origin"                   : "https://lisp-tw.hct.com.tw",
-    #     "Content-Type"             : "application/x-www-form-urlencoded",
-    #     "User-Agent"               : user_agent.random,
-    #     "Accept"                   : "*/*",
-    #     "Sec-Fetch-Site"           : "same-origin",
-    #     "Sec-Fetch-Mode"           : "navigate",
-    #     "Sec-Fetch-User"           : "?1",
-    #     "Sec-Fetch-Dest"           : "frame",
-    #     "Referer"                  : "https://lisp-tw.hct.com.tw/AA005.jsp",
-    #     "Accept-Encoding"          : "gzip, deflate, br",
-    #     "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-    #     "Cookie"                   : f"{cookie.name}={cookie.value}",  # this is necessary for some reason...
-    # }(
+    url = "http://lisp-tw.hct.com.tw/AA004.jsp"
+
     response = session.get(url = url)
     # extract products from HTML table using BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -112,6 +91,7 @@ def listWarehouse():
     try:
         table = soup.find_all('table')[1]  # type:BeautifulSoup
     except IndexError:
+        logging.error(soup.prettify())
         raise Exception("You are not logged in.")
     trs = table.find_all('tr')  # type:list[BeautifulSoup]
     # preallocate list for slight performance gains
@@ -164,7 +144,7 @@ def HCTLISP_login():
         """Visit the login page to generate a cookie.
         Input: None
         Output: Cookies for lisp-tw.hct.com.tw"""
-        url = "https://lisp-tw.hct.com.tw/login.jsp"
+        url = "http://lisp-tw.hct.com.tw/login.jsp"
         response = requests.get(url = url, headers = headers)
         logging.debug(f"Login page cookie = {response.cookies}")
         return response.cookies
@@ -201,25 +181,6 @@ def HCTLISP_login():
     finally:
         logging.debug(f"Chrome cookie = {cookie_jar}")
 
-    # headers = {
-    #     "Host"                     : "lisp-tw.hct.com.tw",
-    #     "Connection"               : "keep-alive",
-    #     "Cache-Control"            : "max-age=0",
-    #     "sec-ch-ua"                : '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
-    #     "sec-ch-ua-mobile"         : "?0",
-    #     "Upgrade-Insecure-Requests": "1",
-    #     "Origin"                   : "https://lisp-tw.hct.com.tw",
-    #     "Content-Type"             : "application/x-www-form-urlencoded",
-    #     "User-Agent"               : user_agent.random,
-    #     "Accept"                   : "*/*",
-    #     "Sec-Fetch-Site"           : "same-origin",
-    #     "Sec-Fetch-Mode"           : "navigate",
-    #     "Sec-Fetch-User"           : "?1",
-    #     "Sec-Fetch-Dest"           : "frame",
-    #     "Accept-Encoding"          : "gzip, deflate, br",
-    #     "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-    #     "Cookie"                   : f"{cookie.name}={cookie.value}",  # this is necessary for some reason...
-    # }
     headers.update({
         "Cookie": f"{cookie.name}={cookie.value}",  # this header is necessary for some reason...
     })
@@ -234,22 +195,33 @@ def HCTLISP_login():
     # Solution 1: Use HTTP instead of HTTPS in URL
     # Solution 2: Add param verify=False to requests.post()
     # response = requests.post(url = url, headers = headers, data = data, cookies = cookie_jar, verify = False)
-    response = session.post(url = url, data = data, verify = False)
-    return
+    session.post(url = url, data = data, verify = False)
 
-def getBrandList() -> list[tuple[str, str, str]]:
+def getBrandList() -> list[tuple[str, str, list[str]]]:
     """Get brand names (Chinese and English and Alias)
     Input: None
     Output: Dict of brand names as keys and empty lists as values"""
+
+    def csv2list(csv_str: str):
+        mylist = csv_str.split(',')
+        for index, value in enumerate(mylist):
+            mylist[index] = value.strip()
+        return mylist
+
     ws = xlwings.Book(bookname).sheets["廠牌列表"]
     brand_list = []
     row = 2
     while ws[f"A{row}"].value or ws[f"B{row}"].value:
-        brand_list.append((ws[f"A{row}"].value, ws[f"B{row}"].value, ws[f"C{row}"].value))
+        ch = ws[f"A{row}"].value
+        eng = ws[f"B{row}"].value
+        aliases_str = ws[f"C{row}"].value
+        aliases_list = csv2list(aliases_str) if aliases_str is not None else []
+        brand_list.append((ch, eng, aliases_list))
         row += 1
+
     return brand_list
 
-def makeDictByBrand(ware_list: list[str], brand_list: list[tuple[str, str, str]]):
+def makeDictByBrand(ware_list: list[str], brand_list: list[tuple[str, str, list[str]]]):
     """Make a dict to classify wares by brand name
     Input: product list and brand list
     Output: dict with keys=brand name and values=list of products pertaining to the brand"""
@@ -259,26 +231,27 @@ def makeDictByBrand(ware_list: list[str], brand_list: list[tuple[str, str, str]]
         'unknown': [],
         'all'    : ware_list,
     }
-    for ch, eng, alias in brand_list:
+    for ch, eng, aliases in brand_list:
         # chinese, english, and alias brand names all point to the same list
-        ware_dict[ch] = ware_dict[eng] = ware_dict[alias] = []
+        ware_dict[ch] = ware_dict[eng] = []
+        for alias in aliases:
+            ware_dict[alias] = ware_dict[eng]
     # add products to their brand list
     for product in ware_list:
         try:
             for brand in brand_list:
-                ch, eng, alias = brand
-                if ch is not None and re.match(ch, product, flags = re.IGNORECASE):
-                    # ware_dict[ch].append(product)
+                ch, eng, aliases = brand
+                if ch is not None and re.search(ch, product, flags = re.IGNORECASE):
                     ware_dict[ch].append(removeBrand(product, brand))
                     raise ConnectionError
-                elif eng is not None and re.match(eng, product, flags = re.IGNORECASE):
-                    # ware_dict[eng].append(product)
+                elif eng is not None and re.search(eng, product, flags = re.IGNORECASE):
                     ware_dict[eng].append(removeBrand(product, brand))
                     raise ConnectionError
-                elif alias is not None and re.match(alias, product, flags = re.IGNORECASE):
-                    # ware_dict[alias].append(product)
-                    ware_dict[alias].append(removeBrand(product, brand))
-                    raise ConnectionError
+                else:
+                    for alias in aliases:
+                        if alias is not None and re.search(alias, product, flags = re.IGNORECASE):
+                            ware_dict[alias].append(removeBrand(product, brand))
+                            raise ConnectionError
             # if any of the above succeeds, this line is skipped
             ware_dict['unknown'].append(product)
         except ConnectionError:
@@ -286,11 +259,15 @@ def makeDictByBrand(ware_list: list[str], brand_list: list[tuple[str, str, str]]
             continue
     return ware_dict
 
-def removeBrand(product_name: str, brand: tuple[str, str, str]):
+def removeBrand(product_name: str, brand: tuple[str, str, list[str]]):
     """Remove brand info from product name.
     Input: Product name
     Output: Product name without chinese or english brand name"""
-    for pattern in brand:
-        if pattern is not None:
-            product_name = re.sub(pattern, "", product_name, flags = re.IGNORECASE)
+    ch, eng, aliases = brand
+    if ch is not None:
+        product_name = re.sub(ch, "", product_name, flags = re.IGNORECASE)
+    if eng is not None:
+        product_name = re.sub(eng, "", product_name, flags = re.IGNORECASE)
+    for alias in aliases:
+        product_name = re.sub(alias, "", product_name, flags = re.IGNORECASE)
     return product_name.strip()
