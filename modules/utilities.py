@@ -1,11 +1,22 @@
 from modules.libraries import *
-from modules.globals import *
+import modules.globals
+
+# ========== EXTERNALS ========== #
+# (to be accessed from other modules)
 
 def isSameProduct(product1: str, product2: str):
     if product1 == product2:
         return True
     else:
         return False
+
+def logNprint(msg, *args):
+    for m in [msg, *args]:
+        print(m)
+        logging.info(m)
+
+# ========== INTERNALS ========== #
+# (only used within this module as subroutines)
 
 def makeDictByBrand(ware_list: list[str], brand_list: list[tuple[str, str, list[str]]]):
     """Make a dict to classify wares by brand name
@@ -58,10 +69,8 @@ def removeBrand(product_name: str, brand: tuple[str, str, list[str]]):
         product_name = re.sub(alias, "", product_name, flags = re.IGNORECASE)
     return product_name.strip()
 
-def logNprint(msg, *args):
-    for m in [msg, *args]:
-        print(m)
-        logging.info(m)
+# ========== DEPRECATED ========== #
+# (deprecated code)
 
 # def searchProduct(product_name):
 #     """DEPRECATED

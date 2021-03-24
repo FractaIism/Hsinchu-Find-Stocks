@@ -1,30 +1,26 @@
-from modules.utilities import *
-from modules.WebCrawler import WebCrawler
-from modules.ExcelHandler import ExcelHandler
-from modules.Timer import Timer
+from modules import *
 
 def main():
     # use this as a hack to set CWD to project dir in all modules (does it work?)
     os.chdir(os.path.dirname(__file__))
     # logging setup for use anywhere in the project
-    logging.basicConfig(filename = log_file, filemode = 'w', level = logging.DEBUG)
-
-    timer = Timer()
+    logging.basicConfig(filename = globals.log_file, filemode = 'w', level = logging.DEBUG)
+    timer = checkpoint_timer.Timer()
     timer.checkpoint("Initial")
-    # use in development
     ws = xlwings.Book.caller().sheets[0]
-    # use in production
-    # ws = xlwings.sheets.active
     timer.checkpoint("Acquired excel sheet")
 
-    product_list = ExcelHandler().getProductList(ws)
+    # fetch product list to search for
+    product_list = excel_handler.getProductList(ws)
     timer.checkpoint("Acquired product list")
     logNprint("Product list:", f"{len(product_list)} {product_list}")
 
-    ware_list = WebCrawler().listWarehouse()
-    logNprint("Warehouse list:", f"{len(ware_list)} {ware_list}")
+    # fetch ware list from hsinchu logistics
+    ware_list = web_crawler.listWarehouse()
     timer.checkpoint("Acquired ware list")
+    logNprint("Warehouse list:", f"{len(ware_list)} {ware_list}")
 
+    # perform pairwise compare to find matching products
     found_count = 0
     for idx, prod in enumerate(product_list):
         found = None
@@ -60,5 +56,5 @@ def main():
 #     ws['f2'].value = results
 
 if __name__ == '__main__':
-    xlwings.Book('測試單.xlsm').set_mock_caller()
+    xlwings.Book(globals.bookname).set_mock_caller()
     main()

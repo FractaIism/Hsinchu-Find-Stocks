@@ -11,8 +11,8 @@ class Timer:
         logNprint(f"Checkpoint: {name}")
         if self.last_time is None:
             self.initial_time = self.last_time = time.time()
-            logNprint(f"Time diff: 0")
-            logNprint(f"Total time: 0")
+            logNprint(f"Time diff: 0.0")
+            logNprint(f"Total time: 0.0")
         else:
             cur_time = time.time()
             logNprint(f"Time diff: {cur_time - self.last_time}")
