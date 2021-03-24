@@ -4,13 +4,15 @@ import modules.globals
 # ========== EXTERNALS ========== #
 # (to be accessed from other modules)
 
-def isSameProduct(product1: str, product2: str):
+def isSamePureProduct(product1: str, product2: str) -> bool:
+    """Compare pure product names and determine if they are the same."""
     if product1 == product2:
         return True
     else:
         return False
 
-def logNprint(msg, *args):
+def logNprint(msg, *args) -> None:
+    """Output message to both console and log file. (tee!)"""
     for m in [msg, *args]:
         print(m)
         logging.info(m)
@@ -18,59 +20,9 @@ def logNprint(msg, *args):
 # ========== INTERNALS ========== #
 # (only used within this module as subroutines)
 
-def makeDictByBrand(ware_list: list[str], brand_list: list[tuple[str, str, list[str]]]):
-    """Make a dict to classify wares by brand name
-    Input: product list and brand list
-    Output: dict with keys=brand name and values=list of products pertaining to the brand"""
-
-    # initialize empty lists for each brand
-    ware_dict = {
-        'unknown': [],
-        'all'    : ware_list,
-    }
-    for ch, eng, aliases in brand_list:
-        # chinese, english, and alias brand names all point to the same list
-        ware_dict[ch] = ware_dict[eng] = []
-        for alias in aliases:
-            ware_dict[alias] = ware_dict[eng]
-    # add products to their brand list
-    for product in ware_list:
-        try:
-            for brand in brand_list:
-                ch, eng, aliases = brand
-                if ch is not None and re.search(ch, product, flags = re.IGNORECASE):
-                    ware_dict[ch].append(removeBrand(product, brand))
-                    raise ConnectionError
-                elif eng is not None and re.search(eng, product, flags = re.IGNORECASE):
-                    ware_dict[eng].append(removeBrand(product, brand))
-                    raise ConnectionError
-                else:
-                    for alias in aliases:
-                        if alias is not None and re.search(alias, product, flags = re.IGNORECASE):
-                            ware_dict[alias].append(removeBrand(product, brand))
-                            raise ConnectionError
-            # if any of the above succeeds, this line is skipped
-            ware_dict['unknown'].append(product)
-        except ConnectionError:
-            # use a dummy exception
-            continue
-    return ware_dict
-
-def removeBrand(product_name: str, brand: tuple[str, str, list[str]]):
-    """Remove brand info from product name.
-    Input: Product name
-    Output: Product name without chinese or english brand name"""
-    ch, eng, aliases = brand
-    if ch is not None:
-        product_name = re.sub(ch, "", product_name, flags = re.IGNORECASE)
-    if eng is not None:
-        product_name = re.sub(eng, "", product_name, flags = re.IGNORECASE)
-    for alias in aliases:
-        product_name = re.sub(alias, "", product_name, flags = re.IGNORECASE)
-    return product_name.strip()
 
 # ========== DEPRECATED ========== #
-# (deprecated code)
+""" Deprecated code """
 
 # def searchProduct(product_name):
 #     """DEPRECATED

@@ -2,38 +2,58 @@ from modules import *
 
 def main():
     # use this as a hack to set CWD to project dir in all modules (does it work?)
-    os.chdir(os.path.dirname(__file__))
+    os.chdir(os.path.dirname(sys.argv[0]))
     # logging setup for use anywhere in the project
     logging.basicConfig(filename = globals.log_file, filemode = 'w', level = logging.DEBUG)
-    timer = checkpoint_timer.Timer()
+    timer = modules.checkpoint_timer.Timer()
     timer.checkpoint("Initial")
     ws = xlwings.Book.caller().sheets[0]
     timer.checkpoint("Acquired excel sheet")
 
     # fetch product list to search for
-    product_list = excel_handler.getProductList(ws)
-    timer.checkpoint("Acquired product list")
+    product_list = modules.excel_handler.getProductList(ws)
+    timer.checkpoint("Acquire product list")
     logNprint("Product list:", f"{len(product_list)} {product_list}")
 
     # fetch ware list from hsinchu logistics
-    ware_list = web_crawler.listWarehouse()
-    timer.checkpoint("Acquired ware list")
+    ware_list = modules.web_crawler.listWarehouse()
+    timer.checkpoint("Acquire ware list")
     logNprint("Warehouse list:", f"{len(ware_list)} {ware_list}")
+
+    # organize ware list into a dict (classify by brand name)
+    brand_list = modules.excel_handler.getBrandList()
+    wares_by_brand = modules.preprocessing.getWaresByBrand(ware_list, brand_list)
+    timer.checkpoint("Group wares by brand")
 
     # perform pairwise compare to find matching products
     found_count = 0
     for idx, prod in enumerate(product_list):
-        found = None
-        for ware in ware_list:
-            if isSameProduct(prod, ware):
-                found = ware
-                found_count += 1
-                break
-        if found is not None:
-            ws[f'f{2 + idx}'].value = found
+        # by "pure_brand" we mean the brand name alone without any specific product information
+        # by "pure_product" we mean the product name alone without any brand information
+        brand_3tuple, pure_product = modules.preprocessing.splitBrandProduct(brand_list, prod)
+        found_ware = None
+        if brand_3tuple != (None, None, None):
+            # if product has a brand, compare within this brand
+            brand_mux = next(b for b in brand_3tuple if b is not None)
+            for ware in wares_by_brand[brand_mux]:
+                pure_ware = modules.preprocessing.removeBrand(ware, brand_3tuple)
+                if isSamePureProduct(pure_product, pure_ware):
+                    found_ware = pure_ware
+                    found_count += 1
+                    break
+        else:
+            # if product has no brand, compare with unbranded products
+            for ware in wares_by_brand["unknown"]:
+                if isSamePureProduct(pure_product, ware):
+                    found_ware = ware
+                    found_count += 1
+                    break
+        # write back to excel
+        if found_ware is not None:
+            ws[f'f{2 + idx}'].value = found_ware
         else:
             ws[f'f{2 + idx}'].value = r"¯\_(ツ)_/¯"
-    timer.checkpoint("Finished pairwise compare")
+    timer.checkpoint("Pairwise compare")
     logNprint(f"Found: {found_count}/{len(product_list)}")
 
 # def main_old():

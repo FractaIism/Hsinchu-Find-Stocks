@@ -4,7 +4,7 @@ from modules.utilities import logNprint
 # start session to preserve cookies
 session = requests.Session()
 
-def listWarehouse():
+def listWarehouse() -> list[str]:
     """Get a list of wares from 庫存總表
     Input: None
     Output: List of product names in the warehouse"""
@@ -33,7 +33,7 @@ def listWarehouse():
     ware_list.pop(0)
     return ware_list
 
-def HCTLISP_login():
+def HCTLISP_login() -> None:
     """Login to HCTLISP to make the cookie "logged-in" so further operations can be performed."""
 
     def visitLoginPage():
