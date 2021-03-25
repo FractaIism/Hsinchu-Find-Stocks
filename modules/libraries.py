@@ -4,7 +4,7 @@ import xlwings
 from bs4 import BeautifulSoup
 import concurrent.futures
 import fake_useragent
-
+import difflib
 import sys
 import os
 import time

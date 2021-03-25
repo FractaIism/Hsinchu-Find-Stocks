@@ -38,7 +38,7 @@ def main():
             for ware in wares_by_brand[brand.primary()]:
                 pure_ware = modules.preprocessing.stripBrand(ware, brand)
                 if modules.utilities.isSamePureProduct(pure_product, pure_ware):
-                    found_ware = pure_ware
+                    found_ware = ware  # output original ware name to excel (including brand)
                     found_count += 1
                     break
         else:

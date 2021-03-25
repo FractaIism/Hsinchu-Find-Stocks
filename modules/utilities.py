@@ -6,7 +6,8 @@ import modules.globals
 
 def isSamePureProduct(product1: str, product2: str) -> bool:
     """Compare pure product names and determine if they are the same."""
-    if product1 == product2:
+    threshold = 0.8
+    if difflib.SequenceMatcher(None, product1.lower(), product2.lower()).quick_ratio() >= threshold:
         return True
     else:
         return False

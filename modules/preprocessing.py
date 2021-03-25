@@ -22,10 +22,12 @@ def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Bra
         try:
             for brand in brand_list:  # type:modules.utilities.Brand
                 if brand.ch is not None and re.search(brand.ch, product, flags = re.IGNORECASE):
-                    ware_dict[brand.ch].append(stripBrand(product, brand))
+                    # ware_dict[brand.ch].append(stripBrand(product, brand))
+                    ware_dict[brand.ch].append(product)
                     raise modules.utilities.Success
                 elif brand.eng is not None and re.search(brand.eng, product, flags = re.IGNORECASE):
-                    ware_dict[brand.eng].append(stripBrand(product, brand))
+                    # ware_dict[brand.eng].append(stripBrand(product, brand))
+                    ware_dict[brand.eng].append(product)
                     raise modules.utilities.Success
                 else:
                     for alias in brand.aliases:  # type:str
