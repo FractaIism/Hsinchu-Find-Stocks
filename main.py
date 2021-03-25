@@ -37,7 +37,8 @@ def main():
             # if product brand is found, compare within the same brand
             for ware in wares_by_brand[brand.primary()]:
                 pure_ware = modules.preprocessing.stripBrand(ware, brand)
-                if modules.utilities.isSamePureProduct(pure_product, pure_ware):
+                # if modules.utilities.isSamePureProduct(pure_product, pure_ware):
+                if modules.utilities.similarity(pure_product, pure_ware, ws, idx + 2):
                     found_ware = ware  # output original ware name to excel (including brand)
                     found_count += 1
                     break

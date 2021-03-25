@@ -8,3 +8,6 @@ log_file = "main.log"
 
 # use WAMP to fetch previously saved wares webpage from localhost
 mock_web = True
+
+# similarity threshold to consider two products the same
+threshold = 0.8

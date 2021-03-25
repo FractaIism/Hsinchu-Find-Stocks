@@ -3,11 +3,21 @@ import modules.globals
 
 # ========== EXTERNALS ========== #
 # (to be accessed from other modules)
+def similarity(product1: str, product2: str, ws: xlwings.Sheet, row: int):
+    product1 = product1.lower()
+    product2 = product2.lower()
+    sim = difflib.SequenceMatcher(None, product1, product2).quick_ratio()
+    if sim >= modules.globals.threshold:
+        ws[f"T{row}"].value = product1
+        ws[f"U{row}"].value = product2
+        ws[f"V{row}"].value = sim
+        return True
+    else:
+        return False
 
 def isSamePureProduct(product1: str, product2: str) -> bool:
     """Compare pure product names and determine if they are the same."""
-    threshold = 0.8
-    if difflib.SequenceMatcher(None, product1.lower(), product2.lower()).quick_ratio() >= threshold:
+    if difflib.SequenceMatcher(None, product1.lower(), product2.lower()).quick_ratio() >= modules.globals.threshold:
         return True
     else:
         return False

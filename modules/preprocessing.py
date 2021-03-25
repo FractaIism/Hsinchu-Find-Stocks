@@ -61,10 +61,20 @@ def splitBrandProduct(brand_list: list[modules.utilities.Brand], product: str) -
     Output: (brand-obj, pure-product), or None if brand not found
     """
     # only need to one of brand.ch/brand.eng to find its place in wares dict
-    for brand in brand_list:  # type:modules.utilities.Brand
-        if brand.ch is not None and re.search(brand.ch, product, re.IGNORECASE):
-            return modules.utilities.Brand(brand.ch, None, None), re.sub(brand.ch, "", product, flags = re.IGNORECASE).strip()
-        if brand.eng is not None and re.search(brand.eng, product, re.IGNORECASE):
-            return modules.utilities.Brand(None, brand.eng, None), re.sub(brand.eng, "", product, flags = re.IGNORECASE).strip()
-    # brand not found
-    return modules.utilities.Brand(None, None, None), product
+    pure_brand = modules.utilities.Brand(None, None, None)  # type:modules.utilities.Brand
+    pure_product = product  # type:str
+    for cur_brand in brand_list:  # type:modules.utilities.Brand
+        if cur_brand.ch is not None and re.search(cur_brand.ch, pure_product, re.IGNORECASE):
+            pure_brand.ch = cur_brand.ch
+            pure_product = re.sub(cur_brand.ch, "", pure_product)  # return modules.utilities.Brand(brand.ch, None, None), re.sub(brand.ch, "", product, flags = re.IGNORECASE).strip()
+        if cur_brand.eng is not None and re.search(cur_brand.eng, product, re.IGNORECASE):
+            pure_brand.eng = cur_brand.eng
+            pure_product = re.sub(cur_brand.eng, "", pure_product)
+            break  # return modules.utilities.Brand(None, cur_brand.eng, None), re.sub(cur_brand.eng, "", product, flags = re.IGNORECASE).strip()
+
+    if pure_product != product:
+        # brand found
+        return pure_brand, pure_product.strip()
+    else:
+        # brand not found
+        return modules.utilities.Brand(None, None, None), product
