@@ -17,6 +17,30 @@ def logNprint(msg, *args) -> None:
         print(m)
         logging.info(m)
 
+class Brand:
+    def __init__(self, ch: str = None, eng: str = None, aliases: list[str] = None):
+        self.ch = ch
+        self.eng = eng
+        self.aliases = aliases
+
+    def __eq__(self, other):
+        if self.ch != other.ch:
+            return False
+        if self.eng != other.eng:
+            return False
+        return True
+
+    def primary(self):
+        """Return the first nonempty name, or None if not found."""
+        if self.ch is not None:
+            return self.ch
+        if self.eng is not None:
+            return self.eng
+        return None
+
+class Success(Exception):
+    pass
+
 # ========== INTERNALS ========== #
 # (only used within this module as subroutines)
 

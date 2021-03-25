@@ -1,5 +1,6 @@
 from modules.libraries import *
 from modules.utilities import logNprint
+import modules.globals
 
 # start session to preserve cookies
 session = requests.Session()
@@ -9,12 +10,17 @@ def listWarehouse() -> list[str]:
     Input: None
     Output: List of product names in the warehouse"""
 
-    # first log in (or else subsequent code will fail)
-    HCTLISP_login()
-    # fetch warehouse inventory listing
-    url = "https://lisp-tw.hct.com.tw/AA004.jsp"
+    if modules.globals.mock_web is True:
+        url = "http://hsinchu"  # using WAMP
+    else:
+        # first log in (or else subsequent code will fail)
+        HCTLISP_login()
+        # fetch warehouse inventory listing
+        url = "https://lisp-tw.hct.com.tw/AA004.jsp"
 
     response = session.get(url = url)
+    # explicitly set encoding to prevent garbage data
+    response.encoding = "UTF-8"
     # extract products from HTML table using BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -47,7 +53,6 @@ def HCTLISP_login() -> None:
         return response.cookies
 
     # send HTTP request to perform search
-    url = "https://lisp-tw.hct.com.tw/checklogin.jsp"
     headers = {
         "Host"                     : "lisp-tw.hct.com.tw",
         "Connection"               : "keep-alive",
@@ -56,8 +61,8 @@ def HCTLISP_login() -> None:
         "sec-ch-ua-mobile"         : "?0",
         "Upgrade-Insecure-Requests": "1",
         "Origin"                   : "https://lisp-tw.hct.com.tw",
-        "Content-Type"             : "application/x-www-form-urlencoded",
-        "User-Agent"               : fake_useragent.UserAgent().random,  # maybe not needed?
+        "Content-Type"             : "application/x-www-form-urlencoded",  # "User-Agent"               : fake_useragent.UserAgent().random,  # maybe not needed?
+        # "User-Agent"               : '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
         "Referer"                  : "",
         "Accept"                   : "*/*",
         "Sec-Fetch-Site"           : "none",
@@ -70,21 +75,18 @@ def HCTLISP_login() -> None:
     cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
     try:
         # Try to get cookie from chrome
-        cookie = cookie_jar.__iter__().__next__()
-        print(cookie)
+        cookie = next(iter(cookie_jar))
     except StopIteration:
         # Cookie not found, create one by visiting login page
         cookie_jar = visitLoginPage()
-        cookie = cookie_jar.__iter__().__next__()
+        cookie = next(iter(cookie_jar))
     finally:
         logging.debug(f"Chrome cookie = {cookie_jar}")
 
-    headers.update({
-        "Cookie": f"{cookie.name}={cookie.value}",  # this header is necessary for some reason...
-    })
+    headers["Cookie"] = f"{cookie.name}={cookie.value}"  # this header is necessary for some reason...
     data = {
         "USER_ID" : "USER",
-        "PASSWORD": "Suntrail",
+        "PASSWORD": "Clark2021",
         "CUST"    : "SI",
     }
     session.cookies.set_cookie(cookie)
@@ -93,4 +95,16 @@ def HCTLISP_login() -> None:
     # Solution 1: Use HTTP instead of HTTPS in URL (NVM STILL NEED HTTPS TO GET COOKIE)
     # Solution 2: Add param verify=False to requests.post()
     # response = requests.post(url = url, headers = headers, data = data, cookies = cookie_jar, verify = False)
-    session.post(url = url, data = data, verify = False)
+    http_url = "http://lisp-tw.hct.com.tw/checklogin.jsp"
+    https_url = "https://lisp-tw.hct.com.tw/checklogin.jsp"
+    try:
+        # first try using HTTPS
+        https_response = session.post(url = https_url, data = data, verify = False)
+        if re.search("alert\(", https_response.text):
+            raise Exception(https_response.text)
+    except Exception as exc:
+        # if it fails, fallback to HTTP
+        print(exc)
+        print("Trying HTTP ...")
+        http_response = session.post(url = http_url, data = data, verify = False)
+        print(http_response)

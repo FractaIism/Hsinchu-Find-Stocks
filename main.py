@@ -30,29 +30,26 @@ def main():
     for idx, prod in enumerate(product_list):
         # by "pure_brand" we mean the brand name alone without any specific product information
         # by "pure_product" we mean the product name alone without any brand information
-        brand_3tuple, pure_product = modules.preprocessing.splitBrandProduct(brand_list, prod)
-        found_ware = None
-        if brand_3tuple != (None, None, None):
-            # if product has a brand, compare within this brand
-            brand_mux = next(b for b in brand_3tuple if b is not None)
-            for ware in wares_by_brand[brand_mux]:
-                pure_ware = modules.preprocessing.removeBrand(ware, brand_3tuple)
-                if isSamePureProduct(pure_product, pure_ware):
+        brand, pure_product = modules.preprocessing.splitBrandProduct(brand_list, prod)
+        found_ware = ""  # type:str
+
+        if brand != modules.utilities.Brand(None, None, None):
+            # if product brand is found, compare within the same brand
+            for ware in wares_by_brand[brand.primary()]:
+                pure_ware = modules.preprocessing.stripBrand(ware, brand)
+                if modules.utilities.isSamePureProduct(pure_product, pure_ware):
                     found_ware = pure_ware
                     found_count += 1
                     break
         else:
             # if product has no brand, compare with unbranded products
             for ware in wares_by_brand["unknown"]:
-                if isSamePureProduct(pure_product, ware):
+                if modules.utilities.isSamePureProduct(pure_product, ware):
                     found_ware = ware
                     found_count += 1
                     break
         # write back to excel
-        if found_ware is not None:
-            ws[f'f{2 + idx}'].value = found_ware
-        else:
-            ws[f'f{2 + idx}'].value = r"¯\_(ツ)_/¯"
+        ws[f'f{2 + idx}'].value = found_ware if found_ware != "" else r"¯\_(ツ)_/¯"
     timer.checkpoint("Pairwise compare")
     logNprint(f"Found: {found_count}/{len(product_list)}")
 

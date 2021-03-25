@@ -1,5 +1,6 @@
 from modules.libraries import *
 from modules.globals import *
+import modules.utilities
 
 def getProductList(ws) -> list[str]:
     """Get list of products that we want to search for.
@@ -22,7 +23,7 @@ def clearResults() -> None:
     cells = ws.range(firstCell, lastCell)
     cells.clear()
 
-def getBrandList() -> list[tuple[str, str, list[str]]]:
+def getBrandList() -> list[modules.utilities.Brand]:
     """Get brand names (Chinese and English and Aliases)
     Input: None
     Output: Dict of brand names as keys and empty lists as values
@@ -44,7 +45,8 @@ def getBrandList() -> list[tuple[str, str, list[str]]]:
         aliases_str = ws[f"C{row}"].value
         # convert csv to list, default to empty list if no alias exists
         aliases_list = csv2list(aliases_str) if aliases_str is not None else []
-        brand_list.append((ch, eng, aliases_list))
+        brand=modules.utilities.Brand(ch,eng,aliases_list)
+        brand_list.append(brand)
         row += 1
 
     return brand_list

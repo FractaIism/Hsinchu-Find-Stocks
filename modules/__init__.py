@@ -1,6 +1,7 @@
 from modules.libraries import *
-from modules.utilities import isSamePureProduct, logNprint
+from modules.utilities import logNprint
 
+import modules.utilities
 import modules.globals
 import modules.preprocessing
 import modules.excel_handler
