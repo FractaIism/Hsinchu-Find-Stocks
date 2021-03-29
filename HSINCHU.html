@@ -1,0 +1,6822 @@
+
+<!-- saved from url=(0036)https://lisp-tw.hct.com.tw/AA004.jsp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+<title>&lt;WEB POS System&gt;</title>
+
+<style type="text/css"> 
+    BODY {
+     background-color: #ffffff
+    }
+
+
+    #PROGNAME {
+     font-family:"標楷體" ;
+     font-size: 16pt;
+     color:#ff22ee;
+     line-height: 24px;
+     letter-spacing:15pt;
+     filter:Glow(color=red);
+    } 
+    TD#PROGNAME  {
+     background: #ffddff;
+     border-style:solid;
+     border-width:2px; 
+     border-color:#FF22FF;
+    }  
+
+
+
+    #SUBJECT {
+     font-family:"標楷體" ;
+     font-size: 14pt;
+     color:#000000;
+     line-height: 24px;
+     letter-spacing:3pt;
+    }  
+    TD#SUBJECT  {
+     background: #eeffee;
+    }  
+
+
+
+
+    #FIELDNAME {
+     font-family:"標楷體" ;
+     font-size: 11pt;
+     color:#1133FF;
+    }  
+
+
+    TD#FIELDNAME  {
+     background: #ddeeff;
+    }  
+
+
+
+    INPUT {
+       background-color:#fffddd; 
+    }
+
+
+   
+    SELECT{
+       background-color:#fffddd; 
+    }
+
+
+    TEXTAREA {
+       background-color:#fffddd;
+    }
+    
+
+
+
+
+
+
+
+
+
+    DIV {
+     font-size: 10pt;
+     color:#000000;
+     background: #ffffff;
+     border-style:none;
+    }  
+
+    div a:hover {
+      color:#000000;
+      background: #eeee2e;
+      border-style:outset;
+    } 
+
+    tr:hover {
+     background-color: #ffffff;
+    }
+    
+    table tr:hover {
+     background-color: #ffffff;
+    }
+
+
+    TD {
+     font-size: 10pt;
+     color:#224400;
+     line-height: 14px;
+    }  
+
+
+    td a:hover {
+      color:#000000;
+      background: #eeee2e;
+    } 
+    
+
+    IMG {
+     line-height: 0;　　　　　　　　　// 設定文字行距 
+     height: 0 ;
+    }
+          
+    fieldset {
+     font-size: 10pt;
+     color:#ffffff;
+     line-height: 0px;　　　　　　　　　// 設定文字行距 
+    }      
+
+       
+    A:link
+    {
+      font-size: 10pt;
+      COLOR: #5566ee;
+      TEXT-DECORATION: none; 
+      border-style:none;
+    } 
+    
+    /*拜訪過的連結*/
+    A:visited 
+    {
+      font-size: 10pt;
+      COLOR: #5566ee; 
+      TEXT-DECORATION: none;
+      border-style:none;
+    } 
+    /*游標在連結上方*/
+    A:hover
+    {
+      font-size: 10pt;
+      COLOR: #5566ee; 
+      BGCOLOR: #FF0000; 
+      TEXT-DECORATION: none;
+      border-style:none;
+    }
+    
+    /*正按下的連結*/
+    A:active
+    {
+      font-size: 10pt;
+      COLOR: #5566ee; 
+      TEXT-DECORATION: none;
+      border-style:none;
+    }
+ 
+    pre {
+     font-size: 10pt;
+     color:#2030aa;
+     background: #efefef;
+     line-height: 20px;
+     border-style:none;
+    }  
+</style>
+ 
+
+  
+
+
+
+<center><b>[AA004] 庫存總表</b></center><hr>
+ 
+
+
+
+
+
+
+
+<form name="FormChgLang" action="https://lisp-tw.hct.com.tw/changeLanguage.jsp" method="POST" target="ChgLang">
+	
+
+	<table border="0" width="100%">
+		<tbody><tr>
+		<td align="left">客戶端</td>
+		<td align="right">
+			Language:
+			<select name="Locale" onchange="javascript:FormChgLang.submit();">
+			  <option value="en_US">ENGLISH</option>
+			  <option value="ja_JP">日本の</option>
+			  <option value="zh_CN">简体中文</option>
+			  <option value="zh_TW" selected="">繁體中文</option>
+			</select>
+		</td></tr> 
+	</tbody></table>
+	<hr>
+	<iframe id="ChgLang" name="ChgLang" src="./saved_resource.html" frameborder="0" width="0" height="0"></iframe> 
+</form>		
+	
+	
+
+
+
+
+
+<form name="FMAIN" action="https://lisp-tw.hct.com.tw/getSQLExcel.jsp" method="POST" target="_blank">
+
+<input type="HIDDEN" name="FILE" id="FILE" value="AA004">
+<input name="SUBMIT" type="SUBMIT" value="DOWNLOAD">
+
+</form>
+
+
+	<form name="FMAIN1" action="https://lisp-tw.hct.com.tw/AA004.jsp" method="POST">
+
+	產品編號：<input type="TEXT" name="PROD_NO" id="PROD_NO" value=""> 
+	客戶產品編號：<input type="TEXT" name="CUST_PROD_NO" id="CUST_PROD_NO" value=""> 
+	<input name="SUBMIT" type="SUBMIT" value="查詢"> <input name="RESET" type="RESET" value="清除">
+	
+
+	</form>
+<table border="1" width="100%">
+<tbody><tr>
+<td>產品編號</td>
+<td>客戶產品編號</td>
+<td>產品名稱</td>
+<td>數量</td>
+</tr>
+<tr>
+<td>SI003</td>
+<td>003</td>
+<td>SUGAR 精美旅行收納組</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI0031655513027</td>
+<td>0031655513027</td>
+<td>Marc Jacobs Daisy小雛菊女性淡香水 50ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI006</td>
+<td>006</td>
+<td>SUGAR 晶鑽筆</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI008</td>
+<td>008</td>
+<td>SONY 手機擦拭布</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI009</td>
+<td>009</td>
+<td>SKITOZ 手機支架</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI010181140648</td>
+<td>010181140648</td>
+<td>PALMER'S Q10膠原緊實乳液 315ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI011</td>
+<td>011</td>
+<td>HUAWEI 贈品-萬國旅充</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI015</td>
+<td>015</td>
+<td>VIVO 精美環保提袋</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI015700052099</td>
+<td>015700052099</td>
+<td>Swiss Miss 即溶可可粉 28公克 X 60入/組</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI017</td>
+<td>017</td>
+<td>Apple iPhone 7/8(4.7吋)玻璃保護貼</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI020525912756</td>
+<td>020525912756</td>
+<td>Move Free 葡萄糖胺+軟骨素+MSM+維生素D+鈣錠 240錠</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI027131267638</td>
+<td>027131267638</td>
+<td>ESTEE LAUDER 雅詩蘭黛 特潤超導修護露 75ML</td>
+<td>84</td>
+</tr>
+<tr>
+<td>SI031604131593</td>
+<td>031604131593</td>
+<td>Nature Made 萊萃美 綜合維生素加葉黃素錠 300粒</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI031604131715</td>
+<td>031604131715</td>
+<td>Nature Made 萊萃美 魚油迷你軟膠囊 200粒</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI031604131746</td>
+<td>031604131746</td>
+<td>Nature Made 萊萃美綜合檸檬酸鈣加維生素K2加強錠 250 粒</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI031604131753</td>
+<td>031604131753</td>
+<td>Nature Made 萊萃美 葉黃素 20 毫克複合膠囊 150粒</td>
+<td>40</td>
+</tr>
+<tr>
+<td>SI031604131760</td>
+<td>031604131760</td>
+<td>Nature Made 萊萃美 全方位維生素B群加C 活力配方 300粒</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI031604131791</td>
+<td>031604131791</td>
+<td>Nature Made 萊萃美 孕婦綜合維生素+魚油(DHA) 150顆</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI031604131814</td>
+<td>031604131814</td>
+<td>Nature Made 萊萃美 大豆卵磷脂膠囊 400粒</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI031604131838</td>
+<td>031604131838</td>
+<td>Nature Made 萊萃美 鉻酵母+綜合維生素 150錠</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI031604131852</td>
+<td>031604131852</td>
+<td>Nature Made 萊萃美南瓜籽油茄紅素男性活力軟膠囊 200粒</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI031604131876</td>
+<td>031604131876</td>
+<td>Nature Made 萊萃美輔酵素Q10 25mg 軟膠囊 150粒</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI034264491243</td>
+<td>034264491243</td>
+<td>OSTER-帕尼尼三明治陶瓷烤盤(7分鐘多功能陶瓷烤盤)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI034264497191</td>
+<td>034264497191</td>
+<td>OSTER-Ball 果汁機替杯 灰</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI034264497948</td>
+<td>034264497948</td>
+<td>OSTER Blend Active隨我型果汁機替杯 (藍)</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI034264497955</td>
+<td>034264497955</td>
+<td>OSTER Blend Active隨我型果汁機替杯 (玫瑰金)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI038000190100</td>
+<td>038000190100</td>
+<td>KELLOGGS 家樂氏 東尼可可片 350G</td>
+<td>36</td>
+</tr>
+<tr>
+<td>SI038000200458</td>
+<td>038000200458</td>
+<td>KELLOGGS 家樂氏SPECIAL K水果優格香脆麥米片 368G</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI038000200748</td>
+<td>038000200748</td>
+<td>KELLOGGS 家樂氏SPECIAL K草莓香脆麥米片 331G</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI041000731488</td>
+<td>041000731488</td>
+<td>LIPTON立頓 冰檸檬風味紅茶粉 2.54公斤</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI048107157999</td>
+<td>048107157999</td>
+<td>GNC 健安喜 三效魚油1500膠囊食品 60顆/瓶</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI048107158033</td>
+<td>048107158033</td>
+<td>GNC 健安喜 必康50食品 100錠/瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI048107191672</td>
+<td>048107191672</td>
+<td>GNC 健安喜 藻油DHA膠囊 60顆/瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI048107197766</td>
+<td>048107197766</td>
+<td>GNC 健安喜 肌醇500食品錠 100錠/瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI048107211752</td>
+<td>048107211752</td>
+<td>GNC 健安喜 南瓜籽油膠囊食品1000MG 100顆/瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI050000302116</td>
+<td>050000302116</td>
+<td>雀巢 咖啡伴侶原味罐裝 1.5公斤</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI052742005034</td>
+<td>052742005034</td>
+<td>HILLS 希爾思 成貓7歲以上 雞肉特調食譜 3.5KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI052742020907</td>
+<td>052742020907</td>
+<td>HILLS 希爾思 成貓 雞肉特調食譜 2KG</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI052742146201</td>
+<td>052742146201</td>
+<td>HILLS 希爾思 成貓11歲以上 雞肉特調食譜 1.59KG</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI052742146300</td>
+<td>052742146300</td>
+<td>HILLS 希爾思 成貓11歲以上 雞肉特調食譜 3.17KG</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI052742888200</td>
+<td>052742888200</td>
+<td>HILLS 希爾思 成貓 毛球控制 低卡 雞肉特調食譜 3.17KG</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI053891101738</td>
+<td>053891101738</td>
+<td>FoodSaver 真空夾鍊袋18入裝(940ml)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI053891102094</td>
+<td>053891102094</td>
+<td>FoodSaver 真空卷2入裝(11吋)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI0618059102301</td>
+<td>0618059102301</td>
+<td>Phyto 髮朵 夜間賦活精露 75ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI0618059105272</td>
+<td>0618059105272</td>
+<td>Phyto 髮朵 全能植萃修護乳-乾性髮質 150ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI0690251104697</td>
+<td>0690251104697</td>
+<td>JO MALONE  藍風鈴滿室幽香藤枝擴香組 165ML</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI070177025700</td>
+<td>070177025700</td>
+<td>Twinings 英倫早餐茶 2公克 X 100包</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI079854689181</td>
+<td>079854689181</td>
+<td>National Vita 顧可飛 檸檬酸鈣錠 450錠</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI081364362911</td>
+<td>081364362911</td>
+<td>京都念慈菴 川貝枇杷膏 456克</td>
+<td>61</td>
+</tr>
+<tr>
+<td>SI085715163028</td>
+<td>085715163028</td>
+<td>ABERCROMBIE &amp; FITCH 肌肉男 男性古龍水 50ML</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI085715163035</td>
+<td>085715163035</td>
+<td>Abercrombie &amp; Fitch 肌肉男 男性古龍水 100ml</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI085715163042</td>
+<td>085715163042</td>
+<td>ABERCROMBIE &amp; FITCH 肌肉男 男性古龍水 200ML</td>
+<td>24</td>
+</tr>
+<tr>
+<td>SI085805089719</td>
+<td>085805089719</td>
+<td>ELIZABETH ARDEN 雅頓 綠茶仙蹤淡香水 100ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI085805100865</td>
+<td>085805100865</td>
+<td>ELIZABETH ARDEN 雅頓 綠茶薰衣草淡香水 100ML</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI085805132125</td>
+<td>085805132125</td>
+<td>ELIZABETH ARDEN 雅頓 綠茶櫻花淡香水 100ML</td>
+<td>25</td>
+</tr>
+<tr>
+<td>SI085805268848</td>
+<td>085805268848</td>
+<td>ELIZABETH ARDEN 雅頓 綠茶淡香 100ml(完整盒裝)</td>
+<td>32</td>
+</tr>
+<tr>
+<td>SI085805390402</td>
+<td>085805390402</td>
+<td>ELIZABETH ARDEN 雅頓 第五大道女性淡香精 30ML</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI085805390600</td>
+<td>085805390600</td>
+<td>ELIZABETH ARDEN 雅頓 第五大道女性淡香精 125m</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI085805544829</td>
+<td>085805544829</td>
+<td>ELIZABETH ARDEN 雅頓 綠茶甜桃淡香水 100ML</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI088300101405</td>
+<td>088300101405</td>
+<td>CALVIN KLEIN CK ETERNITY 永恆女性淡香精 100ML</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI088300104680</td>
+<td>088300104680</td>
+<td>CALVIN KLEIN CK BE 中性淡香水50ML</td>
+<td>54</td>
+</tr>
+<tr>
+<td>SI088300139507</td>
+<td>088300139507</td>
+<td>CALVIN KLEIN CK ETERNITY MOMENT 永恆時刻 女性淡香精 100ML</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI088300178278</td>
+<td>088300178278</td>
+<td>CALVIN KLEIN EUPHORIA 誘惑男性淡香水 100ML</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI088300196876</td>
+<td>088300196876</td>
+<td>CALVIN KLEIN CK IN2U HER 女性淡香水 150ML</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI091603050561</td>
+<td>091603050561</td>
+<td>NATROL 納妥維生素C 1000毫克緩釋錠(食品) 200錠</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI096619099801</td>
+<td>096619099801</td>
+<td>Kirkland Signature 科克蘭 鈣+維生素D3錠 500錠</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI096619130313</td>
+<td>096619130313</td>
+<td>科克蘭 雞肉&amp;米&amp;蔬菜配方 幼犬乾狗糧 9.07公斤</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI096619219858</td>
+<td>096619219858</td>
+<td>Kirkland Signature 科克蘭 保濕洗髮精  1公升X 2入</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI096619240791</td>
+<td>096619240791</td>
+<td>Kirkland Signature 科克蘭 新型緩釋魚油軟膠囊 180粒</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI096619250127</td>
+<td>096619250127</td>
+<td>Kirkland Signature柯克蘭 非變性第二型膠原錠 110錠</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI096619253531</td>
+<td>096619253531</td>
+<td>科克蘭 雞肉&amp;米&amp;蔬菜配方 小型犬乾狗糧 9.07公斤</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI096619352036</td>
+<td>096619352036</td>
+<td>Kirkland Signature 科克蘭 維生素E 350 IU 300粒 軟膠囊</td>
+<td>26</td>
+</tr>
+<tr>
+<td>SI096619354436</td>
+<td>096619354436</td>
+<td>Kirkland Signature科克蘭 日本綠茶包 1.5公克X100包</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI096619356041</td>
+<td>096619356041</td>
+<td>Kirkland Signature 科克蘭 維生素B12錠 800微克 (150錠 X 2瓶)</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI096619363438</td>
+<td>096619363438</td>
+<td>Kirkland Signature 科克蘭 維他命C錠 500毫克 300錠</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI096619363810</td>
+<td>096619363810</td>
+<td>Kirkland Signature 科克蘭 綜合維生素B群 300錠</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI096619408399</td>
+<td>096619408399</td>
+<td>Kirkland Signature 科克蘭 鈣鎂鋅錠 300錠</td>
+<td>29</td>
+</tr>
+<tr>
+<td>SI096619430543</td>
+<td>096619430543</td>
+<td>科克蘭 體重管理配方乾狗糧 18.14公斤</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI096619521128</td>
+<td>096619521128</td>
+<td>科克蘭 雞肉&amp;米配方乾狗糧 12公斤</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI096619637584</td>
+<td>096619637584</td>
+<td>Kirkland Signature 科克蘭 葡萄糖胺+MSM 240錠</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI10104005202</td>
+<td>10104005202</td>
+<td>SHISEIDO資生堂 亮采賦活潔膚乳G 30ml</td>
+<td>53</td>
+</tr>
+<tr>
+<td>SI1018E404000</td>
+<td>1018E404000</td>
+<td>SHISEIDO資生堂 安耐曬 金鑽保濕防曬露 12ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI1018N325000</td>
+<td>1018N325000</td>
+<td>SHISEIDO資生堂 安耐曬 金鑽高效防曬露 EX 12ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI10201229000</td>
+<td>10201229000</td>
+<td>SHISEIDO資生堂 全效抗痕 淨斑白金萃G 10ml</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI143ER1369H</td>
+<td>143ER1369H</td>
+<td>ASUS 隨身電源 10500 藍 (BSMI)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190198001719</td>
+<td>190198001719</td>
+<td>Apple原廠 EARPODS LIGHTNING有線耳機</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI190198062178</td>
+<td>190198062178</td>
+<td>Apple iPhone 6s Plus 32G 5.5吋手機_玫瑰金</td>
+<td>135</td>
+</tr>
+<tr>
+<td>SI190198772596</td>
+<td>190198772596</td>
+<td>Apple iPhone XR 128G 6.1吋智慧型手機 黑色</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199264502</td>
+<td>190199264502</td>
+<td>Apple Watch S5(MWVF2)GPS 44mm太空灰錶殼配黑錶帶</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199278523</td>
+<td>190199278523</td>
+<td>Apple Watch S5(MWWC2T) LTE版 44mm 銀鋁白錶帶</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199300255</td>
+<td>190199300255</td>
+<td>APPLE WATCH NIKE S5(MX3E2T) LTE版 44MM 銀鋁</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199370364</td>
+<td>190199370364</td>
+<td>Apple 原廠USB-C Lighting 傳輸充電線1M-白 (MX0K2FE/A)新</td>
+<td>28</td>
+</tr>
+<tr>
+<td>SI190199534834</td>
+<td>190199534834</td>
+<td>Apple 原廠Lightning(8pin)對USB連接線1公尺</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI190199760875</td>
+<td>190199760875</td>
+<td>APPLE WATCH SE 40MM GPS版金鋁配淺粉紅錶帶(MYDN2T)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI190199761247</td>
+<td>190199761247</td>
+<td>APPLE WATCH SE 44MM GPS版金鋁配淺粉紅錶帶(MYDR2T)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199779044</td>
+<td>190199779044</td>
+<td>APPLE IPAD AIR 2020 10.9吋 WIFI 256G平板_銀</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI190199779600</td>
+<td>190199779600</td>
+<td>APPLE IPAD AIR 2020 10.9吋 WIFI 256G平板_天藍</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199807983</td>
+<td>190199807983</td>
+<td>APPLE IPAD 2020 10.2吋 WIFI 128G平板_太空灰</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI190199808546</td>
+<td>190199808546</td>
+<td>APPLE IPAD 2020 10.2吋 WIFI 128G平板_金</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI190199865631</td>
+<td>190199865631</td>
+<td>Apple Watch S6 40MM GPS版 金鋁配粉紅錶帶(MG123T)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199867192</td>
+<td>190199867192</td>
+<td>Apple Watch S6 NIKE 44MM GPS版灰鋁黑錶帶MG173T</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI190199873186</td>
+<td>190199873186</td>
+<td>APPLE WATCH S6 44MM LTE版 銀鋁配白錶帶(MG2C3T)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI190199882898</td>
+<td>190199882898</td>
+<td>APPLE WATCH S6 44MM GPS版 銀鋁配白錶帶(M00D3T)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI190199883659</td>
+<td>190199883659</td>
+<td>Apple Watch S6 44MM GPS版 太空灰鋁錶殼配黑運動錶帶(M00H3TA/A)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI193937000059</td>
+<td>193937000059</td>
+<td>阿舍乾麵95公克 X20包 </td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI194252013168</td>
+<td>194252013168</td>
+<td>APPLE IPHONE 12 MINI 64G 5.4吋手機_黑</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI194252021156</td>
+<td>194252021156</td>
+<td>APPLE IPHONE 12 PRO MAX 128G 6.7吋手機_石墨</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI194252022177</td>
+<td>194252022177</td>
+<td>APPLE IPHONE 12 PRO MAX 128G 6.7吋手機_太平洋藍</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI194252022511</td>
+<td>194252022511</td>
+<td>APPLE IPHONE 12 PRO MAX 256G 6.7吋手機_石墨</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI194252022856</td>
+<td>194252022856</td>
+<td>APPLE IPHONE 12 PRO MAX 256G 6.7吋手機_銀</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI194252023198</td>
+<td>194252023198</td>
+<td>APPLE IPHONE 12 PRO MAX 256G 6.7吋手機_金</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI194252029565</td>
+<td>194252029565</td>
+<td>Apple iPhone 12 64G 6.1吋手機_黑</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI194252030240</td>
+<td>194252030240</td>
+<td>Apple iPhone 12 64G 6.1吋手機_紅</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI194252030929</td>
+<td>194252030929</td>
+<td>Apple iPhone 12 64G 6.1吋手機_綠</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI194252031605</td>
+<td>194252031605</td>
+<td>Apple iPhone 12 128G 6.1吋手機_白</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI194252032626</td>
+<td>194252032626</td>
+<td>APPLE IPHONE 12 128G 6.1吋手機_綠</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI194252033982</td>
+<td>194252033982</td>
+<td>Apple iPhone 12 256G 6.1吋手機_藍</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI194252039007</td>
+<td>194252039007</td>
+<td>APPLE IPHONE 12 PRO 256G 6.1吋手機_石墨</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI194252039342</td>
+<td>194252039342</td>
+<td>APPLE IPHONE 12 PRO 256G 6.1吋手機_銀</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI194252040027</td>
+<td>194252040027</td>
+<td>APPLE IPHONE 12 PRO 256G 6.1吋手機_太平洋藍</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI194252099179</td>
+<td>194252099179</td>
+<td>APPLE IPHONE 11 128G 6.1吋手機_黑(環保包裝)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI194252156957</td>
+<td>194252156957</td>
+<td>Apple原廠20W USB-C充電器(MHJA3TA/A)</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI194252192412</td>
+<td>194252192412</td>
+<td>APPLE原廠 MAGSAFE 充電器</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI2000900280227</td>
+<td>2000900280227</td>
+<td>北歐艾格 中大型熟齡犬專用 2.8kg</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI302990210101</td>
+<td>302990210101</td>
+<td>CETAPHIL 舒特膚 AD 益膚康修護滋養潔膚乳 296ML</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI302993921820</td>
+<td>302993921820</td>
+<td>Cetaphil 舒特膚臉部清潔乳 591mlx2入組</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI3029939230460</td>
+<td>3029939230460</td>
+<td>Cetaphil 舒特膚溫和潔膚凝脂 127g</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3145891054675</td>
+<td>3145891054675</td>
+<td>CHANEL 香奈兒 NO5 N°5 淡香水100ML</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI3145891235005</td>
+<td>3145891235005</td>
+<td>CHANEL香奈兒 男性運動隨身香水 極限版 20MLX3</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI3145891235500</td>
+<td>3145891235500</td>
+<td>CHANEL香奈兒 ALLURE HOMME SPORT 男性運動淡香精極限版 50ML</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI3145891264203</td>
+<td>3145891264203</td>
+<td>CHANEL 香奈兒 CHANCE 邂逅女性淡香精 50ML</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI3145891274608</td>
+<td>3145891274608</td>
+<td>CHANEL香奈兒 白色時尚男性淡香精 100ML</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI3253581207048</td>
+<td>3253581207048</td>
+<td>L'occitane 歐舒丹 薰衣草護手霜 75ml</td>
+<td>29</td>
+</tr>
+<tr>
+<td>SI3253581264102</td>
+<td>3253581264102</td>
+<td>L'occitane 歐舒丹 馬鞭草 護手霜 30ml </td>
+<td>60</td>
+</tr>
+<tr>
+<td>SI3253581285879</td>
+<td>3253581285879</td>
+<td>L'occitane 歐舒丹 乳油木玫瑰 護手霜 30ml </td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI3253581286111</td>
+<td>3253581286111</td>
+<td>L'occitane 歐舒丹 櫻花 護手霜 75ml </td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI3253581286128</td>
+<td>3253581286128</td>
+<td>L'occitane 歐舒丹 櫻花 護手霜 30ml </td>
+<td>38</td>
+</tr>
+<tr>
+<td>SI3253581306239</td>
+<td>3253581306239</td>
+<td>L'occitane 歐舒丹 馬鞭草 護手霜 75ml </td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI3253581334980</td>
+<td>3253581334980</td>
+<td>歐舒丹 草本強韌洗髮乳 300ML</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI3253581337059</td>
+<td>3253581337059</td>
+<td>L'occitane 歐舒丹 牡丹護手霜 30ml </td>
+<td>40</td>
+</tr>
+<tr>
+<td>SI3253581348185</td>
+<td>3253581348185</td>
+<td>歐舒丹 果漾馬鞭草爽膚乳250ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3253581348505</td>
+<td>3253581348505</td>
+<td>L'occitane 歐舒丹 牡丹護手霜 75ml </td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI3253581453704</td>
+<td>3253581453704</td>
+<td>L'occitane 歐舒丹 乳油木 護手霜 30ml </td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI3253581461839</td>
+<td>3253581461839</td>
+<td>L'occitane 歐舒丹 乳油木牛奶皂 250g</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3253581462256</td>
+<td>3253581462256</td>
+<td>L'occitane 歐舒丹 橙花&amp;蘭花 護手霜 30ml </td>
+<td>55</td>
+</tr>
+<tr>
+<td>SI3253581542149</td>
+<td>3253581542149</td>
+<td>L'occitane 歐舒丹 玫瑰花園護手霜 30ml</td>
+<td>39</td>
+</tr>
+<tr>
+<td>SI3253581590225</td>
+<td>3253581590225</td>
+<td>L'occitane 歐舒丹 杏仁 護手霜 75ml </td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI3253581597705</td>
+<td>3253581597705</td>
+<td>Loccitane 歐舒丹 乳油木護手霜 150ml</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI3274872404298</td>
+<td>3274872404298</td>
+<td>KENZO 高田賢三 罌粟花女性淡香水 50ML</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI3282770037753</td>
+<td>3282770037753</td>
+<td>A-DERMA 艾芙美 燕麥極淨卸妝乳(原燕麥潔膚乳)400ml</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI3282770053135</td>
+<td>3282770053135</td>
+<td>Avene 雅漾 全護安敏霜 50ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3282770101607</td>
+<td>3282770101607</td>
+<td>RENE FURTERER 荷那法蕊 蒔蘿均衡髮浴  500ml</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI3282770108200</td>
+<td>3282770108200</td>
+<td>RENE FURTERER 荷那法蕊 紫苑草舒緩髮浴 600ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3282770108231</td>
+<td>3282770108231</td>
+<td>RENE FURTERER 荷那法蕊 葫蘆沁衡髮浴 600ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3282770108996</td>
+<td>3282770108996</td>
+<td>RENE FURTERER 荷那法蕊 複方精油養護髮浴 250ml</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI3282770109009</td>
+<td>3282770109009</td>
+<td>RENE FURTERER 荷那法蕊 複方精油養護髮浴 600ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3282770110173</td>
+<td>3282770110173</td>
+<td>A-DERMA 艾芙美 燕麥新葉益護佳乳液 400ml</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI3282770110401</td>
+<td>3282770110401</td>
+<td>RENE FURTERER 荷那法蕊 蒔蘿均衡髮浴200ml</td>
+<td>35</td>
+</tr>
+<tr>
+<td>SI3282770209587</td>
+<td>3282770209587</td>
+<td>KLORANE 蔻蘿蘭 寶寶洗髮沐浴精 500ml x2入組</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI3282779051514</td>
+<td>3282779051514</td>
+<td>Avene 雅漾 活泉玻尿酸卸妝乳 200ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI3282779306669</td>
+<td>3282779306669</td>
+<td>A-DERMA 艾芙美 燕麥潔潤雙效液 500ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3337872411830</td>
+<td>3337872411830</td>
+<td>La Roche Posay 理膚寶水 多容安清潔卸妝乳液 400ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3337872412257</td>
+<td>3337872412257</td>
+<td>La Roche Posay 理膚寶水 全日長效玻尿酸修護保濕乳-清爽型 50ml</td>
+<td>52</td>
+</tr>
+<tr>
+<td>SI3337872412264</td>
+<td>3337872412264</td>
+<td>La Roche Posay 理膚寶水 全日長效玻尿酸修護保濕乳 潤澤型 50ML</td>
+<td>89</td>
+</tr>
+<tr>
+<td>SI3337872412998</td>
+<td>3337872412998</td>
+<td>La Roche Posay 理膚寶水 全面修復霜 40ml</td>
+<td>421</td>
+</tr>
+<tr>
+<td>SI3337872413025</td>
+<td>3337872413025</td>
+<td>La Roche Posay 理膚寶水 毛孔緊緻控油保溼乳 40ml</td>
+<td>26</td>
+</tr>
+<tr>
+<td>SI3337872413148</td>
+<td>3337872413148</td>
+<td>La Roche Posay 理膚寶水 舒緩保濕高效潔顏慕斯 150ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3337872414466</td>
+<td>3337872414466</td>
+<td>La Roche Posay 理膚寶水 全護清爽防曬液 UVA PRO透明色 30ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3337872418815</td>
+<td>3337872418815</td>
+<td>La Roche Posay 理膚寶水 親膚舒敏沐浴露 750ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3337872419775</td>
+<td>3337872419775</td>
+<td>La Roche Posay 理膚寶水 舒緩保濕卸妝水凝膠 195ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3337875482554</td>
+<td>3337875482554</td>
+<td>La Roche Posay 理膚寶水 全護清爽防曬BB霜 02 健康色 30ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3337875533317</td>
+<td>3337875533317</td>
+<td>La Roche Posay 理膚寶水 深層淨膚泥面膜 100ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3337875545778</td>
+<td>3337875545778</td>
+<td>La Roche Posay 理膚寶水 多容安舒敏溫和潔膚乳 400ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3337875583589</td>
+<td>3337875583589</td>
+<td>La Roche Posay 理膚寶水 B5彈潤修復凝乳 40ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3337875693820</td>
+<td>3337875693820</td>
+<td>LA ROCHE POSAY 理膚寶水 多容安舒緩保濕修護精華 20ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3337875696548</td>
+<td>3337875696548</td>
+<td>La Roche Posay 理膚寶水 理必佳修護滋養霜 400ml</td>
+<td>306</td>
+</tr>
+<tr>
+<td>SI3338221000415</td>
+<td>3338221000415</td>
+<td>Phyto 髮朵 槐花抗屑控油洗髮精 200ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3346131400003</td>
+<td>3346131400003</td>
+<td>HERMES 愛馬仕 大地男性淡香水 100ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3346131402205</td>
+<td>3346131402205</td>
+<td>HERMES 愛馬仕 TERRE D HERMES 大地 男性淡香精 75ML</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3346138900094</td>
+<td>3346138900094</td>
+<td>HERMES 愛馬仕 尼羅河花園中性淡香水50ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3346470610958</td>
+<td>3346470610958</td>
+<td>GUERLAIN 嬌蘭 皇家蜂王乳修護精華 50ml</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI3348900417878</td>
+<td>3348900417878</td>
+<td>DIOR 迪奧 J’ADORE 真我宣言女性淡香精 100ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3348901321129</td>
+<td>3348901321129</td>
+<td>Dior 迪奧 曠野之心男性淡香水 200ml</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI3348901362856</td>
+<td>3348901362856</td>
+<td>Dior 迪奧 MISS DIOR 淡香精50ml</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI3348901419369</td>
+<td>3348901419369</td>
+<td>DIOR 迪奧 MISS DIOR淡香水 100ML</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI3348901487511</td>
+<td>3348901487511</td>
+<td>DIOR 迪奧 JOY INTENSE 女性淡香精 50ML</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3360372054559</td>
+<td>3360372054559</td>
+<td>Giorgio Armani 亞曼尼 Acqua 寄情水女性淡香水 100ml</td>
+<td>33</td>
+</tr>
+<tr>
+<td>SI3360372058878</td>
+<td>3360372058878</td>
+<td>GIORGIO ARMANI 亞曼尼 ACQUA 寄情水男性淡香水 100ML (超大容量) (完整盒裝)</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI3360372078500</td>
+<td>3360372078500</td>
+<td>GIORGIO ARMANI 亞曼尼 ACQUA 寄情水男性淡香水 200ML</td>
+<td>36</td>
+</tr>
+<tr>
+<td>SI3360372100522</td>
+<td>3360372100522</td>
+<td>GIORGIO ARMANI 亞曼尼 CODE 黑色密碼男性淡香水 75ML</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3380810149661</td>
+<td>3380810149661</td>
+<td>Clarins 克蘭詩 黃金雙激萃-超級精華 30ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3386460007092</td>
+<td>3386460007092</td>
+<td>LANVIN粉戀玫瑰女性淡香精 30ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460010399</td>
+<td>3386460010399</td>
+<td>LANVIN 珍·浪凡 女性淡香精 100ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3386460010405</td>
+<td>3386460010405</td>
+<td>LANVIN 珍浪凡女性 淡香精 50ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386460023351</td>
+<td>3386460023351</td>
+<td>LANVIN 浪凡 MARRY ME 女性淡香精 30ML</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI3386460025478</td>
+<td>3386460025478</td>
+<td>JIMMY CHOO 同名女性淡香精 100ML</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI3386460025508</td>
+<td>3386460025508</td>
+<td>JIMMY CHOO 同名女性淡香水 100ml</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI3386460028394</td>
+<td>3386460028394</td>
+<td>MONTBLANC 萬寶龍 獨白男性淡香水 75ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386460028462</td>
+<td>3386460028462</td>
+<td>MONTBLANC 萬寶龍 星際旅者男性淡香水 75ML</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI3386460028479</td>
+<td>3386460028479</td>
+<td>MONTBLANC 萬寶龍 星際旅者男性淡香水 50ml</td>
+<td>30</td>
+</tr>
+<tr>
+<td>SI3386460032681</td>
+<td>3386460032681</td>
+<td>MONTBLANC 萬寶龍 傳奇經典男性淡香水 100ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3386460032698</td>
+<td>3386460032698</td>
+<td>MONTBLANC 萬寶龍 傳奇經典男性淡香水 50ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460058728</td>
+<td>3386460058728</td>
+<td>MONTBLANC 萬寶龍 Emblem 男性淡香水 100ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460058742</td>
+<td>3386460058742</td>
+<td>MONTBLANC 萬寶龍 男性淡香水 40ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386460064125</td>
+<td>3386460064125</td>
+<td>JIMMY CHOO 同名男性淡香水 50ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460066198</td>
+<td>3386460066198</td>
+<td>MONTBLANC 萬寶龍 Lady Emblem女性淡香精 50ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386460067508</td>
+<td>3386460067508</td>
+<td>JIMMY CHOO 酷藍男性淡香水 100ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3386460071420</td>
+<td>3386460071420</td>
+<td>LANVIN 浪凡 花園光韻女性淡香精 30ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460074797</td>
+<td>3386460074797</td>
+<td>MONTBLANC 萬寶龍 傳奇經典男性淡香水 200ML</td>
+<td>39</td>
+</tr>
+<tr>
+<td>SI3386460074827</td>
+<td>3386460074827</td>
+<td>MONTBLANC 萬寶龍 傳奇白朗峰男仕淡香水 100ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3386460075350</td>
+<td>3386460075350</td>
+<td>JIMMY CHOO&nbsp; 慾望城市女性淡香水 60ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460077200</td>
+<td>3386460077200</td>
+<td>LANVIN 浪凡 冒險公主女性淡香精 90ml</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI3386460077217</td>
+<td>3386460077217</td>
+<td>LANVIN 浪凡 冒險公主女性淡香精 60ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI3386460077224</td>
+<td>3386460077224</td>
+<td>LANVIN 浪凡 冒險公主女性淡香精 30ML</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI3386460078320</td>
+<td>3386460078320</td>
+<td>COACH 時尚經典女性淡香精 30ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3386460079143</td>
+<td>3386460079143</td>
+<td>COACH 時尚經典女性淡香水 50ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3386460079167</td>
+<td>3386460079167</td>
+<td>COACH 時尚經典女性淡香水試用品 90ML TESTER</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460082174</td>
+<td>3386460082174</td>
+<td>JIMMY CHOO 冷冽男性淡香水 100ML</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386460085878</td>
+<td>3386460085878</td>
+<td>MONTBLANC 萬寶龍 海洋之心女性淡香水 30ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460085885</td>
+<td>3386460085885</td>
+<td>MONTBLANC 萬寶龍 海洋之心女性淡香水 75ML 試用品TESTER</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460086325</td>
+<td>3386460086325</td>
+<td>COACH 時尚經典男性淡香水 100ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3386460086332</td>
+<td>3386460086332</td>
+<td>COACH 時尚經典男性淡香水 60ml</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI3386460087261</td>
+<td>3386460087261</td>
+<td>KARL LAGERFELD 紳藍時尚淡香精 100ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3386460087940</td>
+<td>3386460087940</td>
+<td>MONTBLANC 萬寶龍 傳奇紳夜男性 淡香精 100ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386460095341</td>
+<td>3386460095341</td>
+<td>COACH FLORAL 芙洛麗女性淡香精 90ML</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI3386460095358</td>
+<td>3386460095358</td>
+<td>COACH FLORAL 芙洛麗女性淡香精 50ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3386460095365</td>
+<td>3386460095365</td>
+<td>COACH 芙洛麗女性淡香精 30ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460096126</td>
+<td>3386460096126</td>
+<td>LANVIN 浪凡 珍愛公主女性淡香水 30ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460097161</td>
+<td>3386460097161</td>
+<td>LANVIN 浪凡 光韻星夜女性淡香精 100ML</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3386460099295</td>
+<td>3386460099295</td>
+<td>BOUCHERON 伯敻 環戒玫瑰之戀淡香精 30ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460101837</td>
+<td>3386460101837</td>
+<td>KARL LAGERFELD 綠意香橙木淡香水 100ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386460101851</td>
+<td>3386460101851</td>
+<td>KARL LAGERFELD 豔紅漿果花淡香精 100ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460103657</td>
+<td>3386460103657</td>
+<td>LANVIN 浪凡卡布里風情女性淡香水90ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3386460109369</td>
+<td>3386460109369</td>
+<td>JIMMY CHOO URBAN HERO 男性淡香精 100ML</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3386460109376</td>
+<td>3386460109376</td>
+<td>JIMMY CHOO URBAN HERO 男性淡香精 50ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3386460115896</td>
+<td>3386460115896</td>
+<td>LANVIN 浪凡 花漾公主女性淡香水 90ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI3386461515671</td>
+<td>3386461515671</td>
+<td>LANVIN 浪凡 光韻女性淡香精 100ML</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI3386461515688</td>
+<td>3386461515688</td>
+<td>LANVIN 光韻女性 淡香精 50ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3386461519457</td>
+<td>3386461519457</td>
+<td>LANVIN 浪凡 光韻女性淡香精 30ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3401345935571</td>
+<td>3401345935571</td>
+<td>BIODERMA 貝膚黛瑪 高效潔膚液 500ml (新舒/一般肌)</td>
+<td>352</td>
+</tr>
+<tr>
+<td>SI3401573670053</td>
+<td>3401573670053</td>
+<td>BIODERMA 貝膚黛瑪 高效潔膚液 500ml Crealine TS</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3412241210204</td>
+<td>3412241210204</td>
+<td>Adidas 愛迪達 卓越自信男性香水 100ml</td>
+<td>21</td>
+</tr>
+<tr>
+<td>SI3412242310071</td>
+<td>3412242310071</td>
+<td>ADIDAS 愛迪達 青春活力 男性淡香水 100ML</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI3412242510075</td>
+<td>3412242510075</td>
+<td>ADIDAS 愛迪達 典藏魅力男性香水 100ML</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI3412242610089</td>
+<td>3412242610089</td>
+<td>ADIDAS 愛迪達 品味透涼男性香水 100ML</td>
+<td>21</td>
+</tr>
+<tr>
+<td>SI3414202000572</td>
+<td>3414202000572</td>
+<td>Davidoff Cool Water 冷泉男性淡香水 125ml</td>
+<td>84</td>
+</tr>
+<tr>
+<td>SI3423470300154</td>
+<td>3423470300154</td>
+<td>Issey Miyake 三宅一生 一生之水女性香水 50ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3423470300161</td>
+<td>3423470300161</td>
+<td>Issey Miyake 三宅一生 一生之水女性香水 100ml</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI3423470311358</td>
+<td>3423470311358</td>
+<td>Issey Miyake 三宅一生 一生之水男性香水 75ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3423473020257</td>
+<td>3423473020257</td>
+<td>DOLCE &amp; GABBANA 淺藍女性淡香水 25ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3423473020264</td>
+<td>3423473020264</td>
+<td>DOLCE &amp; GABBANA 淺藍女性淡香水 50ml</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI3423473020509</td>
+<td>3423473020509</td>
+<td>Dolce&amp;Gabbana 淺藍男性淡香水 75ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3423473020516</td>
+<td>3423473020516</td>
+<td>DOLCE &amp; GABBANA 淺藍男性淡香水 125ml</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI3423473095651</td>
+<td>3423473095651</td>
+<td>EBI ELIE SAAB GIRL OF NOW SHINE 閃耀風潮淡香精 50ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3423478452558</td>
+<td>3423478452558</td>
+<td>DOLCE &amp; GABBANA The Only One 淡香精 50ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3423478452657</td>
+<td>3423478452657</td>
+<td>DOLCE &amp; GABBANA 耀我女性淡香精 100ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3423478818651</td>
+<td>3423478818651</td>
+<td>Narciso Rodriguez 桃色優雅女性淡香精 50ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3433422406599</td>
+<td>3433422406599</td>
+<td>La Roche Posay 理膚寶水 多容安清潔卸妝乳液 200ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3433422408586</td>
+<td>3433422408586</td>
+<td>La Roche Posay 理膚寶水 身體滋養沐浴乳 400ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3474340100145</td>
+<td>3474340100145</td>
+<td>法國MONBANA 三合一極品可可 30克X40包入</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3474630493421</td>
+<td>3474630493421</td>
+<td>KERASTASE 卡詩 根源新生頭皮精粹 60ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3474630545700</td>
+<td>3474630545700</td>
+<td>KERASTASE 卡詩 豐凝髮浴 1000ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3474630565630</td>
+<td>3474630565630</td>
+<td>KERASTASE 卡詩 皇家鳶尾滋養髮膜 500ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3474630652439</td>
+<td>3474630652439</td>
+<td>KERASTASE 卡詩 煥髮重建熱活精華 150ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI3474630664906</td>
+<td>3474630664906</td>
+<td>KERASTASE 卡詩 白金賦活淨髮浴 1000ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3474635003182</td>
+<td>3474635003182</td>
+<td>KERASTASE 卡詩 清新舒緩髮浴 1000ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI3474636356072</td>
+<td>3474636356072</td>
+<td>KERASTASE 卡詩 男士賦活健髮髮浴 1000ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3474636382699</td>
+<td>3474636382699</td>
+<td>KERASTASE 卡詩 皇家鳶尾滋養髮乳 200ml</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI3474636382736</td>
+<td>3474636382736</td>
+<td>KERASTASE 卡詩 皇家鳶尾滋養熱活精華 150ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3474636397372</td>
+<td>3474636397372</td>
+<td>KERASTASE 卡詩 胺基酸平衡髮浴 250ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3474636397402</td>
+<td>3474636397402</td>
+<td>KERASTASE 卡詩 飛梭淨化髮浴 250ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3474636397433</td>
+<td>3474636397433</td>
+<td>KERASTASE 卡詩 全能活髮髮浴 250ml</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI3474636397440</td>
+<td>3474636397440</td>
+<td>KERASTASE 卡詩 全能活髮髮浴 1000ml</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI3474636397891</td>
+<td>3474636397891</td>
+<td>KERASTASE 卡詩 豐凝髮浴 250ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3474636397945</td>
+<td>3474636397945</td>
+<td>KERASTASE 卡詩 煥髮重建髮浴 250ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3474636397969</td>
+<td>3474636397969</td>
+<td>KERASTASE 卡詩 煥髮綻生髮浴 250ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3474636400188</td>
+<td>3474636400188</td>
+<td>KERASTASE 卡詩 柔舞絲光髮浴 250ml</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI3474636404384</td>
+<td>3474636404384</td>
+<td>KERASTASE 卡詩 男士賦活健髮浴 250ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3474636419296</td>
+<td>3474636419296</td>
+<td>KERASTASE 卡詩 黑鑽逆時髮膜 200ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3474636494675</td>
+<td>3474636494675</td>
+<td>KERASTASE 卡詩 漾光澤色髮浴 1000ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI3474636494903</td>
+<td>3474636494903</td>
+<td>KERASTASE 卡詩 漾光炫色髮膜 500ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3474636613908</td>
+<td>3474636613908</td>
+<td>KERASTASE 卡詩 金緻柔馭露 100ml</td>
+<td>29</td>
+</tr>
+<tr>
+<td>SI3474636614103</td>
+<td>3474636614103</td>
+<td>KERASTASE 卡詩 金緻柔馭潔髮浴 250ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3474636614127</td>
+<td>3474636614127</td>
+<td>KERASTASE 卡詩 金緻柔馭潔髮浴 1000ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI3474636614172</td>
+<td>3474636614172</td>
+<td>KERASTASE 卡詩 金緻柔馭黃金髮膜 200ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3474636624768</td>
+<td>3474636624768</td>
+<td>KERASTASE 卡詩 花漾粉 金緻柔馭露 100ml</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI3504105035754</td>
+<td>3504105035754</td>
+<td>MUSTELA 慕之恬廊 雙潔乳 500ML</td>
+<td>34</td>
+</tr>
+<tr>
+<td>SI3605540600849</td>
+<td>3605540600849</td>
+<td>碧兒泉 男仕活泉多水潔顏露 125ML</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI3605970024192</td>
+<td>3605970024192</td>
+<td>Kiehl's 契爾氏 冰河保濕潔面乳 150ml</td>
+<td>31</td>
+</tr>
+<tr>
+<td>SI3605970024574</td>
+<td>3605970024574</td>
+<td>Kiehl’s 契爾氏 冰河保濕機能水 250ml</td>
+<td>34</td>
+</tr>
+<tr>
+<td>SI3605970321338</td>
+<td>3605970321338</td>
+<td>Kiehl's 契爾氏 冰河醣蛋白無油清爽凝凍 125ml</td>
+<td>242</td>
+</tr>
+<tr>
+<td>SI3605970360757</td>
+<td>3605970360757</td>
+<td>Kiehl's 契爾氏 冰河醣蛋白保濕霜 50ml</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI3605970473402</td>
+<td>3605970473402</td>
+<td>Kiehl's 契爾氏 超進化全能眼部精粹 15ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3605970494407</td>
+<td>3605970494407</td>
+<td>Kiehl's 契爾氏 冰河保濕玻尿酸晚安面膜 125ml</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI3605970630881</td>
+<td>3605970630881</td>
+<td>Kiehl's 契爾氏 金盞花植物精華潔面泡泡凝露 230ml</td>
+<td>39</td>
+</tr>
+<tr>
+<td>SI3605971144677</td>
+<td>3605971144677</td>
+<td>Kiehl's 契爾氏 超能全效男性緊膚精華 75ml</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI3605972256768</td>
+<td>3605972256768</td>
+<td>KIEHLS 契爾氏 金盞花植物精華化妝水 500ML</td>
+<td>47</td>
+</tr>
+<tr>
+<td>SI3605975028799</td>
+<td>3605975028799</td>
+<td>Kiehl's 契爾氏 冰河醣蛋白保溼霜 125ml</td>
+<td>192</td>
+</tr>
+<tr>
+<td>SI3605975038132</td>
+<td>3605975038132</td>
+<td>Kiehl's 契爾氏 亞馬遜白泥淨緻毛孔面膜 125ml </td>
+<td>181</td>
+</tr>
+<tr>
+<td>SI3605975080896</td>
+<td>3605975080896</td>
+<td>Kiehl's 契爾氏 冰河醣蛋白無油清爽凝凍 50ml</td>
+<td>75</td>
+</tr>
+<tr>
+<td>SI3605975086881</td>
+<td>3605975086881</td>
+<td>Kiehl's 契爾氏 深夜奇肌修護眼霜 15ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3607342401860</td>
+<td>3607342401860</td>
+<td>CALVIN KLEIN CK ONE SHOCK FOR HER 女性淡香水 200ML</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI3607342734425</td>
+<td>3607342734425</td>
+<td>Adidas 愛迪達 預備森巴 男性淡香水 100ml</td>
+<td>40</td>
+</tr>
+<tr>
+<td>SI3607345216805</td>
+<td>3607345216805</td>
+<td>Adidas 愛迪達 極限挑戰運動 男性香水 100ml</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI3607345397344</td>
+<td>3607345397344</td>
+<td>Adidas 愛迪達 DYNAMIC PULSE 青春活力 男性淡香水 100ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3607345397542</td>
+<td>3607345397542</td>
+<td>Adidas 愛迪達 PURE Game 極限挑戰 男性淡香水 100ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3607346232385</td>
+<td>3607346232385</td>
+<td>CHLOE 克羅埃 同名女性淡香精 75ml</td>
+<td>74</td>
+</tr>
+<tr>
+<td>SI3614220808840</td>
+<td>3614220808840</td>
+<td>CHLOE克羅埃 同名女性淡香精 125ML</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI3614224871284</td>
+<td>3614224871284</td>
+<td>CALVIN KLEIN ETERNITY AIR 永恆純淨男性淡香水100ML</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3614226904973</td>
+<td>3614226904973</td>
+<td>BURBERRY BRIT FOR HER 風格女性淡香精 100ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI3614226905284</td>
+<td>3614226905284</td>
+<td>BURBERRY WEEKEND 週末女性淡香精 100ML</td>
+<td>30</td>
+</tr>
+<tr>
+<td>SI3614227748446</td>
+<td>3614227748446</td>
+<td>BURBERRY WEEKEND 週末男性淡香水  100ML</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI3614271773975</td>
+<td>3614271773975</td>
+<td>BIOTHERM 碧兒泉 男仕活泉保濕機能水 200ML</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI3614272508866</td>
+<td>3614272508866</td>
+<td>LANCOME 蘭蔻 超未來肌因賦活露 115ML</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI3700194700539</td>
+<td>3700194700539</td>
+<td>KIEHLS 契爾氏 冰河保濕乳液 250ML</td>
+<td>63</td>
+</tr>
+<tr>
+<td>SI3700194711719</td>
+<td>3700194711719</td>
+<td>Kiehl's 契爾氏 金盞花植物精華化妝水 500ml</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI3700194714413</td>
+<td>3700194714413</td>
+<td>Kiehl's 契爾氏 酪梨眼霜 14g</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI3700431405685</td>
+<td>3700431405685</td>
+<td>DIPTYQUE 維堤里歐淡香水 50ML</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI3700431405708</td>
+<td>3700431405708</td>
+<td>DIPTYQUE 杜桑淡香水 50ML</td>
+<td>35</td>
+</tr>
+<tr>
+<td>SI3700431405784</td>
+<td>3700431405784</td>
+<td>DIPTYQUE 維堤里歐淡香水 100ML</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI3700431405791</td>
+<td>3700431405791</td>
+<td>DIPTYQUE 杜耶爾淡香水 100ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3700431405807</td>
+<td>3700431405807</td>
+<td>DIPTYQUE 杜桑淡香水 100ML</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI3700431411211</td>
+<td>3700431411211</td>
+<td>DIPTYQUE 感官之水淡香水 100ML</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI3700431415097</td>
+<td>3700431415097</td>
+<td>DIPTYQUE 海絲佩拉蒂淡香水 100ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3700431415622</td>
+<td>3700431415622</td>
+<td>DIPTYQUE 肌膚之華淡香精 75ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI3700431416360</td>
+<td>3700431416360</td>
+<td>DIPTYQUE 影中之水淡香精 75ML</td>
+<td>32</td>
+</tr>
+<tr>
+<td>SI3700431416391</td>
+<td>3700431416391</td>
+<td>DIPTYQUE 譚道淡香精 75ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI3CF00236</td>
+<td>3CF00236</td>
+<td>APPLE IPHONE 12/12 PRO 6,1吋保護套</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4001686301180</td>
+<td>4001686301180</td>
+<td>HARIBO 哈瑞寶 金熊Q軟糖分享包 100入</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4003679000018</td>
+<td>4003679000018</td>
+<td>DMS德妍思 角質層修護基礎乳 中性型 50ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4003679000117</td>
+<td>4003679000117</td>
+<td>DMS德妍思 角質層修護基礎乳 清爽型 50ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4003679000261</td>
+<td>4003679000261</td>
+<td>DMS德妍思 角質層修護基礎乳 滋潤型 50ml</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4003679005501</td>
+<td>4003679005501</td>
+<td>DMS德妍思 維他命原B5 20ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4008666217585</td>
+<td>4008666217585</td>
+<td>ALPECIN 咖啡因洗髮露 375mlX3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4014400470055</td>
+<td>4014400470055</td>
+<td>KNOPPERS 可可牛奶威化餅 25公克X24入</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4020098918458</td>
+<td>4020098918458</td>
+<td>Viscontour 維詩朵 水潤高效抗皺眼凝露 15ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4028694000584</td>
+<td>4028694000584</td>
+<td>Viscontour 維詩朵 高濃度玻尿酸 (原液精萃) 1ml*20</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI4029096082123</td>
+<td>4029096082123</td>
+<td>日立贈品-CARL. SC氣炸鍋 GLA320</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI40413700</td>
+<td>40413700</td>
+<td>Kiehl's 契爾氏 極限燕麥去角質潔膚皂</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI40762700</td>
+<td>40762700</td>
+<td>KIEHL'S 契爾氏 亞馬遜白泥淨緻毛孔化妝水(公司貨) 250ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4548848603831</td>
+<td>4548848603831</td>
+<td>DAIKIN 大金 美肌保濕型空氣清淨機MCK55USCT-W靚白</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4548848613243</td>
+<td>4548848613243</td>
+<td>DAIKIN 大金 9.5坪閃流空氣清淨機(MC40USCT)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4548848684922</td>
+<td>4548848684922</td>
+<td>DAIKIN 大金 15.5坪頂級美肌保濕型空氣清淨機(MCK70VSCT-W</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4548848799343</td>
+<td>4548848799343</td>
+<td>DAIKIN 大金 16.5公升 除濕機 JP33ASCT-W</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4549077927583</td>
+<td>4549077927583</td>
+<td>Panasonic 國際牌 25L機械式微波爐 NN-SM33H </td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4549873099316</td>
+<td>4549873099316</td>
+<td>HITACHI 日立 31公升過熱蒸烘烤微波爐 MRO-S800XT(R) 紅色</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4549873111643</td>
+<td>4549873111643</td>
+<td>HITACHI日立紙袋型吸塵器 CVKV70GT</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4549873117584</td>
+<td>4549873117584</td>
+<td>日立 30L過熱水蒸氣烘烤微波爐 MROW1000YT</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4549873117935</td>
+<td>4549873117935</td>
+<td>HITACHI 日立 超輕量鋰電池無線吸塵器 PVXL280HTR</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4549980262832</td>
+<td>4549980262832</td>
+<td>Panasonic 國際牌 15L 蒸氣烘烤爐 NU-SC110</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4550283196847</td>
+<td>4550283196847</td>
+<td>DOSHISHA 電動手持刨冰機 (DHIS-19-R)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4558522025255</td>
+<td>4558522025255</td>
+<td>HDMI線1.5M(盒裝)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4562100947747</td>
+<td>4562100947747</td>
+<td>AIXIA 愛喜雅水煮黑缶貓主食軟包 70公克 X 24入</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4580350260607</td>
+<td>4580350260607</td>
+<td>Sodastream 氣泡水機 Genesis Deluxe(金屬紅) </td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4582335194037</td>
+<td>4582335194037</td>
+<td>ONE amadana 17L 極美微波爐 STWM-0101</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4582335194204</td>
+<td>4582335194204</td>
+<td>One amadana LED吸入式捕蚊器 STKM-0108</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4582351860152</td>
+<td>4582351860152</td>
+<td>IONION LX超輕量隨身空氣清淨機</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI4582351860268</td>
+<td>4582351860268</td>
+<td>IONION MX超輕量隨身空氣清淨機 (灰色)</td>
+<td>59</td>
+</tr>
+<tr>
+<td>SI4710022034605</td>
+<td>4710022034605</td>
+<td>卡迪那 95℃鮮脆薯條鹽味 60公克X10包</td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI4710022037859</td>
+<td>4710022037859</td>
+<td>萬歲牌 總匯點心包 42公克X20包</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI4710032514470</td>
+<td>4710032514470</td>
+<td>Neutrogena Rainbath 露得清 美國進口沐浴露1182ml</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI4710032514494</td>
+<td>4710032514494</td>
+<td>NEUTROGENA 露得清 洗面乳 無香精配方 236ml 4入組</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4710032514500</td>
+<td>4710032514500</td>
+<td>Aveeno 寶寶天然沐浴洗髮乳 2入組</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI4710032514517</td>
+<td>4710032514517</td>
+<td>Aveeno 滋養乳液 591mlx2入組</td>
+<td>24</td>
+</tr>
+<tr>
+<td>SI4710043020502</td>
+<td>4710043020502</td>
+<td>桂格 雙認證高鈣脫脂奶粉 2Kg</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710043025347</td>
+<td>4710043025347</td>
+<td>Quaker桂格 北海道風味特濃燕麥片 42公克X48包</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4710043026245</td>
+<td>4710043026245</td>
+<td>天地合補 玫瑰四物飲葡萄籽配方 120mlX18入</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4710043026740</td>
+<td>4710043026740</td>
+<td>Quaker 桂格減糖黑十穀38公克X50包</td>
+<td>148</td>
+</tr>
+<tr>
+<td>SI4710043029604</td>
+<td>4710043029604</td>
+<td>得意的一天 干貝柴魚粥 40公克*30包入</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4710043029727</td>
+<td>4710043029727</td>
+<td>桂格 夏日穀珍綜合莓果 30公克X36包</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4710043030815</td>
+<td>4710043030815</td>
+<td>桂格 無糖黃金蕎麥多穀飲 28公克 X 50入/組</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI4710043033328</td>
+<td>4710043033328</td>
+<td>桂格 黃金麩片燕麥片 1.7公斤</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI4710043037036</td>
+<td>4710043037036</td>
+<td>桂格 經典大燕麥片 3KG</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4710043038460</td>
+<td>4710043038460</td>
+<td>Quaker桂格 有機大燕麥片 935公克 X 2入</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI4710043040180</td>
+<td>4710043040180</td>
+<td>Quaker 桂格完膳營養素(糖尿病適用) 250毫升X28罐+360克X1罐</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710060004097</td>
+<td>4710060004097</td>
+<td>KELLOGGS 家樂氏  EXTRA什錦果麥-葡蘋桃杏 375G</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI4710090040188</td>
+<td>4710090040188</td>
+<td>UCC 炭燒即溶咖啡 90公克X3入組</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI4710090060865</td>
+<td>4710090060865</td>
+<td>UCC 職人精選綜合濾掛咖啡 7GX75包</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI4710090080498</td>
+<td>4710090080498</td>
+<td>UCC 職人精選濾掛式咖啡 7公克 X 72入/組</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI4710094107689</td>
+<td>4710094107689</td>
+<td>(黃)VASELINE 凡士林 進口潤膚身體乳液-深層修護 600ml*2+295ml*1</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4710094107696</td>
+<td>4710094107696</td>
+<td>(綠)VASELINE 進口潤膚身體乳液-蘆薈舒緩 600ml*2+295ml*1</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4710094113130</td>
+<td>4710094113130</td>
+<td>立頓茗閒情—活綠茶 300g (每袋20個茶包x6 袋)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4710094123603</td>
+<td>4710094123603</td>
+<td>TRESemme 深層清潔洗髮精 900mlx2</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI471010232692</td>
+<td>471010232692</td>
+<td>味丹炸醬麵 85公克 X 24入</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710117606984</td>
+<td>4710117606984</td>
+<td>Banana Boat香蕉船 淨護系列 運動防曬乳液 SPF50+ 180mlX2入組</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710126012844</td>
+<td>4710126012844</td>
+<td>義美 雙果仁煎餅 (花生 + 杏仁) 16公克X60包</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4710126021143</td>
+<td>4710126021143</td>
+<td>義美 小泡芙雙口味組合包 64公克X12包</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4710126031708</td>
+<td>4710126031708</td>
+<td>義美 巧克力酥片 35公克X28入</td>
+<td>32</td>
+</tr>
+<tr>
+<td>SI4710126046160</td>
+<td>4710126046160</td>
+<td>義美 益生菌果汁QQ糖 40公克X30包</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710168705926</td>
+<td>4710168705926</td>
+<td>高露潔 全效 - 清淨薄荷牙膏150g 2入組</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI4710168708279</td>
+<td>4710168708279</td>
+<td>黑人 超氟牙膏175g</td>
+<td>28</td>
+</tr>
+<tr>
+<td>SI4710168714409</td>
+<td>4710168714409</td>
+<td>高露潔 全效 - 專業抗敏感牙膏150g 2入組</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4710168717691</td>
+<td>4710168717691</td>
+<td>黑人 全亮白 - 竹炭深潔牙膏140g</td>
+<td>51</td>
+</tr>
+<tr>
+<td>SI4710168718124</td>
+<td>4710168718124</td>
+<td>高露潔 全效 - 炭深潔牙膏150g 2入組</td>
+<td>32</td>
+</tr>
+<tr>
+<td>SI4710168718902</td>
+<td>4710168718902</td>
+<td>黑人 專業護齦抗敏感牙膏120g</td>
+<td>98</td>
+</tr>
+<tr>
+<td>SI4710168719916</td>
+<td>4710168719916</td>
+<td>高露潔 兒童 - 凝露牙膏 40g 3入組</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI4710174112558</td>
+<td>4710174112558</td>
+<td>盛香珍 蒜片青豆 760公克</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4710174115764</td>
+<td>4710174115764</td>
+<td>盛香珍 Dr.Q 葡萄草莓蒟蒻果凍 1860公克</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI4710175567586</td>
+<td>4710175567586</td>
+<td>五木 細關東麵 416公克x9包</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4710175570760</td>
+<td>4710175570760</td>
+<td>五木快煮原味拉麵 36入</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4710200705051</td>
+<td>4710200705051</td>
+<td>FRUITFUL ISLAND乾狗糧牛肉口味18.14公斤</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4710247014901</td>
+<td>4710247014901</td>
+<td>RITZ麗滋 小圓餅乾 100公克X16包</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4710247021077</td>
+<td>4710247021077</td>
+<td>Mini Oreo 迷你奧利奧分享組 612公克</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4710254508752</td>
+<td>4710254508752</td>
+<td>康寶 金黃玉米濃湯 56.3公克X10包</td>
+<td>28</td>
+</tr>
+<tr>
+<td>SI4710304100592</td>
+<td>4710304100592</td>
+<td>Serena喜年來 原味蛋捲好事禮盒 4支X20包</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4710304300787</td>
+<td>4710304300787</td>
+<td>Serena喜年來 蔬菜薄餅 20公克X52包</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4710314435103</td>
+<td>4710314435103</td>
+<td>歐護 植物精萃防蚊噴霧 113gx2+56gx1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710333517842</td>
+<td>4710333517842</td>
+<td>SHISEIDO資生堂 優白 按摩精 50ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710333537505</td>
+<td>4710333537505</td>
+<td>SHISEIDO資生堂 怡麗絲爾 淨白柔膚水 滋潤型 170ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4710333537529</td>
+<td>4710333537529</td>
+<td>SHISEIDO資生堂 怡麗絲爾 淨白柔膚乳 滋潤型 130ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4710333539035</td>
+<td>4710333539035</td>
+<td>SHISEIDO資生堂 優白 洗面皂（清爽型） 130g</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710333547955</td>
+<td>4710333547955</td>
+<td>SHISEIDO資生堂 翠綠 蜂蜜香皂3入組</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4710333901238</td>
+<td>4710333901238</td>
+<td>SHISEIDO資生堂 百優 精純乳霜 50ML</td>
+<td>53</td>
+</tr>
+<tr>
+<td>SI4710333901245</td>
+<td>4710333901245</td>
+<td>SHISEIDO資生堂 百優 精純乳霜 75ML</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI4710333982138</td>
+<td>4710333982138</td>
+<td>SHISEIDO資生堂 優白 洗面皂（滋潤型） 130g</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4710363934909</td>
+<td>4710363934909</td>
+<td>美舒律 蒸氣眼罩(薰衣草24片+完熟柚香12片)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710405090570</td>
+<td>4710405090570</td>
+<td>RECOLTE 麗克特 BONNE 萬用食物調理機(RCP-3-R)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4710405090587</td>
+<td>4710405090587</td>
+<td>RECOLTE 麗克特 BONNE 萬用食物調理機(RCP-3-W)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4710421230332</td>
+<td>4710421230332</td>
+<td>Ocean Spray 優鮮沛 100% 蔓越莓綜合果汁 250毫升X18入</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4710498993048</td>
+<td>4710498993048</td>
+<td>Mon Petit 貓罐頭三種口味 80g X 24 入</td>
+<td>45</td>
+</tr>
+<tr>
+<td>SI4710498997602</td>
+<td>4710498997602</td>
+<td>Mon Petit 小鮮肉泥 10g X 80入 (綜合口味)</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4710498998456</td>
+<td>4710498998456</td>
+<td>KLIM 金克寧銀養 高鈣全效奶粉 1.9公斤</td>
+<td>24</td>
+</tr>
+<tr>
+<td>SI4710498999361</td>
+<td>4710498999361</td>
+<td>NESTLE雀巢 可可早餐脆片 500公克 X 2入</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710498999583</td>
+<td>4710498999583</td>
+<td>Nescafe雀巢咖啡三合一減糖純拿鐵 21公克 X 80入</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4710498999897</td>
+<td>4710498999897</td>
+<td>NESTLE雀巢 早餐脆片活力分享組 24小盒入</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4710628237240</td>
+<td>4710628237240</td>
+<td>亞培小安素強護 Complete 均衡營養即飲配方 237 毫升 24 入</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710777311051</td>
+<td>4710777311051</td>
+<td>白蘭氏 雙認證?精 68mlX30入+ 41mlX2入</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4710777999921</td>
+<td>4710777999921</td>
+<td>白蘭氏 活顏馥莓飲 50mlX20入</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4710782171374</td>
+<td>4710782171374</td>
+<td>西雅圖即品拿鐵 21公克 X 100包</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4710782171404</td>
+<td>4710782171404</td>
+<td>西雅圖 即品約克夏奶茶 25公克X100包</td>
+<td>26</td>
+</tr>
+<tr>
+<td>SI4710782173248</td>
+<td>4710782173248</td>
+<td>西雅圖 極品嚴焙大濾掛咖啡 12gx50入</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710782177185</td>
+<td>4710782177185</td>
+<td>西雅圖 無加糖二合一咖啡 21公克 X 100入/組</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI4710836210899</td>
+<td>4710836210899</td>
+<td>歐3加福 菁萃濃縮高濃度魚油EPA 30顆/盒</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI4710836210905</td>
+<td>4710836210905</td>
+<td>歐3加福 菁萃濃縮高濃度魚油DHA 30顆/盒</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI4710836210912</td>
+<td>4710836210912</td>
+<td>歐3加福 菁萃濃縮高濃度魚油EPA 60顆/盒</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI4710836210929</td>
+<td>4710836210929</td>
+<td>歐3加福 菁萃濃縮高濃度魚油DHA 60顆/盒</td>
+<td>24</td>
+</tr>
+<tr>
+<td>SI4710958449757</td>
+<td>4710958449757</td>
+<td>豐力富 紐西蘭頂級純濃奶粉 2.6 公斤</td>
+<td>26</td>
+</tr>
+<tr>
+<td>SI4710969241548</td>
+<td>4710969241548</td>
+<td>奇美 EV-43P0ST 43L液脹三溫控電烤箱</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4710969242033</td>
+<td>4710969242033</td>
+<td>CHIMEI 奇美時尚護眼 LED檯燈 BT100</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710969245126</td>
+<td>4710969245126</td>
+<td>CHIMEI 奇美S0300T 抗敏空氣清淨機</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4710969246901</td>
+<td>4710969246901</td>
+<td>CHIMEI 奇美8吋DC直流3D立體擺頭循環扇 DF-08A0CD </td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4710969247342</td>
+<td>4710969247342</td>
+<td>奇美 DF-16B0ST 16吋微電腦DC電風扇</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4710969248905</td>
+<td>4710969248905</td>
+<td>CHIMEI奇美時尚LED護眼檯燈 KG680D</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710969248929</td>
+<td>4710969248929</td>
+<td>CHIMEI奇美時尚LED護眼檯燈 KG280D</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4710969249919</td>
+<td>4710969249919</td>
+<td>CHIMEI 奇美12L紅外線電烤箱EV-12S0AK </td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4710969249957</td>
+<td>4710969249957</td>
+<td>CHIMEI 奇美1.5公升三層防燙不鏽鋼快煮壺KT-15MD00(白)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4710969249995</td>
+<td>4710969249995</td>
+<td>CHIMEI 奇美手持多功能強力氣旋吸塵器 VC-HB1PH0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4711144018450</td>
+<td>4711144018450</td>
+<td>素寶丁 綜合維他命發泡錠</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4711144019457</td>
+<td>4711144019457</td>
+<td>力度伸 維他命C+D+鋅發泡錠 45錠(15錠x3條)</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI4711144046453</td>
+<td>4711144046453</td>
+<td>拜維佳 發泡錠 (柳橙口味) 15錠 X 3入</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI4711155315777</td>
+<td>4711155315777</td>
+<td>海太 馬鈴薯薄片 20公克 X 60入</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4711228670024</td>
+<td>4711228670024</td>
+<td>LUFT CUBE 光觸媒空氣淨化器(玫瑰金)</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI4711228670123</td>
+<td>4711228670123</td>
+<td>LUFT CUBE 科技銀 光觸媒空氣淨化器</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4711341425778</td>
+<td>4711341425778</td>
+<td>鍋寶 陶瓷保溫杯 460ML</td>
+<td>52</td>
+</tr>
+<tr>
+<td>SI4711457230587</td>
+<td>4711457230587</td>
+<td>橘寶 濃縮多功能洗淨液 300mlx3入盒裝(含專用噴頭x1)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4711467987211</td>
+<td>4711467987211</td>
+<td>正官庄 高麗蔘精EVERYTIME 10ml 30包</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4711552831290</td>
+<td>4711552831290</td>
+<td>三友營養獅 安體素強護營養飲(清甜) 237ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4711552831306</td>
+<td>4711552831306</td>
+<td>三友營養獅 安體素強護營養飲(不甜) 237ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4711552831672</td>
+<td>4711552831672</td>
+<td>三友營養獅&nbsp;鈣100海苔餅乾&nbsp;120G/盒</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4711552833096</td>
+<td>4711552833096</td>
+<td>三友營養獅 糖友寶纖鉻配方 850G/罐</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4711552833973</td>
+<td>4711552833973</td>
+<td>三友營養獅 低蛋白營養配方 850G/罐</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4711552833997</td>
+<td>4711552833997</td>
+<td>三友營養獅 安體素均衡營養配方 900G/罐</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4711552835472</td>
+<td>4711552835472</td>
+<td>三友營養獅 糖零寶無糖香草穩鉻配方 237ML</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4711552835496</td>
+<td>4711552835496</td>
+<td>三友營養獅 糖零寶無糖香草穩鉻配方 237MLX24入</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4711552835533</td>
+<td>4711552835533</td>
+<td>三友營養獅 安體素強護營養飲(清甜) 237MLX24入</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4711552835540</td>
+<td>4711552835540</td>
+<td>三友營養獅 安體素強護營養飲(不甜) 237MLX24入</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4711552835632</td>
+<td>4711552835632</td>
+<td>三友營養獅 鈣友力特纖配方 237ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4711552835649</td>
+<td>4711552835649</td>
+<td>三友營養獅 鈣友力特纖配方 237MLX24入</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4711552836769</td>
+<td>4711552836769</td>
+<td>三友營養獅 好優酵11益生菌 (30包/盒)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4711552836783</td>
+<td>4711552836783</td>
+<td>三友營養獅 蔓蔓莓好私密益菌 (30包/盒)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4711552836790</td>
+<td>4711552836790</td>
+<td>三友營養獅 全日皙 1000C緩釋錠 (60粒/盒)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4711552836806</td>
+<td>4711552836806</td>
+<td>三友營養獅 藻藻加油DR.DHA (30粒/盒)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4711605430005</td>
+<td>4711605430005</td>
+<td>樂雅樂 馬鈴薯牛肉咖哩調味包 200公克X6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4711667840040</td>
+<td>4711667840040</td>
+<td>APPLE IPHONE 12/12PRO 6.1吋玻璃保護貼</td>
+<td>48</td>
+</tr>
+<tr>
+<td>SI4711667846806</td>
+<td>4711667846806</td>
+<td>Apple iPhone 11 Pro Max玻璃保護貼</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI4711667847254</td>
+<td>4711667847254</td>
+<td>Apple iPhone 11 Pro玻璃保護貼</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI4711667849005</td>
+<td>4711667849005</td>
+<td>APPLE IPHONE 12 MINI 5.4吋保護套</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI4712274990272</td>
+<td>4712274990272</td>
+<td>MONA FREMA 荷麗美加 上麗高效透明光感水防曬SPF50+ 60ML</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4712274990289</td>
+<td>4712274990289</td>
+<td>MONA FREMA 荷麗美加 上麗高效DD潤澤水防曬SPF50+ 60ML</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4712274990364</td>
+<td>4712274990364</td>
+<td>MONA FREMA 荷麗美加 MPA 7% 驅黑淨白煥膚杏萄酸 30ml</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI4712364382635</td>
+<td>4712364382635</td>
+<td>Cetaphil 舒特膚溫和潔膚凝脂 127gx9入組</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI4712364383595</td>
+<td>4712364383595</td>
+<td>Cetaphil 舒特膚 防曬凝乳 50mlX 2入組</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4712364383700</td>
+<td>4712364383700</td>
+<td>Cetaphil 舒特膚 溫和乳液20oz X2+4oz X1</td>
+<td>29</td>
+</tr>
+<tr>
+<td>SI4712631260888</td>
+<td>4712631260888</td>
+<td>POLYBATT  5100mAh SP-1001行動電源_白</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI4712757310689</td>
+<td>4712757310689</td>
+<td>樂亦康 益生菌膠囊 150粒</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4712780766163</td>
+<td>4712780766163</td>
+<td>OMRON歐姆龍體脂計HBF-214 白色</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4712780766187</td>
+<td>4712780766187</td>
+<td>OMRON歐姆龍體脂計HBF-214 粉紅</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4712780766200</td>
+<td>4712780766200</td>
+<td>OMRON歐姆龍體脂計HBF-212 粉紅</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4712780766262</td>
+<td>4712780766262</td>
+<td>OMRON歐姆龍體脂計HBF-216 白</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4712818292114</td>
+<td>4712818292114</td>
+<td>Pregaine 落建頭皮洗髮露 400mlx3加贈200ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4712839981257</td>
+<td>4712839981257</td>
+<td>茶屋樂 將軍牛蒡茶 5公克 X 60包</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI4712900529531</td>
+<td>4712900529531</td>
+<td>ASUS Type C 18W快充組</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713008550007</td>
+<td>4713008550007</td>
+<td>曾拌麵 香蔥椒麻 116克 X12包</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4713008551165</td>
+<td>4713008551165</td>
+<td>曾拌麵 香蒜細麵 124克X8包</td>
+<td>83</td>
+</tr>
+<tr>
+<td>SI4713052150079</td>
+<td>4713052150079</td>
+<td>優識立 新複方金盞花萃取葉黃素 130 粒</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170841057</td>
+<td>4713170841057</td>
+<td>CHIMEI奇美手持無線吸塵器VC-HB4LH0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4713170841118</td>
+<td>4713170841118</td>
+<td>奇美 MX-2000S2 好偏心果汁機</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170841125</td>
+<td>4713170841125</td>
+<td>CHIMEI 奇美溫控快煮壺 KT-15MDT0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170841149</td>
+<td>4713170841149</td>
+<td>CHIMEI奇美12公升時尚美型節能除濕機RH-12E0RM</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713170841484</td>
+<td>4713170841484</td>
+<td>CHIMEI 奇美3D厚釜電子鍋10人份(EP-10CPM0)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170841934</td>
+<td>4713170841934</td>
+<td>奇美 EV-18S0ST 18L液脹式電烤箱</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170841941</td>
+<td>4713170841941</td>
+<td>CHIMEI 奇美時尚LED護眼檯燈 LT-CT080D</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4713170842078</td>
+<td>4713170842078</td>
+<td>CHIMEI 奇美 LED觸控護眼檯燈 MT-110D</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170842665</td>
+<td>4713170842665</td>
+<td>CHIMEI 奇美360度全淨化6坪空氣清淨機 AP-04SRH1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170842672</td>
+<td>4713170842672</td>
+<td>CHIMEI 奇美 2in1多功能無線吸塵器 VC-HC4LS0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170842726</td>
+<td>4713170842726</td>
+<td>CHIMEI 奇美18公升家用電烤箱 EV-18B0AK-R 莓果紅</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170842788</td>
+<td>4713170842788</td>
+<td>CHIMEI 奇美IH變頻電磁爐 FV-13M0MT-S (銀)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170843150</td>
+<td>4713170843150</td>
+<td>CHIMEI 奇美6-10坪 智能淨化空氣清淨機 AP-06SRC1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170843181</td>
+<td>4713170843181</td>
+<td>CHIMEI 奇美 1.5L 不鏽鋼防燙快煮壺 KT-15GP00-W(白色</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170843297</td>
+<td>4713170843297</td>
+<td>奇美贈品 鋁合金烤盤(SN1209)</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI4713170843617</td>
+<td>4713170843617</td>
+<td>CHIMEI奇美 時尚LED無線充電護眼檯燈LT-WP100D</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170843631</td>
+<td>4713170843631</td>
+<td>奇美 4.5L 不鏽鋼觸控電熱水瓶 WB-45FX00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170843648</td>
+<td>4713170843648</td>
+<td>奇美10公升遠紅外線蒸氣電烤箱EV-10T0AK</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170843709</td>
+<td>4713170843709</td>
+<td>奇美CHIMEI 數位無線吸塵器 VC-HD4LHA</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170843723</td>
+<td>4713170843723</td>
+<td>奇美 14吋 4段速微電腦遙控DC直流壁扇 DF-14A0WD</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713170843730</td>
+<td>4713170843730</td>
+<td>CHIMEI 奇美 無線UV除蹣吸塵器輕裝版VC-HB4LAM</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170844232</td>
+<td>4713170844232</td>
+<td>CHIMEI奇美20L微波爐(MV-20C0PK)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713170844348</td>
+<td>4713170844348</td>
+<td>奇美85L四層紫外線烘碗機KD-85FBL0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713170844362</td>
+<td>4713170844362</td>
+<td>【CHIMEI 奇美】10公升3D側旋風對流循環大容量烤箱EV-10C0AK</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713170844379</td>
+<td>4713170844379</td>
+<td>奇美 多功能無線吸塵器PLUS(VC-HP4LSA)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4713170844560</td>
+<td>4713170844560</td>
+<td>奇美 IH變頻觸控電磁爐 FV-12B0MT</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI471317084457</td>
+<td>471317084457</td>
+<td>奇美 不鏽鋼厚片烤麵包機(EV-02S0AK)</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4713294790095</td>
+<td>4713294790095</td>
+<td>SUGAR 藍芽智慧運動手環AC-SB01 黑色  </td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4713294799340</td>
+<td>4713294799340</td>
+<td>SUGAR 隨身藍芽喇叭</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713436594321</td>
+<td>4713436594321</td>
+<td>SUGAR T10/T50 9H玻璃保護貼</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713436594338</td>
+<td>4713436594338</td>
+<td>SUGAR T10 透明防摔空壓殼</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713575054175</td>
+<td>4713575054175</td>
+<td>Avene 雅漾 舒活調理眼霜 10ml 兩入組</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713575054847</td>
+<td>4713575054847</td>
+<td>Avene 雅漾 舒敏卸妝潔顏凝露 200mlx2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4713575055202</td>
+<td>4713575055202</td>
+<td>Avene 雅漾 全效活泉保濕水凝霜 50ml 兩入組</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713575056797</td>
+<td>4713575056797</td>
+<td>Avene 雅漾 活泉玻尿酸卸妝乳 200ml 兩入組</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713575058654</td>
+<td>4713575058654</td>
+<td>Avene 雅漾 全效活泉保濕精華 30ml 兩入組</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4713575059620</td>
+<td>4713575059620</td>
+<td>Avene 雅漾 舒護活泉水 300ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4713575067892</td>
+<td>4713575067892</td>
+<td>KLORANE 蔻蘿蘭 速效舒敏洗髮精 400mlx2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713575068202</td>
+<td>4713575068202</td>
+<td>KLORANE 蔻蘿蘭 速效舒敏洗髮精 400mlx3入組</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4713575068448</td>
+<td>4713575068448</td>
+<td>KLORANE 蔻蘿蘭 涼感淨化洗髮精 400MLX2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713575400927</td>
+<td>4713575400927</td>
+<td>AVENE 雅漾 全效活泉保濕水凝乳 50ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713575401054</td>
+<td>4713575401054</td>
+<td>Avene 雅漾 舒敏修護保濕精華乳(滋潤型)50ml 二入組</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4713575401139</td>
+<td>4713575401139</td>
+<td>Avene 雅漾 活泉即淨眼唇卸妝液 125ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4713575401818</td>
+<td>4713575401818</td>
+<td>Avene 雅漾 醒膚長效保濕面膜 50mlx2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4713575402181</td>
+<td>4713575402181</td>
+<td>Avene 雅漾 全效極護亮顏防曬乳 SPF50+ 30mlx2</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4713575402310</td>
+<td>4713575402310</td>
+<td>Avene 雅漾 夏季舒緩美白旅行組</td>
+<td>29</td>
+</tr>
+<tr>
+<td>SI4713575402570</td>
+<td>4713575402570</td>
+<td>Avene 雅漾 清爽抗UV潤色隔離乳 40ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4713780039202</td>
+<td>4713780039202</td>
+<td>哈根諾克 16吋DC直流微電腦定時遙控立扇 HGN-168DC</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4713930214695</td>
+<td>4713930214695</td>
+<td>杏輝 仕女維他命升級版軟膠囊(60顆/盒)</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4713930267332</td>
+<td>4713930267332</td>
+<td>杏輝 高活性維他命E400軟膠囊 (60顆/盒)</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4713930287330</td>
+<td>4713930287330</td>
+<td>杏輝 升級版南瓜子油軟膠囊 (60顆/盒)</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4713930297698</td>
+<td>4713930297698</td>
+<td>杏輝 益醣纖維(30包/盒)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4713930664278</td>
+<td>4713930664278</td>
+<td>杏輝 善補菁萃養生飲 (20包/盒)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4713930770634</td>
+<td>4713930770634</td>
+<td>杏輝 強化B群軟膠囊(60顆/盒)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4713930791301</td>
+<td>4713930791301</td>
+<td>杏輝 複合血紅素軟膠囊(90顆/盒)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4713930793695</td>
+<td>4713930793695</td>
+<td>杏輝 活性益生菌 (30包/盒)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4714377504493</td>
+<td>4714377504493</td>
+<td>克補 B 群 + 鋅加強錠 200 錠</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4714377504509</td>
+<td>4714377504509</td>
+<td>克補B+鐵加強錠 200錠</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4714377504516</td>
+<td>4714377504516</td>
+<td>小善存 加鈣綜合維他命 100錠</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI4714377504523</td>
+<td>4714377504523</td>
+<td>CALTRATE 挺立 鈣強化錠 310錠</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4714377594388</td>
+<td>4714377594388</td>
+<td>善存 男性綜合維他命</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4714377594906</td>
+<td>4714377594906</td>
+<td>善存 新寶納多孕婦維他命</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4714379956191</td>
+<td>4714379956191</td>
+<td>米森 有機漢方養氣茶 6公克X30包</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI4714686004707</td>
+<td>4714686004707</td>
+<td>西莎成犬低脂雞肉蒸鮮包70g X 16入</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI4714711366848</td>
+<td>4714711366848</td>
+<td>歌林無線手持直立兩用吸塵器KTC-HC2100</td>
+<td>45</td>
+</tr>
+<tr>
+<td>SI4714947000226</td>
+<td>4714947000226</td>
+<td>可爾必思水語 330毫升 X 24入</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4715517010393</td>
+<td>4715517010393</td>
+<td>Apple iPhone 12 mini玻保</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4715517010416</td>
+<td>4715517010416</td>
+<td>APPLE IPHONE 12 PRO MAX 6.7吋玻璃保護貼</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4715517017194</td>
+<td>4715517017194</td>
+<td>Apple iPhone 6/7/8 Plus 5.5吋玻璃保護貼</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4715517541187</td>
+<td>4715517541187</td>
+<td>金博家 辣椒先生 老蕭拌麵-椒麻微辣(五辛素) 150gX10包</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4715635820775</td>
+<td>4715635820775</td>
+<td>健司辻利抹茶奶茶沖泡飲 22公克 X 30包</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4715635821611</td>
+<td>4715635821611</td>
+<td>KENJI健司 健康時刻 金黃起司餅乾 28.5公克X45包</td>
+<td>21</td>
+</tr>
+<tr>
+<td>SI4715635821628</td>
+<td>4715635821628</td>
+<td>KENJI健司 健康時刻 奶油胚芽餅乾 28.5公克X45包</td>
+<td>24</td>
+</tr>
+<tr>
+<td>SI4715754010460</td>
+<td>4715754010460</td>
+<td>不銹鋼調味罐組</td>
+<td>395</td>
+</tr>
+<tr>
+<td>SI4715754011627</td>
+<td>4715754011627</td>
+<td>Panasonic 國際牌贈品-LED美妝鏡 SP-2108</td>
+<td>67</td>
+</tr>
+<tr>
+<td>SI4716469750023</td>
+<td>4716469750023</td>
+<td>善存 葉黃素 20毫克(115粒/盒)</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4717143815793</td>
+<td>4717143815793</td>
+<td>Saugella 賽吉兒 ph3.5 菁萃潔浴凝露 日用型 500ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4717143821145</td>
+<td>4717143821145</td>
+<td>Saguella 賽吉兒 ph3.5 菁萃潔浴凝露 加強型 500ml</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4717143821657</td>
+<td>4717143821657</td>
+<td>Saugella 賽吉兒 加強清爽呵護組-加強型250ml+日用型100ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4717431101874</td>
+<td>4717431101874</td>
+<td>no!no!  藍光熱力除毛儀 Micro 曙光白</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4717431102543</td>
+<td>4717431102543</td>
+<td>TWINBIRD直立式用吸塵器TC-5220TWP</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4717431104486</td>
+<td>4717431104486</td>
+<td>TWINBIRD 美型蒸氣掛燙機(紫) TB-G006TWPL</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4717523500097</td>
+<td>4717523500097</td>
+<td>國際牌雙溫控電烤箱32L NB-H3203</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4717523590388</td>
+<td>4717523590388</td>
+<td>Panasonic 國際牌 6公升清淨除濕機 F-Y12EB</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4717523590395</td>
+<td>4717523590395</td>
+<td>Panasonic 國際牌 11公升 清淨除濕機 F-Y22EN </td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4717523590401</td>
+<td>4717523590401</td>
+<td>Panasonic 國際牌 6L 節能環保除濕機 F-Y12ES</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4717523590418</td>
+<td>4717523590418</td>
+<td>【Panasonic 國際牌】6公升清淨除濕機 F-Y12EM </td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4717523590456</td>
+<td>4717523590456</td>
+<td>Panasonic 國際牌 8公升清淨除濕機 F-Y16EN</td>
+<td>25</td>
+</tr>
+<tr>
+<td>SI4718017817806</td>
+<td>4718017817806</td>
+<td>ASUS ZF7 PRO ZS671KS 8G/256G 6.67吋手機_黑</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4718201214114</td>
+<td>4718201214114</td>
+<td>AIRWAVES 超涼薄荷口香糖超值包 400公克</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4718201214718</td>
+<td>4718201214718</td>
+<td>AIRWAVES 極酷嗆涼無糖口香糖 400公克</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4718835705163</td>
+<td>4718835705163</td>
+<td>日立贈品百佳諾吸塵器 VC006</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4719386018726</td>
+<td>4719386018726</td>
+<td>HITACHI日立10公升清淨除濕機 RD-200HS 閃亮銀</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI4719386018733</td>
+<td>4719386018733</td>
+<td>HITACHI日立10公升清淨除濕機 RD-200HG玫瑰金</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4719386018740</td>
+<td>4719386018740</td>
+<td>HITACHI日立12公升清淨除濕機 RD-240HS 閃亮銀</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4719386018764</td>
+<td>4719386018764</td>
+<td>HITACHI日立14公升清淨除濕機 RD-280HS 閃亮銀</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4719386018771</td>
+<td>4719386018771</td>
+<td>HITACHI日立14公升清淨除濕機 RD-280HG玫瑰金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4719386018788</td>
+<td>4719386018788</td>
+<td>日立 RD-360HG玫瑰金18L除濕機</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4719386018801</td>
+<td>4719386018801</td>
+<td>HITACHI日立16公升清淨除濕機 RD-320HS 閃亮銀</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4719386018818</td>
+<td>4719386018818</td>
+<td>HITACHI日立16公升清淨除濕機 RD-320HG 玫瑰金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4719386018849</td>
+<td>4719386018849</td>
+<td>HITACHI日立10公升清淨除濕機 RD-20FR玫瑰金</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4719386018856</td>
+<td>4719386018856</td>
+<td>HITACHI日立8公升清淨除濕機 RD-16FR玫瑰金</td>
+<td>32</td>
+</tr>
+<tr>
+<td>SI4719386018870</td>
+<td>4719386018870</td>
+<td>HITACHI日立6公升清淨除濕機 RD-12FR玫瑰金</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI4719386018894</td>
+<td>4719386018894</td>
+<td>HITACHI日立6公升清淨除濕機 RD-12BR 玫瑰金</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4719386021214</td>
+<td>4719386021214</td>
+<td>HITACHI日立10公升清淨除濕機 RD-200HH 天晴藍</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4719386021221</td>
+<td>4719386021221</td>
+<td>HITACHI日立12公升清淨除濕機 RD-240HH 天晴藍</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4719386021238</td>
+<td>4719386021238</td>
+<td>HITACHI日立14公升清淨除濕機RD-280HH天晴藍</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI471938602445</td>
+<td>471938602445</td>
+<td>日立 RD-450HS閃亮銀22L除濕機</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI471938602446</td>
+<td>471938602446</td>
+<td>日立 RD-450HG玫瑰金22L除濕機</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4719552418329</td>
+<td>4719552418329</td>
+<td>JTL Lightning to USB1.3M鋁合金傳輸線 _銀</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4719552419579</td>
+<td>4719552419579</td>
+<td>JTL Lightning to USB1.3M鋁合金傳輸線 _金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4719552419593</td>
+<td>4719552419593</td>
+<td>JTL Lightning to USB1.3M鋁合金傳輸線 _玫瑰金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4719850931155</td>
+<td>4719850931155</td>
+<td>Crown 多穀牛奶夾心餅乾 48包入</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4719865614968</td>
+<td>4719865614968</td>
+<td>日本ROHTO 肌研 極潤保濕化妝水組 400ml(清爽型) X1+100ml X2</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4719865820222</td>
+<td>4719865820222</td>
+<td>Seeds 惜時 4-5吋牛皮咬骨愛犬零食 1.36公斤</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4719865822172</td>
+<td>4719865822172</td>
+<td>Seeds 惜時 雞肉里肌長片愛犬零食 1公斤</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4719865823797</td>
+<td>4719865823797</td>
+<td>Seeds 惜時 寵物含鈣潔牙嚼骨 630公克 雞肉/起司/綠茶口味</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4719871250075</td>
+<td>4719871250075</td>
+<td>遇見康 芬蘭特級蔓越莓粉 30包/盒</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4719871250136</td>
+<td>4719871250136</td>
+<td>Helsee遇見康 婦衛益生菌(黃金配方2.0) 30入/盒</td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI4719871250167</td>
+<td>4719871250167</td>
+<td>HELSEE遇見康 輕暢酵素益生菌 30入/盒</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4719871982143</td>
+<td>4719871982143</td>
+<td>保麗淨 假牙清潔錠150片+美白清潔錠30片</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4771317464941</td>
+<td>4771317464941</td>
+<td>北歐艾格 成犬-低敏專用配方 1.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465016</td>
+<td>4771317465016</td>
+<td>北歐艾格 幼犬與哺乳犬專用 1.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465030</td>
+<td>4771317465030</td>
+<td>北歐艾格 小型成犬專用-羊肉配方 1.8KG</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4771317465085</td>
+<td>4771317465085</td>
+<td>北歐艾格 小型熟齡犬專用 1.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465177</td>
+<td>4771317465177</td>
+<td>北歐艾格 大型成犬專用-鮭魚配方 2.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465184</td>
+<td>4771317465184</td>
+<td>北歐艾格 小型幼犬專用 1.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465191</td>
+<td>4771317465191</td>
+<td>北歐艾格 中型成犬專用 2.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465207</td>
+<td>4771317465207</td>
+<td>北歐艾格 中大型熟齡犬專用 2.8KG</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4771317465221</td>
+<td>4771317465221</td>
+<td>北歐艾格 小型成犬專用-鮭魚配方 1.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465252</td>
+<td>4771317465252</td>
+<td>北歐艾格 成犬-體重管理專用配方 1.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465320</td>
+<td>4771317465320</td>
+<td>北歐艾格 大型幼犬專用 2.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465337</td>
+<td>4771317465337</td>
+<td>北歐艾格 大型成犬專用 2.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465351</td>
+<td>4771317465351</td>
+<td>北歐艾格 中型幼犬專用 2.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4771317465368</td>
+<td>4771317465368</td>
+<td>北歐艾格 中型成犬專用-鮭魚配方 2.8KG</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4791003864954</td>
+<td>4791003864954</td>
+<td>STASSEN司迪生 有機大吉嶺茶 2公克X100包</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4807770190612</td>
+<td>4807770190612</td>
+<td>NISSIN Kid-O日清奶油三明治餅乾</td>
+<td>21</td>
+</tr>
+<tr>
+<td>SI4891338027755</td>
+<td>4891338027755</td>
+<td>黑人 炭絲高密 牙刷</td>
+<td>30</td>
+</tr>
+<tr>
+<td>SI4892368662039</td>
+<td>4892368662039</td>
+<td>高露潔 高密細絲護齦牙刷</td>
+<td>35</td>
+</tr>
+<tr>
+<td>SI4895173250989</td>
+<td>4895173250989</td>
+<td>Move Free 益節加強型迷你錠 60錠</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI4895173250996</td>
+<td>4895173250996</td>
+<td>Airborne 維生素A+C+E+紫錐菊+人參發泡錠(香橙口味) 30錠</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI4901035794116</td>
+<td>4901035794116</td>
+<td>天乃屋 歌舞伎揚綜合米果 22公克X30包</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4901330743147</td>
+<td>4901330743147</td>
+<td>Calbee卡樂比 富果樂 水果早餐麥片 1公斤</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4901626085807</td>
+<td>4901626085807</td>
+<td>三幸 一口雪宿米果家庭包 104公克X3入</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4901872034550</td>
+<td>4901872034550</td>
+<td>SHISEIDO資生堂 怡麗絲爾 膠原超緊緻精華 CB 35ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4901872045457</td>
+<td>4901872045457</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉蜜UV OC20 30ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4901872048359</td>
+<td>4901872048359</td>
+<td>SHISEIDO資生堂 怡麗絲爾 極奢潤膠原隔離霜CB 30g 嫩紫色</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI4901872048366</td>
+<td>4901872048366</td>
+<td>SHISEIDO資生堂 怡麗絲爾 極奢潤膠原隔離霜CB 30g 嫩膚色</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI4901872088997</td>
+<td>4901872088997</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉餅 SPF25 PA++ 9.3g OC10</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4901872089017</td>
+<td>4901872089017</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉餅 SPF25 PA++ 9.3g OC20</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4901872089024</td>
+<td>4901872089024</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉餅 SPF25 PA++ 9.3g OC30</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4901872089130</td>
+<td>4901872089130</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉餅 SPF25 PA++ 9.3g OC00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4901872089154</td>
+<td>4901872089154</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉餅 UV PO10 (蕊) 2018</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4901872099511</td>
+<td>4901872099511</td>
+<td>SHISEIDO資生堂 怡麗絲爾 彈潤保濕水 清爽型 170ml</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4901872099528</td>
+<td>4901872099528</td>
+<td>SHISEIDO資生堂 怡麗絲爾 彈潤保濕水 滋潤型 170ml</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI4901872099535</td>
+<td>4901872099535</td>
+<td>SHISEIDO資生堂 怡麗絲爾 多效彈潤美肌乳T+ 35ml</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4901872099542</td>
+<td>4901872099542</td>
+<td>SHISEIDO 資生堂 怡麗絲爾 彈潤保濕乳 滋潤型 130ml</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI4901872139309</td>
+<td>4901872139309</td>
+<td>SHISEIDO 資生堂 不老林頭皮用養髮精 200ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4901872269990</td>
+<td>4901872269990</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉餅盒</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4901872646531</td>
+<td>4901872646531</td>
+<td>SHISEIDO資生堂 怡麗絲爾 淨白洗面乳 N 145g</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI4901872661190</td>
+<td>4901872661190</td>
+<td>SHISEIDO資生堂 心機 真型膜力BB霜 30g</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4901872962457</td>
+<td>4901872962457</td>
+<td>SHISEIDO資生堂 心機 星魅平衡持粧控粧前乳UV 25ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4901872962464</td>
+<td>4901872962464</td>
+<td>SHISEIDO資生堂 心機 星魅輕羽粉餅盒</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4901872963300</td>
+<td>4901872963300</td>
+<td>SHISEIDO資生堂 怡麗絲爾 怡麗絲爾 淨白柔膚水 滋潤型 170ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4901872963393</td>
+<td>4901872963393</td>
+<td>SHISEIDO資生堂 怡麗絲爾 淨白柔膚乳 清爽型 130ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4901872963409</td>
+<td>4901872963409</td>
+<td>SHISEIDO資生堂 怡麗絲爾 怡麗絲爾 淨白柔膚乳 滋潤型 130ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4901872963478</td>
+<td>4901872963478</td>
+<td>SHISEIDO資生堂 怡麗絲爾 淨白多效日間美肌乳 35ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4902530017182</td>
+<td>4902530017182</td>
+<td>HITACHI 日立 吸塵器 CVSK11T</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4902530119107</td>
+<td>4902530119107</td>
+<td>HITACHI 日立 33L過熱水蒸氣烘烤微波爐 MRO-RBK5500T</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4902530835724</td>
+<td>4902530835724</td>
+<td>HITACHI 日立 紙袋型吸塵器 CVCK4T</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4902702000981</td>
+<td>4902702000981</td>
+<td>MARUTAI九州拉麵三口味組(共8入)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4902775052535</td>
+<td>4902775052535</td>
+<td>模範生點心餅雞汁口味 88公克 X 15入</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4902901791598</td>
+<td>4902901791598</td>
+<td>Mitsubishi 三菱 24.8L日本製智慧變頻除濕機 MJ-EV250HM</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4902901791611</td>
+<td>4902901791611</td>
+<td>Mitsubishi 三菱 16L日本製清淨乾衣除溼機 MJ-E160HN-TW</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4902901791628</td>
+<td>4902901791628</td>
+<td>Mitsubishi 三菱 12L日本製清淨乾衣除溼機 MJ-E120AN</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI4909978972387</td>
+<td>4909978972387</td>
+<td>SHISEIDO 資生堂 安耐曬 金鑽高效防曬露A 3X版60ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4909978972417</td>
+<td>4909978972417</td>
+<td>SHISEIDO資生堂 安耐曬 金鑽高效防曬凝膠A 90g</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4909978972424</td>
+<td>4909978972424</td>
+<td>SHISEIDO資生堂 安耐曬 金鑽高效防曬噴霧 A 60g</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4909978973032</td>
+<td>4909978973032</td>
+<td>SHISEIDO資生堂 安耐曬金鑽高效潤色防護BB霜 A 25ml 明亮自然色</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4909978973063</td>
+<td>4909978973063</td>
+<td>SHISEIDO資生堂 安耐曬 金鑽高效潤色防護BB霜 A (健康色)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4909978983819</td>
+<td>4909978983819</td>
+<td>SHISEIDO資生堂 心機 星魅裸紗慕絲粉蜜 27G OC1-</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4934651511379</td>
+<td>4934651511379</td>
+<td>NOV 娜芙 防曬條霜 SPF50+PA++++ 9g</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4934651521668</td>
+<td>4934651521668</td>
+<td>NOV 娜芙 UV 蜜粉盒</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4934651523051</td>
+<td>4934651523051</td>
+<td>NOV 娜芙 潤色防曬隔離霜-柔膚 30g</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4934651523075</td>
+<td>4934651523075</td>
+<td>NOV 娜芙 潤色防曬隔離霜-檸黃 30g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4934651523082</td>
+<td>4934651523082</td>
+<td>NOV 娜芙 潤色防曬隔離霜-粉紫 30g</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4934651524089</td>
+<td>4934651524089</td>
+<td>NOV 娜芙 防曬粉餅 SPF30 粉嫩色 12g</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4934651524096</td>
+<td>4934651524096</td>
+<td>NOV 娜芙 防曬粉餅 SPF30 亮膚色 12g</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4934651526052</td>
+<td>4934651526052</td>
+<td>NOV 娜芙 防曬蜜粉 SPF23 PA++ (透明色) 10g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4934651544049</td>
+<td>4934651544049</td>
+<td>NOV 娜芙 旋轉式眉筆 0.5g</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4934651579010</td>
+<td>4934651579010</td>
+<td>NOV 娜芙 防曬隔離霜 SPF50+ 30g</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4971710367140</td>
+<td>4971710367140</td>
+<td>COSME DECORTE 黛珂 保濕美容液60ml (實惠瓶)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4974019100401</td>
+<td>4974019100401</td>
+<td>SHARP夏普12坪自動除菌離子空氣清淨機  FU-J50T-W</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019100425</td>
+<td>4974019100425</td>
+<td>SHARP夏普19坪自動除菌離子空氣清淨機 FP-J80T-W</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI4974019105314</td>
+<td>4974019105314</td>
+<td>SHARP 夏普 Plasmacluster 新智慧溫控吹風機優雅紅 IB-JP9T</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019115757</td>
+<td>4974019115757</td>
+<td>SHARP 夏普 RACTIVE Air 羽量級無線快充吸塵器魔力紅 EC-AR2T</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019115764</td>
+<td>4974019115764</td>
+<td>SHARP 夏普 RACTIVE Air 羽量級無線快充吸塵器星空紫 EC-AR2T</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019117805</td>
+<td>4974019117805</td>
+<td>夏普黴菌濾網FZ-J16KFT</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019124308</td>
+<td>4974019124308</td>
+<td>SHARP 夏普 自動烹調快速加熱 20L 微電腦微波爐 R-T20KS(W)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4974019124315</td>
+<td>4974019124315</td>
+<td>SHARP25L多功能自動烹調燒烤微波爐R-T25KG(W</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4974019125954</td>
+<td>4974019125954</td>
+<td>SHARP 夏普 正負離子造型器繽紛金 IB-JA7HT-P</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4974019125985</td>
+<td>4974019125985</td>
+<td>SHARP 夏普 Plasmacluster 正負離子按摩器曜石黑 IB-JZ5KT</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019126210</td>
+<td>4974019126210</td>
+<td>SHARP 夏普31L自動料理兼烘培達人機(紅)  AX-XS5T</td>
+<td>58</td>
+</tr>
+<tr>
+<td>SI4974019141619</td>
+<td>4974019141619</td>
+<td>SHARP 夏普 Healsio 2.4L 零水鍋 KN-H24TB(W)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019142029</td>
+<td>4974019142029</td>
+<td>SHARP 夏普自動除菌離子產生器IG-EX20T-W 典雅白</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4974019142685</td>
+<td>4974019142685</td>
+<td>SHARP 夏普 23坪 日製原裝AIoT智慧空氣清淨機 KI-J101T-W</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019143781</td>
+<td>4974019143781</td>
+<td>SHARP 夏普 16坪 日製原裝AIoT智慧空氣清淨機 KC-JH71T-W</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4974019153827</td>
+<td>4974019153827</td>
+<td>夏普 個人隨身PCI 自動除菌離子產生器/清淨機 IG-KC1系列 橙橘黃</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019153834</td>
+<td>4974019153834</td>
+<td>夏普 個人隨身PCI 自動除菌離子產生器/清淨機 IG-KC1系列 莓果紅</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019153841</td>
+<td>4974019153841</td>
+<td>夏普 個人隨身PCI 自動除菌離子產生器/清淨機 IG-KC1系列 布朗尼</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019170992</td>
+<td>4974019170992</td>
+<td>夏普 DW-LJ18T-N 18L自動除菌離子除濕機</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019175225</td>
+<td>4974019175225</td>
+<td>夏普DW-L8HT-W 8.5L自動除菌離子除濕機</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4974019584997</td>
+<td>4974019584997</td>
+<td>夏普HEPA集塵過濾網 FZ-C100HFE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019585000</td>
+<td>4974019585000</td>
+<td>夏普活性碳過濾網 FZ-C100DFE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019585031</td>
+<td>4974019585031</td>
+<td>夏普水活力濾網 FZ-C100MFE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019708874</td>
+<td>4974019708874</td>
+<td>夏普HEPA集塵過濾網 FZ-A40HFE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019708904</td>
+<td>4974019708904</td>
+<td>夏普活性碳過濾網 FZ-A50DFE</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4974019805634</td>
+<td>4974019805634</td>
+<td>夏普蜂巢狀活性碳濾網 FZ-D60DFE</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019809281</td>
+<td>4974019809281</td>
+<td>夏普HEPA集塵過濾網 FZ-D40XH</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4974019809298</td>
+<td>4974019809298</td>
+<td>夏普活性碳過濾網 FZ-D40XD</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4974019815008</td>
+<td>4974019815008</td>
+<td>夏普HEPA集塵過濾網 FZ-D80HFE</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4974019815015</td>
+<td>4974019815015</td>
+<td>夏普活性碳過濾網 FZ-D80DFE</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019828596</td>
+<td>4974019828596</td>
+<td>夏普高效集塵除甲醛一體化過濾網 FZ-E30XT</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019836324</td>
+<td>4974019836324</td>
+<td>夏普HEPA集塵過濾網 FZ-E10THF</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019836331</td>
+<td>4974019836331</td>
+<td>夏普活性碳過濾網 FZ-E10TDF</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019888620</td>
+<td>4974019888620</td>
+<td>夏普甲醛濾網 FZ-E70VFE</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019892344</td>
+<td>4974019892344</td>
+<td>SHARP 夏普 車用型自動除菌離子產生器 IG-GC2T-P</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019894720</td>
+<td>4974019894720</td>
+<td>夏普HEPA集塵過濾網 FZ-M50HFE</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4974019912059</td>
+<td>4974019912059</td>
+<td>SHARP 夏普12.1 坪自動除菌離子空氣清淨機 FU-G50T-W</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019912677</td>
+<td>4974019912677</td>
+<td>SHARP 夏普16坪自動除菌離子清淨機KC-JH70T-W</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019912684</td>
+<td>4974019912684</td>
+<td>SHARP 夏普14坪自動除菌離子清淨機 KC-JH60T-W</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI4974019912691</td>
+<td>4974019912691</td>
+<td>SHARP 夏普12坪自動除菌離子清淨機KC-JH50T-W</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019914831</td>
+<td>4974019914831</td>
+<td>SHARP 夏普 Healsio 2.4L 零水鍋 KN-H24TB(R)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019916057</td>
+<td>4974019916057</td>
+<td>SHARP 夏普6.4 自動除菌離子坪蚊取空氣清淨機FU-HM30T-B</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4974019946542</td>
+<td>4974019946542</td>
+<td>SHARP 夏普 18坪 正負離子空氣清淨機 FU-H80T-N</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4974019951584</td>
+<td>4974019951584</td>
+<td>夏普HEPA集塵過濾網FZ-H80HFE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019951591</td>
+<td>4974019951591</td>
+<td>夏普活性碳過濾網 FZ-H80DFE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019966564</td>
+<td>4974019966564</td>
+<td>SHARP 夏普 18L 新衣物乾燥HEPA空氣淨化除濕機 DW-J18T-N</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4974019966571</td>
+<td>4974019966571</td>
+<td>SHARP 夏普 16L 新衣物乾燥HEPA空氣淨化除濕機 DW-J16T-W</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI4974019966588</td>
+<td>4974019966588</td>
+<td>SHARP 夏普 12L 新衣物乾燥HEPA空氣淨化除濕機 DW-J12FT-W</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4974019966595</td>
+<td>4974019966595</td>
+<td>SHARP 夏普 10L 新衣物乾燥HEPA空氣淨化除濕機 DW-J10FT-W</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI4974019971483</td>
+<td>4974019971483</td>
+<td>SHARP 夏普30L新HEALSiO水波爐(紅) AX-XP5T</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI4974019975511</td>
+<td>4974019975511</td>
+<td>SHARP 夏普 30L 新Healsio水波爐(白) AX-XP5T(W)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4974305704979</td>
+<td>4974305704979</td>
+<td>象印 4L保溫電動熱水瓶 CD-WBF40</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI4974305706423</td>
+<td>4974305706423</td>
+<td>象印 六人份黑金剛微電腦電子鍋 NS-WXF10</td>
+<td>25</td>
+</tr>
+<tr>
+<td>SI4975302100092</td>
+<td>4975302100092</td>
+<td>TESCOM 大風量負離子吹風機TID192TW</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4975302142160</td>
+<td>4975302142160</td>
+<td>TESCOM日本製雙電壓負離子吹風機BID42TW</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4975302145291</td>
+<td>4975302145291</td>
+<td>TESCOM 遠紅外線負離子吹風機TID450TW 粉色</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4975302266675</td>
+<td>4975302266675</td>
+<td>TESCOM TIC6JTW 日本製自動電壓造型整髮梳</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4975302912022</td>
+<td>4975302912022</td>
+<td>TESCOM TCD2020TW奈米水霧白金膠原蛋白吹風機</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4975302912916</td>
+<td>4975302912916</td>
+<td>TESCOM輕量型負離子吹風機TID292TW</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4975302913012</td>
+<td>4975302913012</td>
+<td>TESCOM 負離子膠原蛋白吹風機TCD3000TW 桃紅色</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4975302941824</td>
+<td>4975302941824</td>
+<td>TESCOM 國際電壓負離子直/捲2用整髮梳IPH1832TW</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4979006028379</td>
+<td>4979006028379</td>
+<td>SK-II 深層淨透潔顏油 250ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4979006049626</td>
+<td>4979006049626</td>
+<td>SK-II 全效活膚潔面乳 120g</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI4979006052404</td>
+<td>4979006052404</td>
+<td>SK-II 青春露 330ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4979006053982</td>
+<td>4979006053982</td>
+<td>SK-II 男士活能保濕潔面乳 120g</td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI4979006061819</td>
+<td>4979006061819</td>
+<td>SK-II 上質光．晶透柔潤保養粉餅 9.5g#330</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4979006064841</td>
+<td>4979006064841</td>
+<td>SK-II 青春敷面膜 10片(盒裝)</td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI4979006067057</td>
+<td>4979006067057</td>
+<td>SK-II R.N.A 超肌能緊緻「大眼」霜 15g</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4979006067071</td>
+<td>4979006067071</td>
+<td>SK-II R.N.A 超肌能緊緻活膚霜 80g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4979006067101</td>
+<td>4979006067101</td>
+<td>SK-II R.N.A 超肌能緊緻彈力精萃 50ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4979006067729</td>
+<td>4979006067729</td>
+<td>SK-II 超肌能光潤無瑕緊顏粉凝霜 10.5g #330</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4979006067736</td>
+<td>4979006067736</td>
+<td>SK-II 超肌能光潤無瑕緊顏粉凝霜 10.5g #420 </td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4979006067965</td>
+<td>4979006067965</td>
+<td>SK-II 活膚卸粧蜜 80g </td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4979006068559</td>
+<td>4979006068559</td>
+<td>SK-II 超肌因阻黑淨斑精華 30ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4979006068566</td>
+<td>4979006068566</td>
+<td>SK-II 超肌因阻黑淨斑精華 50ml</td>
+<td>49</td>
+</tr>
+<tr>
+<td>SI4979006068573</td>
+<td>4979006068573</td>
+<td>SK-II 超肌因鑽光淨白精華 30ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4979006068665</td>
+<td>4979006068665</td>
+<td>SK-II 超肌因鑽光淨白精華 50ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI4979006069945</td>
+<td>4979006069945</td>
+<td>SK-II 超肌因鑽光透亮粉凝霜 10.5g #320 </td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI4979006069983</td>
+<td>4979006069983</td>
+<td>SK-II 超肌因鑽光透亮粉凝霜 10.5g #420  </td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI4979006070064</td>
+<td>4979006070064</td>
+<td>SK-II 青春露 230ml</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI4979006070071</td>
+<td>4979006070071</td>
+<td>SK-II 青春露 160ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI4979006070095</td>
+<td>4979006070095</td>
+<td>SK-II 男士活能青春露 230ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI4979006070101</td>
+<td>4979006070101</td>
+<td>SK-II 男士活能青春露 160ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI4979006070125</td>
+<td>4979006070125</td>
+<td>SK-II 亮采化妝水 160ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4979006070132</td>
+<td>4979006070132</td>
+<td>SK-II 亮采化粧水 230ml </td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI4979006644029</td>
+<td>4979006644029</td>
+<td>SK-II 晶緻活膚乳液 100g</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI4979654026260</td>
+<td>4979654026260</td>
+<td>山本漢方 大麥若葉粉末 (176包/盒)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI5025155032114</td>
+<td>5025155032114</td>
+<td>Dyson V7 Trigger 無線手持除蹣專用吸塵器</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI5045347977122</td>
+<td>5045347977122</td>
+<td>BURBERRY 粉紅風格女性淡香水 50ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI5050456080601</td>
+<td>5050456080601</td>
+<td>Jennifer Lopez 珍妮佛羅培茲 星鑽女性淡香精 100ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI5060224500019</td>
+<td>5060224500019</td>
+<td>ORAL7 口立淨7 保濕牙膏 75ML</td>
+<td>108</td>
+</tr>
+<tr>
+<td>SI5999038510979</td>
+<td>5999038510979</td>
+<td>HELSEE 遇見康 維他命C發泡錠(20錠) 單條</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI614952151613</td>
+<td>614952151613</td>
+<td>National Vita 顧可飛 黃金比例金盞花(葉黃素)軟膠囊 130粒</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI620365203191</td>
+<td>620365203191</td>
+<td>Organika 蜂膠液 100毫升</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI625273000016</td>
+<td>625273000016</td>
+<td>Webber Naturals 亞麻仁油膠囊食品 300顆</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI625273000023</td>
+<td>625273000023</td>
+<td>Webber Naturals 草本複合配方四十歲以上女性專用膠囊食品 150粒</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI625273000108</td>
+<td>625273000108</td>
+<td>Webber Naturals 高單位蔓越莓濃縮精華膠囊 250 粒</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI625273000139</td>
+<td>625273000139</td>
+<td>TruNature 螺旋藻膠囊 400粒</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI625273000184</td>
+<td>625273000184</td>
+<td>TruNature月見草油軟膠囊 250粒</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI625273000191</td>
+<td>625273000191</td>
+<td>TruNature 德國專利水解膠原蛋白膠囊 240粒</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI625273000214</td>
+<td>625273000214</td>
+<td>Webber 維生素D3錠 240錠</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI625273000221</td>
+<td>625273000221</td>
+<td>TruNature 紅藻萃取蝦紅素軟膠囊 100粒</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI625273000238</td>
+<td>625273000238</td>
+<td>Webber Naturals 紫錐菊潤喉噴霧(食品) 60毫升X2瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI6438409050441</td>
+<td>6438409050441</td>
+<td>NOKIA 215 4G 64MB/128MB 經典直立機_黑</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6438409055286</td>
+<td>6438409055286</td>
+<td>NOKIA 5.4 6G/64G 6.39吋智慧型手機_藍</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI6438409055293</td>
+<td>6438409055293</td>
+<td>NOKIA 5.4 6G/64G 6.39吋智慧型手機_紫</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI690251019090</td>
+<td>690251019090</td>
+<td>Jo Malone 英國梨與小蒼蘭 香水 30ml</td>
+<td>148</td>
+</tr>
+<tr>
+<td>SI690251021741</td>
+<td>690251021741</td>
+<td>Jo Malone 藍風鈴香水 30ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI690251026098</td>
+<td>690251026098</td>
+<td>Jo Malone 黑莓子與月桂葉 香水 30ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI690251033720</td>
+<td>690251033720</td>
+<td>Jo Malone 鼠尾草與海鹽 香水 30ml</td>
+<td>79</td>
+</tr>
+<tr>
+<td>SI690251042302</td>
+<td>690251042302</td>
+<td>JO MALONE 含羞草與小荳蔻 香水 30ML</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI690251047857</td>
+<td>690251047857</td>
+<td>JO MALONE 羅勒與橙花 香水 30ML</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI690251081035</td>
+<td>690251081035</td>
+<td>JO MALONE 青檸、羅勒與柑橘 香水 100ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6923919104185</td>
+<td>6923919104185</td>
+<td>SUGAR S20 4G/64G 智慧型手機 奇幻紫色</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI6923919104246</td>
+<td>6923919104246</td>
+<td>SUGAR F20 6.26吋 4G/64G 旅遊翻譯手機 極晝白</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6935117823515</td>
+<td>6935117823515</td>
+<td>VIVO Y50 8G/128G 6.53吋智慧手機_白</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI6935117823874</td>
+<td>6935117823874</td>
+<td>VIVO X50 8G/128G 6.56 吋 5G 智慧手機_黑</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6935117826851</td>
+<td>6935117826851</td>
+<td>VIVO Y20S 4G/128G 6.5吋智慧手機_黑</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6944284667204</td>
+<td>6944284667204</td>
+<td>OPPO RENO4 Z 8/128G 6.57 吋 5G手機_黑</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI6944284674868</td>
+<td>6944284674868</td>
+<td>OPPO A73 8G/128G 6.5吋 5G智慧手機_帛黑</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6950292400665</td>
+<td>6950292400665</td>
+<td>brii Metrolite Sling Pack迷彩風輕行側背單肩包(適用10吋平板)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI6970280850302</td>
+<td>6970280850302</td>
+<td>Honeywell-抗敏系列空氣清淨機HPA-200APTW 白色</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI6970280850319</td>
+<td>6970280850319</td>
+<td>Honeywell 抗敏系列空氣清淨機 HPA-300APTW</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6970280850333</td>
+<td>6970280850333</td>
+<td>Honeywell-智慧淨化抗敏空氣清淨機HPA-720WTW</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6970280856335</td>
+<td>6970280856335</td>
+<td>HONEYWELL 空氣清淨機 HPA-5350WTW</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6970280856410</td>
+<td>6970280856410</td>
+<td>HONEYWELL 空氣清淨機HPA-5150WTW (INSIGHTTM 51</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI6971892700016</td>
+<td>6971892700016</td>
+<td>VIVO V15贈品-VIGO公仔</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI6995566001</td>
+<td>6995566001</td>
+<td>Apple iPhone 11透明保護套F</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI719346629379</td>
+<td>719346629379</td>
+<td>JOHN VARVATOS 工匠BLU男性淡香水 125ML</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI729238130746</td>
+<td>729238130746</td>
+<td>SHISEIDO 資生堂 美透白 雙核晶白露 150ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI729238144668</td>
+<td>729238144668</td>
+<td>SHISEIDO資生堂 新豔陽．夏 防曬霜 SPF 36  9g  Fair Ivory</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI729238144682</td>
+<td>729238144682</td>
+<td>SHISEIDO資生堂 新豔陽．夏 防曬霜 SPF 36  9g Beige</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI729238144699</td>
+<td>729238144699</td>
+<td>SHISEIDO資生堂 新豔陽．夏 防曬霜 SPF 36  9g OCHRE</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI730852103092</td>
+<td>730852103092</td>
+<td>SHISEIDO資生堂 盼麗風姿 抗皺24夜間活膚霜 50ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI730852138124</td>
+<td>730852138124</td>
+<td>SHISEIDO 資生堂 盼麗風姿抗皺24潔膚皂 125ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI736150000316</td>
+<td>736150000316</td>
+<td>Laura Mercier 蘿拉蜜思 柔光透明蜜粉 (透明色)</td>
+<td>38</td>
+</tr>
+<tr>
+<td>SI737052351100</td>
+<td>737052351100</td>
+<td>HUGO BOSS BOTTLED 自信男性淡香水 100ML</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI737052522487</td>
+<td>737052522487</td>
+<td>GUCCI 華麗梔子花女性淡香水 100ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI747930025771</td>
+<td>747930025771</td>
+<td>LA MER 海洋拉娜 甦活緊緻眼霜 15ML</td>
+<td>41</td>
+</tr>
+<tr>
+<td>SI747930062806</td>
+<td>747930062806</td>
+<td>LA MER 海洋拉娜 緊緻彈力眼部精萃 15ML</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI747930073642</td>
+<td>747930073642</td>
+<td>LA MER 海洋拉娜 創世紀原晶眼部精華霜 15ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI747930096474</td>
+<td>747930096474</td>
+<td>LA MER 海洋拉娜 煥顏彈力無痕精萃 30ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI754958031639</td>
+<td>754958031639</td>
+<td>樂益活 保健益生菌</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI76106575101</td>
+<td>76106575101</td>
+<td>SHISEIDO資生堂 莉薇特麗 抗皺精露ＡＡ 20ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI76107877601</td>
+<td>76107877601</td>
+<td>SHISEIDO資生堂 莉薇特麗 抗皺精露ＡＡ 50ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI76111002601</td>
+<td>76111002601</td>
+<td>資生堂 莉薇特麗 全效乳液EX(II) 30ml</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI76111006601</td>
+<td>76111006601</td>
+<td>資生堂 莉薇特麗 全效化妝水EX(II) 30ml</td>
+<td>31</td>
+</tr>
+<tr>
+<td>SI76111844601</td>
+<td>76111844601</td>
+<td>SHISEIDO資生堂 怡麗絲爾 淨白柔膚水 滋潤型 18ml</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI76112122601</td>
+<td>76112122601</td>
+<td>SHISEIDO資生堂 調理潤膚皂(滋潤型) 20g</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI76112545601</td>
+<td>76112545601</td>
+<td>SHISEIDO資生堂 全效抗痕 亮采賦活乳 (豐潤型) 15ml</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI76112546601</td>
+<td>76112546601</td>
+<td>SHISEIDO資生堂 全效抗痕 亮采賦活露 (豐潤型) 25ml</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI7613035422209</td>
+<td>7613035422209</td>
+<td>雀巢 原味咖啡 500公克</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI762111926227</td>
+<td>762111926227</td>
+<td>STARBUCKS VERANDA BLEND 黃金烘焙綜合咖啡豆 1.13公斤</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI7640111492108</td>
+<td>7640111492108</td>
+<td>GRES CABOTINE ROSE 粉紅佳人淡香水 100ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI768614110033</td>
+<td>768614110033</td>
+<td>SHISEIDO資生堂 紅色夢露 (風華版) 200ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI782639981185</td>
+<td>782639981185</td>
+<td>Apple iPhone Xs MAX 鋼化保護膜</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI783320402548</td>
+<td>783320402548</td>
+<td>BVLGARI 寶格麗 活力海洋能量男性淡香水 50ML</td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI783320402692</td>
+<td>783320402692</td>
+<td>BVLGARI 寶格麗 晶艷女性淡香水 65ML</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI783320402739</td>
+<td>783320402739</td>
+<td>BVLGARI 寶格麗 藍茶男性淡香水 100ML</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI783320403897</td>
+<td>783320403897</td>
+<td>BVLGARI 寶格麗 森林之光男性淡香精 100ML</td>
+<td>24</td>
+</tr>
+<tr>
+<td>SI783320911668</td>
+<td>783320911668</td>
+<td>BVLGARI 寶格麗 勁藍水能量男性淡香水 100ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI783320971051</td>
+<td>783320971051</td>
+<td>BVLGARI 寶格麗 極致當代男性淡香水 60ML</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI783320971556</td>
+<td>783320971556</td>
+<td>BVLGARI 寶格麗 極致當代男性淡香水 100ml</td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI796502504800</td>
+<td>796502504800</td>
+<td>WEIDER 威德 海洋膠原粉+鐵 60 包</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI796502505326</td>
+<td>796502505326</td>
+<td>WEIDER 威德 納豆紅麴 120 粒</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI796502505432</td>
+<td>796502505432</td>
+<td>WEIDER 威德 膠原蛋白粉 450 公克</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI796502505487</td>
+<td>796502505487</td>
+<td>WEIDER 威德 健康益生菌 90包</td>
+<td>25</td>
+</tr>
+<tr>
+<td>SI796502506583</td>
+<td>796502506583</td>
+<td>WEIDER 威德 雙茶花速崩錠 210錠</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI796502970414</td>
+<td>796502970414</td>
+<td>WEIDER威德 靈芝多醣 180粒</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SI796502974269</td>
+<td>796502974269</td>
+<td>WEIDER 威德檸檬酸鈣(90包/盒)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI796502974283</td>
+<td>796502974283</td>
+<td>WEIDER 威德 輕暢酵素飲</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI8002135111974</td>
+<td>8002135111974</td>
+<td>Ferrari 法拉利 黑色法拉利男性淡香水125m</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI8002135139053</td>
+<td>8002135139053</td>
+<td>Ferrari 紅色法拉利 EDT 125ml</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI8005610367149</td>
+<td>8005610367149</td>
+<td>GUCCI FLORA 花之舞女性淡香水 75ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8008230812075</td>
+<td>8008230812075</td>
+<td>ACCA KAPPA 艾卡帕 白麝香淡香精 100ML</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI8011003995967</td>
+<td>8011003995967</td>
+<td>VERSACE 凡賽斯 經典男性淡香水100ML</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI8018365500020</td>
+<td>8018365500020</td>
+<td>Versace 凡賽斯 雲淡風輕男性淡香水 50ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI8018365500037</td>
+<td>8018365500037</td>
+<td>Versace 凡賽斯 雲淡風輕男性淡香水 100ml</td>
+<td>21</td>
+</tr>
+<tr>
+<td>SI8032529114076</td>
+<td>8032529114076</td>
+<td>SALVATORE FERRAGAMO INCANTO CHARMS 甜心魔力女性淡香水 100ML</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI8032529114755</td>
+<td>8032529114755</td>
+<td>SALVATORE FERRAGAMO INCANTO SHINE 閃耀光采女性淡香水 100ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI810552000867</td>
+<td>810552000867</td>
+<td>老舊金山 原味拿鐵 20 公克 X 125 包</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI810552000874</td>
+<td>810552000874</td>
+<td>老舊金山 無糖拿鐵二合一 20公克 X 125包</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI81170175</td>
+<td>81170175</td>
+<td>ANNA SUI 安娜蘇 童話獨角獸淡香水 75ML TESTER</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI812451030174</td>
+<td>812451030174</td>
+<td>UAG iPhone Xs MAX 耐衝擊保護殼-透黑</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI812451030440</td>
+<td>812451030440</td>
+<td>UAG iPhone Xs MAX 耐衝擊保護殼-白</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI812451032178</td>
+<td>812451032178</td>
+<td>UAG iPhone 11 Pro(5.8吋)頂級版耐衝擊保護殼_極黑</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI812451032192</td>
+<td>812451032192</td>
+<td>UAG iPhone 11 Pro(5.8吋)頂級版耐衝擊保護殼_紅金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI812451032222</td>
+<td>812451032222</td>
+<td>UAG iPhone 11 Pro(5.8吋)耐衝擊保護殼_透黑</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI812451032239</td>
+<td>812451032239</td>
+<td>UAG iPhone 11 Pro(5.8吋)耐衝擊保護殼_透明</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI812451032390</td>
+<td>812451032390</td>
+<td>UAG iPhone 11(6.1吋)耐衝擊保護殼_透黑</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI812451032536</td>
+<td>812451032536</td>
+<td>UAG iPhone 11 Pro Max(6.5吋)頂級版耐衝擊保護殼_紅金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI812451032567</td>
+<td>812451032567</td>
+<td>UAG iPhone 11 Pro Max(6.5吋)耐衝擊保護殼_透黑</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI828013214W1</td>
+<td>828013214W1</td>
+<td>福利品 OMRON 歐姆龍 體重體脂計 HBF-214(白色)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI832992014679</td>
+<td>832992014679</td>
+<td>eos 伊歐詩 亮彩潤唇球 珊瑚橙 7g</td>
+<td>21</td>
+</tr>
+<tr>
+<td>SI8411061723760</td>
+<td>8411061723760</td>
+<td>CAROLINA HERRERA 212 VIP 男性淡香水 100ML</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI8411061853160</td>
+<td>8411061853160</td>
+<td>CAROLINA HERRERA 212都會男性淡香水 100ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8411061865408</td>
+<td>8411061865408</td>
+<td>CAROLINA HERRERA 212 女性淡香水 100ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8436530755479</td>
+<td>8436530755479</td>
+<td>CAFES GUILIS 膠囊咖啡組 64顆</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8437004295828</td>
+<td>8437004295828</td>
+<td>艾欖 JCI 特級冷壓初榨橄欖油 1000ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI845163013418</td>
+<td>845163013418</td>
+<td>樂益活 海洋膠原蛋白凍 40條</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI845163033652</td>
+<td>845163033652</td>
+<td>樂益活 兒童成長鈣+D3發泡飲品 5.5克X60包</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI845163036011</td>
+<td>845163036011</td>
+<td>樂益活 寵物綜合維他命-犬貓專用 700公克</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8470001650269</td>
+<td>8470001650269</td>
+<td>REPAVAR 芮培菈 護益膚面霜 50ML</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI8470001650290</td>
+<td>8470001650290</td>
+<td>REPAVAR 芮培菈 極緻護益膚乳霜 150ML</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI8470001650306</td>
+<td>8470001650306</td>
+<td>REPAVAR 芮培菈 護益膚身體乳 500ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8470001650313</td>
+<td>8470001650313</td>
+<td>REPAVAR 芮培菈 護益膚洗髮精 200ML</td>
+<td>25</td>
+</tr>
+<tr>
+<td>SI8470001650320</td>
+<td>8470001650320</td>
+<td>REPAVAR 芮培菈 護益膚沐浴露 750ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8470001684011</td>
+<td>8470001684011</td>
+<td>杜克H系列 艾莉卡 防曬凝膠SPF50 50ml </td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8470001756572</td>
+<td>8470001756572</td>
+<td>REPAVAR 芮培菈 護益膚身體乳 200ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8470003264877</td>
+<td>8470003264877</td>
+<td>REPAVAR 芮培菈 玫瑰果油乳霜  125ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8470003488211</td>
+<td>8470003488211</td>
+<td>REPAVAR 芮培菈 100%純玫瑰果油 15ML</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI8470003980739</td>
+<td>8470003980739</td>
+<td>杜克H系列 艾莉卡 防曬霜SPF50 50ml </td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI851857001944</td>
+<td>851857001944</td>
+<td>杜克C系列 保濕B5凝膠 30ml </td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI851857001968</td>
+<td>851857001968</td>
+<td>杜克C系列 亮白修護加強劑 30ml </td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI854216006468</td>
+<td>854216006468</td>
+<td>BEZALEL倍加能 薄型無線充電盤_白</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI854216006819</td>
+<td>854216006819</td>
+<td>BEZALEL倍加能 無線充電行動電源5000_黑</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8710103527763</td>
+<td>8710103527763</td>
+<td>新安怡 矽膠安撫奶嘴0~6M+ 卡通系列 (雙入) SCF182/23</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI8710103527794</td>
+<td>8710103527794</td>
+<td>飛利浦新安怡  矽膠安撫奶嘴6~18M+ 卡通系列 (雙入: 藍綠&amp;橘粉) SCF182/24</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI8710103733096</td>
+<td>8710103733096</td>
+<td>PHILIPS 飛利浦 三刀頭可水洗電鬍刀 S5130</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI8710103774341</td>
+<td>8710103774341</td>
+<td>PHILIPS 飛利浦 AVENT 親乳感防脹氣奶嘴雙入裝 慢流量 (1M+ 雙孔二號嘴) SCF652/23</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8710103774365</td>
+<td>8710103774365</td>
+<td>PHILIPS 飛利浦 AVENT 親乳感防脹氣奶嘴雙入裝 中流量 (3M+ 三孔三號嘴) SCF653/23</td>
+<td>7</td>
+</tr>
+<tr>
+<td>SI8710103774389</td>
+<td>8710103774389</td>
+<td>新安怡 親乳感奶嘴雙入裝-可調速 (3M+一字孔) SCF655/23</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI8710103774433</td>
+<td>8710103774433</td>
+<td>PHILIPS 飛利浦 AVENT 親乳感奶嘴雙入裝-濃稠液體專用 (6M+Y字孔) SCF656/23</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8710103774723</td>
+<td>8710103774723</td>
+<td>PHILIPS 飛利浦 AVENT 親乳感PP防脹氣奶瓶雙入組 (125ml*2 ; 奶嘴0月+) SCF690/23</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI8710103852520</td>
+<td>8710103852520</td>
+<td>PHILIPS 飛利浦 加寬厚片烤吐司機HD2638/91</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8710103858669</td>
+<td>8710103858669</td>
+<td>PHILIPS 飛利浦  氣炸鍋(附串燒架) HD9642</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI8710103912675</td>
+<td>8710103912675</td>
+<td>PHILIPS 飛利浦 智能鑽石刷頭7入 HX6067</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI8710103968825</td>
+<td>8710103968825</td>
+<td>日立贈品 飛利浦三刀頭可水洗電鬍刀 S3333</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI8714789255828</td>
+<td>8714789255828</td>
+<td>高露潔 抗敏感 - 溫和美白牙膏120g</td>
+<td>50</td>
+</tr>
+<tr>
+<td>SI873824001184</td>
+<td>873824001184</td>
+<td>John Varvatos 工匠藤編男性淡香水 125ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8801083001173</td>
+<td>8801083001173</td>
+<td>KELLOGGS 家樂氏 玉米片 200G</td>
+<td>29</td>
+</tr>
+<tr>
+<td>SI8801083014173</td>
+<td>8801083014173</td>
+<td>KELLOGGS 家樂氏 格格脆-巧克力 170G</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI8801083015217</td>
+<td>8801083015217</td>
+<td>KELLOGGS 家樂氏 香甜玉米片 175G</td>
+<td>106</td>
+</tr>
+<tr>
+<td>SI8801083015422</td>
+<td>8801083015422</td>
+<td>KELLOGGS 家樂氏 香甜玉米片 400G</td>
+<td>77</td>
+</tr>
+<tr>
+<td>SI8801083401355</td>
+<td>8801083401355</td>
+<td>KELLOGGS 家樂氏 玉米片 350G</td>
+<td>45</td>
+</tr>
+<tr>
+<td>SI8801083423005</td>
+<td>8801083423005</td>
+<td>KELLOGGS 家樂氏 日式水果穀片-嚴選果實 300G</td>
+<td>21</td>
+</tr>
+<tr>
+<td>SI8801083453002</td>
+<td>8801083453002</td>
+<td>KELLOGGS 家樂氏 蔓越莓杏仁穀物脆 300G</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI8801083483009</td>
+<td>8801083483009</td>
+<td>KELLOGGS 家樂氏格格脆-棉花糖 300G</td>
+<td>36</td>
+</tr>
+<tr>
+<td>SI8801117973117</td>
+<td>8801117973117</td>
+<td>ORION 好麗友 烏龜玉米脆片 136公克X6包</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8801643600044</td>
+<td>8801643600044</td>
+<td>SAMSUNG 雙向閃電快衝行動電源10000mAh(Type C for A9/Tab A 10.5)</td>
+<td>19</td>
+</tr>
+<tr>
+<td>SI8801790007703</td>
+<td>8801790007703</td>
+<td>SAMSUNG 美拍握把(不分色)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8801790011243</td>
+<td>8801790011243</td>
+<td>SAMSUNG三星 藍牙自拍棒腳架</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI8803217010129</td>
+<td>8803217010129</td>
+<td>韓味不二 柚子茶飲組 1公斤 X 2入</td>
+<td>34</td>
+</tr>
+<tr>
+<td>SI8806087228892</td>
+<td>8806087228892</td>
+<td>樂金 掃地機濾網組 VEF-SP02R</td>
+<td>25</td>
+</tr>
+<tr>
+<td>SI8806087228953</td>
+<td>8806087228953</td>
+<td>樂金 掃地機抹布組 VMP-UM02R</td>
+<td>25</td>
+</tr>
+<tr>
+<td>SI8806090588792</td>
+<td>8806090588792</td>
+<td>SAMSUNG三星 NOTE20 ULTRA 12G/256G 6.9吋手機_金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8806091057471</td>
+<td>8806091057471</td>
+<td>樂金 A9K-ULTRA3 CORDZERO THINQ A9 濕拖無線吸塵器</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8806091057488</td>
+<td>8806091057488</td>
+<td>樂金 A9K-MAX2 CORDZERO THINQ A9 K系列濕拖無線吸塵器</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI8806091063908</td>
+<td>8806091063908</td>
+<td>樂金 AS651DSS0 PURICARE 三合一高效率濾網 清淨機</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI8806091063915</td>
+<td>8806091063915</td>
+<td>樂金 AS101DSS0 PURICARE 三合一高效率濾網 清淨機</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI8806091081100</td>
+<td>8806091081100</td>
+<td>樂金 A9P-CORE CORDZERO A9+快清式無線吸塵器</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8806091119858</td>
+<td>8806091119858</td>
+<td>樂金 AP300AWFA PURICARE 口罩型空氣清淨機</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI8806091135759</td>
+<td>8806091135759</td>
+<td>樂金 AS101DWH0 PURICARE 三合一高效率濾網 空氣清淨機</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SI8806091135780</td>
+<td>8806091135780</td>
+<td>樂金 AS651DWH0 PURICARE 三合一高效率濾網 空氣清淨機</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8806091135803</td>
+<td>8806091135803</td>
+<td>樂金 AS551DWG0 PURICARE 三合一高效率濾網 空氣清淨機</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8806091230645</td>
+<td>8806091230645</td>
+<td>樂金 PWKAUW01 UV殺菌充電盒(口罩型清淨機專用)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8806092187849</td>
+<td>8806092187849</td>
+<td>SAMSUNG三星 A32 4G/64G 6.5吋5G智慧手機_白</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8806092187856</td>
+<td>8806092187856</td>
+<td>SAMSUNG三星 A32 4G/64G 6.5吋5G智慧手機_黑</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8806092187863</td>
+<td>8806092187863</td>
+<td>SAMSUNG三星 A32 4G/64G 6.5吋5G智慧手機_紫</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8806092187870</td>
+<td>8806092187870</td>
+<td>SAMSUNG三星 A32 4G/64G 6.5吋5G智慧手機_藍</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8806098297054</td>
+<td>8806098297054</td>
+<td>樂金 PURICARE 空氣清淨機移動滾輪PWH8DBA.AKOR</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI8806098300198</td>
+<td>8806098300198</td>
+<td>樂金 PURICARE 空氣清淨機移動滾輪 PWH8DBB.AKOR</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI8806098348138</td>
+<td>8806098348138</td>
+<td>樂金 A9PSMOP2X CORDZERO A9+濕拖無線吸塵器</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI8806098559398</td>
+<td>8806098559398</td>
+<td>樂金 MD181QWK1 PURICARE WIFI變頻除濕機</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI8806098752393</td>
+<td>8806098752393</td>
+<td>樂金 VR6690TWVV CORDZERO WIFI濕拖清潔機器人(雙眼)</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SI8806098792979</td>
+<td>8806098792979</td>
+<td>樂金 VR6698TWAR CORDZERO WIFI濕拖清潔機器人(三眼)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI8809071549072</td>
+<td>8809071549072</td>
+<td>Teazen 玉米鬚茶 1.5公克 X 200包</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI8809332399491</td>
+<td>8809332399491</td>
+<td>正官庄 高麗蔘精EVERYTIME 10ml 30包</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8809640259739</td>
+<td>8809640259739</td>
+<td>Spigen(SGP) iPhone 11 Pro Max 手機保護殼(水晶)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8809671012204</td>
+<td>8809671012204</td>
+<td>Spigen SGP Note10 防摔保護殼 晶透</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI882381004507</td>
+<td>882381004507</td>
+<td>DARPHIN 朵法 全效舒緩潔膚乳 500ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI882381005610</td>
+<td>882381005610</td>
+<td>DARPHIN 朵法 全效舒緩化妝水200ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI882381054441</td>
+<td>882381054441</td>
+<td>DARPHIN 朵法 花梨木按摩潔面膏 40ml</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI882381073480</td>
+<td>882381073480</td>
+<td>DarPHIN 朵法 全效舒緩化妝水 500ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI88300178278</td>
+<td>88300178278</td>
+<td>CALVIN KLEIN EUPHORIA 誘惑男性淡香水 100ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI884486383280</td>
+<td>884486383280</td>
+<td>MATRIX 美傑仕 朴草硬體髮雕500ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8850006327838</td>
+<td>8850006327838</td>
+<td>高露潔 抗敏專家 - 修復琺瑯質牙膏110g</td>
+<td>20</td>
+</tr>
+<tr>
+<td>SI8850006332023</td>
+<td>8850006332023</td>
+<td>高露潔 360°備長炭牙刷</td>
+<td>67</td>
+</tr>
+<tr>
+<td>SI8850006341834</td>
+<td>8850006341834</td>
+<td>高露潔 抗敏專家 - 修護預防牙膏114g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI885004455177</td>
+<td>885004455177</td>
+<td>GNC 健安喜 LAC 蔬果酵素精華 3G/包</td>
+<td>160</td>
+</tr>
+<tr>
+<td>SI8850086192012</td>
+<td>8850086192012</td>
+<td>阿華田 營養巧克力麥芽飲品 1350公克</td>
+<td>30</td>
+</tr>
+<tr>
+<td>SI8851019914152</td>
+<td>8851019914152</td>
+<td>格力高 POCKY 巧克力棒 40公克X12入</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI8852756034677</td>
+<td>8852756034677</td>
+<td>KELLOGGS 家樂氏莓果優格穀物棒25GX12條/盒</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI8852756303018</td>
+<td>8852756303018</td>
+<td>KELLOGGS 家樂氏 東尼可可片 200G</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI8852756303131</td>
+<td>8852756303131</td>
+<td>KELLOGGS 家樂氏 蜂蜜玉米片 220G</td>
+<td>32</td>
+</tr>
+<tr>
+<td>SI8852756303230</td>
+<td>8852756303230</td>
+<td>KELLOGGS 家樂氏 EXTRA什錦果麥-美麗纖果 375G</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SI8852756304022</td>
+<td>8852756304022</td>
+<td>KELLOGGS 家樂氏 可可球 330G</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI8852756304039</td>
+<td>8852756304039</td>
+<td>KELLOGGS 家樂氏 格格脆-巧克力 330G</td>
+<td>48</td>
+</tr>
+<tr>
+<td>SI8852756304169</td>
+<td>8852756304169</td>
+<td>KELLOGGS 家樂氏 奢華苺果堅果穀物棒30GX12條/盒</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI8852756304299</td>
+<td>8852756304299</td>
+<td>KELLOGGS 家樂氏 SPECIAL K香脆麥米片 370G</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI8852756304381</td>
+<td>8852756304381</td>
+<td>KELLOGGS 家樂氏SPECIAL K蜂蜜燕麥 香脆麥米片 385G</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI8852756315059</td>
+<td>8852756315059</td>
+<td>KELLOGGS 家樂氏 原味玉米早餐脆片 600公克X2包</td>
+<td>28</td>
+</tr>
+<tr>
+<td>SI8852756315066</td>
+<td>8852756315066</td>
+<td>KELLOGG'S 家樂氏 香甜玉米片 900公克X 2包</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI8852756345544</td>
+<td>8852756345544</td>
+<td>KELLOGGS 家樂氏香蕉玉米片 300G</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SI8852756363340</td>
+<td>8852756363340</td>
+<td>KELLOGGS 家樂氏 EXTRA什錦果麥-葡萄乾、杏仁果 375G</td>
+<td>24</td>
+</tr>
+<tr>
+<td>SI8852756366655</td>
+<td>8852756366655</td>
+<td>KELLOGGS 家樂氏SPECIAL K香脆麥米片-藍莓杏仁 155G</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI8852756385328</td>
+<td>8852756385328</td>
+<td>KELLOGGS 家樂氏 可可球 170G</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI8852756387070</td>
+<td>8852756387070</td>
+<td>KELLOGGS 家樂氏 可可力 350G</td>
+<td>71</td>
+</tr>
+<tr>
+<td>SI887167123564</td>
+<td>887167123564</td>
+<td>ESTEE LAUDER 雅詩蘭黛 微分子肌底原生露 200ml</td>
+<td>14</td>
+</tr>
+<tr>
+<td>SI887167257160</td>
+<td>887167257160</td>
+<td>ESTEE LAUDER 雅詩蘭黛 無限抗皺奇蹟露 200ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI887167351936</td>
+<td>887167351936</td>
+<td>ESTEE LAUDER PRO極速緊緻肌密全能精華 50ML</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI887167393271</td>
+<td>887167393271</td>
+<td>ESTEE LAUDER 雅詩蘭黛 特潤眼部超能量修護霜15ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI887167485488</td>
+<td>887167485488</td>
+<td>ESTEE LAUDER 雅詩蘭黛 特潤超導全方位修護露 50ml</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI887167532366</td>
+<td>887167532366</td>
+<td>ESTEE LAUDER 雅詩蘭黛 特潤超導全方位修護露 金色限定瓶 50ML</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI8885004453289</td>
+<td>8885004453289</td>
+<td>GNC 健安喜 LAC 松樹皮菁華食品 50錠/盒</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8885004454262</td>
+<td>8885004454262</td>
+<td>GNC 健安喜 LAC FULL-CAL™優鎂鈣 30包/盒</td>
+<td>35</td>
+</tr>
+<tr>
+<td>SI8885004454774</td>
+<td>8885004454774</td>
+<td>GNC 健安喜 LAC 蔬果酵素精華 40包/盒</td>
+<td>23</td>
+</tr>
+<tr>
+<td>SI8886456200452</td>
+<td>8886456200452</td>
+<td>EMTRIX 安啟適 覆甲液(未殺菌) 10ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8887549611391</td>
+<td>8887549611391</td>
+<td>Panasonic 國際牌 輕巧型直髮捲燙器 EH-HV10-K</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI8887549654626</td>
+<td>8887549654626</td>
+<td>Panasonic 國際牌  EH-NE74 雙負離子吹風機-香檳金</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI8887549768897</td>
+<td>8887549768897</td>
+<td>Panasonic 國際牌 EH-NA9B 奈米水離子吹風機-桃紅色</td>
+<td>49</td>
+</tr>
+<tr>
+<td>SI9300605104594</td>
+<td>9300605104594</td>
+<td>PROPLAN 冠能 挑嘴成貓鮭魚潤毛配方 1.3kg</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI9300605104778</td>
+<td>9300605104778</td>
+<td>PROPLAN 冠能 挑嘴成貓鮭魚潤毛配方 2.5KG</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI9300605104808</td>
+<td>9300605104808</td>
+<td>PROPLAN 冠能 挑嘴成貓鮭魚潤毛配方 400G</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605104822</td>
+<td>9300605104822</td>
+<td>PROPLAN 冠能 熟齡貓7+鮮雞照護配方 1.3KG</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI9300605104846</td>
+<td>9300605104846</td>
+<td>PROPLAN 冠能 成貓鮭魚化毛加強配方 1.3KG</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605105003</td>
+<td>9300605105003</td>
+<td>PROPLAN 冠能 成貓鮭魚化毛加強配方 2.5KG</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI9300605105119</td>
+<td>9300605105119</td>
+<td>PROPLAN 冠能 小型及迷你熟齡犬7+ MCT活齡配方 2.5KG</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605105348</td>
+<td>9300605105348</td>
+<td>PROPLAN 冠能 小型及迷你成犬鮭魚+魚油敏感皮膚專用配方 2.5KG</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605111103</td>
+<td>9300605111103</td>
+<td>斯博康 成犬牛肉保護力強化配方乾狗糧 18公斤</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605111110</td>
+<td>9300605111110</td>
+<td>斯博康 成犬雞肉消化保健配方乾狗糧 18公斤</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI9300605125117</td>
+<td>9300605125117</td>
+<td>PROPLAN 冠能 幼犬雞肉成長配方 2.5KG</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605125186</td>
+<td>9300605125186</td>
+<td>PROPLAN 冠能 小型及迷你成犬雞肉活力配方 2.5KG</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605125209</td>
+<td>9300605125209</td>
+<td>PROPLAN 冠能 成犬雞肉活力配方 2.5KG</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI9300605128842</td>
+<td>9300605128842</td>
+<td>PROPLAN 冠能 成犬羊肉敏感消化道保健配方 2.5KG</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9300605128903</td>
+<td>9300605128903</td>
+<td>PROPLAN 冠能 幼犬羊肉敏感消化道保健配方 2.5KG</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI9310055416246</td>
+<td>9310055416246</td>
+<td>KELLOGGS 家樂氏 SPECIAL K香脆麥米片 205G</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SI9318637391714</td>
+<td>9318637391714</td>
+<td>Cetaphil 舒特膚溫和乳霜 550g</td>
+<td>94</td>
+</tr>
+<tr>
+<td>SI9319944000054</td>
+<td>9319944000054</td>
+<td>AESOP 伊索 腋下身體噴霧 50ML</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SI9319944008128</td>
+<td>9319944008128</td>
+<td>AESOP 伊索 草本腋下身體噴霧 50ML</td>
+<td>16</td>
+</tr>
+<tr>
+<td>SI9322316001177</td>
+<td>9322316001177</td>
+<td>澳洲G&amp;M 酪梨綿羊霜 Avocado oil Cream 250g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI9322316001214</td>
+<td>9322316001214</td>
+<td>澳洲G&amp;M 茶樹精油平衡霜 Tea Tree Oil Cream250g</td>
+<td>15</td>
+</tr>
+<tr>
+<td>SI9322316001467</td>
+<td>9322316001467</td>
+<td>澳洲G&amp;M 檸檬茶樹生物滋潤精油含維他命E  Lemon Tea Three oil 125ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI9327155003214</td>
+<td>9327155003214</td>
+<td>TRUE BLUE 蜂王乳膠囊</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI9327155005249</td>
+<td>9327155005249</td>
+<td>TRUE BLUE 蜂膠潤喉糖(尤加利+麥蘆卡蜂蜜口味) 500±10公克</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9327269012157</td>
+<td>9327269012157</td>
+<td>SPRING LEAF 綠芙特級 兒童麥盧卡蜂蜜250+ 250G/瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI9327269012614</td>
+<td>9327269012614</td>
+<td>SPRING LEAF 綠芙特級 活力大蒜精華 200顆/瓶</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SI9327269012638</td>
+<td>9327269012638</td>
+<td>SPRING LEAF 綠芙特級 純淨深海魚油 200顆/瓶</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9327269012652</td>
+<td>9327269012652</td>
+<td>SPRING LEAF 綠芙特級 兒童魚油軟膠囊 90顆/瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI9327269012669</td>
+<td>9327269012669</td>
+<td>SPRING LEAF 綠芙特級 袋鼠精+瑪卡 120顆/瓶</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SI9327269015028</td>
+<td>9327269015028</td>
+<td>SPRING LEAF 綠芙特級 蜂王乳軟膠囊1.1% 100顆/瓶</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI9327269015042</td>
+<td>9327269015042</td>
+<td>SPRING LEAF 綠芙特級 蜂膠滴劑40% 25ML</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SI9327269015110</td>
+<td>9327269015110</td>
+<td>SPRING LEAF 綠芙特級 美顏四合一  90顆/瓶</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI9327269015158</td>
+<td>9327269015158</td>
+<td>SPRING LEAF 綠芙特級 卵磷脂膠囊 200顆/瓶</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI9327269015714</td>
+<td>9327269015714</td>
+<td>SPRING LEAF 綠芙特級 艾司亮晶晶葉黃素軟糖 80顆/瓶</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI9327269015738</td>
+<td>9327269015738</td>
+<td>SPRING LEAF 綠芙特級 巴司益生菌軟糖 80顆/瓶</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SI9327269015813</td>
+<td>9327269015813</td>
+<td>SPRING LEAF 綠芙特級 紅萃蔓越莓 30顆/瓶</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9327269015905</td>
+<td>9327269015905</td>
+<td>SPRING LEAF 綠芙特級 高單位蜂膠 90顆/瓶</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SI9420063100744</td>
+<td>9420063100744</td>
+<td>麥蘆卡蜂蜜UMF10+ 500公克</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI9555805800023</td>
+<td>9555805800023</td>
+<td>KELLOGGS 家樂氏陽光樂活大燕麥片 800G</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SI9555805800351</td>
+<td>9555805800351</td>
+<td>KELLOGGS 家樂氏 纖穀脆-超級莓果 330G</td>
+<td>27</td>
+</tr>
+<tr>
+<td>SI9555805800368</td>
+<td>9555805800368</td>
+<td>KELLOGGS 家樂氏 纖穀脆-豐富堅果 330G</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SI9556993669188</td>
+<td>9556993669188</td>
+<td>親愛的 白咖啡 三合一 30公克 X 80包</td>
+<td>119</td>
+</tr>
+<tr>
+<td>SI9556993669195</td>
+<td>9556993669195</td>
+<td>親愛的 白咖啡(不加糖 )二合一 30公克 X 80包</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SI999958703402</td>
+<td>999958703402</td>
+<td>飛狼Yuppie 簡約手提兩用後背包(不分色)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIA001</td>
+<td>A001</td>
+<td>耗材</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SIA142212029100G3</td>
+<td>A142212029100G3</td>
+<td>Apple iPhone 7/8 plus 空壓氣墊保護套</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIB-B004CAB0040AA</td>
+<td>B-B004CAB0040AA</td>
+<td>brii  Type-C收納式傳輸充電線1M_藍</td>
+<td>11</td>
+</tr>
+<tr>
+<td>SIB-L206CHL0020AA</td>
+<td>B-L206CHL0020AA</td>
+<td>brii TWS 球型真無線藍牙可分式立體聲喇叭_全紅</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIB-L206CHL0040AA</td>
+<td>B-L206CHL0040AA</td>
+<td>brii TWS 球型真無線藍牙可分式立體聲喇叭_紅黑</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SIDUOSV60</td>
+<td>DUOSV60</td>
+<td>INSTANT POT 溫控智慧萬用鍋DUO SV 60</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SIG06-2345</td>
+<td>G06-2345</td>
+<td>Huawei贈品-杯</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIG06-2388</td>
+<td>G06-2388</td>
+<td>HUAWEI 贈品-自拍桿</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIG06-2440</td>
+<td>G06-2440</td>
+<td>HUAWEI 贈品-動感大禮包</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SIG06-2461</td>
+<td>G06-2461</td>
+<td>VIVO 贈品-玩美自拍禮盒</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIG06-2492</td>
+<td>G06-2492</td>
+<td>HUAWEI 贈品-新年大好禮</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIG06-2608</td>
+<td>G06-2608</td>
+<td>贈品-簡約證件收納包</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SIK2201</td>
+<td>K2201</td>
+<td>BUYDEEM K2201 多功能烹煮壺</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIPB5200001</td>
+<td>PB5200001</td>
+<td>行動電源 5200mAh(不挑色)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIPJROLYM10001</td>
+<td>PJROLYM10001</td>
+<td>ROLY M1 多功能行動LED微型投影機</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIPTPRODOG003</td>
+<td>PTPRODOG003</td>
+<td>PROPLAN 冠能 小型及迷你成犬鮭魚+魚油敏感皮膚專用配方 30g</td>
+<td>81</td>
+</tr>
+<tr>
+<td>SIRE-BRAIN_R-10003</td>
+<td>RE-BRAIN_R-10003</td>
+<td>Re:Brain 擴香石</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SIROLYM17U00131</td>
+<td>ROLYM17U00131</td>
+<td>ROLY M1 多功能行動LED微型投影機</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SIROLYM1F0001</td>
+<td>ROLYM1F0001</td>
+<td>Roly M1原廠兩用收納包</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SIS0316600</td>
+<td>S0316600</td>
+<td>Kiehl's 契爾氏 冰河保濕無油清爽化妝水(公司貨) 250ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIS0548200</td>
+<td>S0548200</td>
+<td>Kiehl's 契爾氏 激光極淨白淡斑精華 （公司貨） 30ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIS0850902</td>
+<td>S0850902</td>
+<td>Kiehl's 契爾氏 冰河醣蛋白保濕霜 (公司貨)50ml</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIS0926300</td>
+<td>S0926300</td>
+<td>KIEHL'S 契爾氏 金盞花植物精華化妝水 250ml</td>
+<td>197</td>
+</tr>
+<tr>
+<td>SIS1136000</td>
+<td>S1136000</td>
+<td>KIEHLS 契爾氏 冰河保濕玻尿酸晚安面膜 125ML</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIS1193100</td>
+<td>S1193100</td>
+<td>Kiehl's 契爾氏 冰河保濕機能水(公司貨) 250ml</td>
+<td>22</td>
+</tr>
+<tr>
+<td>SIS1243100</td>
+<td>S1243100</td>
+<td>Kiehl's 契爾氏 冰河保濕潔面乳 150ml (公司貨)</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SIS1352200</td>
+<td>S1352200</td>
+<td>Kiehl's 契爾氏 終擊油光男性清爽潔面膠(公司貨) 200ml</td>
+<td>18</td>
+</tr>
+<tr>
+<td>SIS1388200</td>
+<td>S1388200</td>
+<td>Kiehl's 契爾氏 金盞花植物精華潔面泡泡凝露(公司貨） 230ml</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SIS1630900</td>
+<td>S1630900</td>
+<td>Kiehl's 契爾氏 紫鳶青春肌活露 （公司貨）200ml</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SIS1898500</td>
+<td>S1898500</td>
+<td>KIEHLS 契爾氏  超彈潤青春水精華 75ML</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SIS1946800</td>
+<td>S1946800</td>
+<td>KIEHLS 契爾氏 青春痘調理精華乳 60ML</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIS2134700</td>
+<td>S2134700</td>
+<td>Kiehl's 契爾氏 超能全效男性緊膚霜 （公司貨）50ml</td>
+<td>10</td>
+</tr>
+<tr>
+<td>SIS2154700</td>
+<td>S2154700</td>
+<td>Kiehl's 契爾氏 超能全效男性緊膚精華 （公司貨）75ml</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIS2451400</td>
+<td>S2451400</td>
+<td>KIEHL'S 契爾氏 終擊油光男性勁涼噴霧 125ml </td>
+<td>18</td>
+</tr>
+<tr>
+<td>SIS2802900</td>
+<td>S2802900</td>
+<td>Kiehl's 契爾氏 集高效清爽UV防曬乳 SPF50PA+++ 30ml</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SIS2803000</td>
+<td>S2803000</td>
+<td>Kiehl's 契爾氏 集高效清爽UV防護乳 SPF50PA++++ (公司貨)60ml</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIS2826400</td>
+<td>S2826400</td>
+<td>KIEHL'S 契爾氏 激光極淨白去角質潔面膠(公司貨) 150ml</td>
+<td>5</td>
+</tr>
+<tr>
+<td>SIS2828500</td>
+<td>S2828500</td>
+<td>Kiehl's 契爾氏 激光極淨白機能水200ml</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SIS2829300</td>
+<td>S2829300</td>
+<td>KIEHLS 契爾氏 集高效輕透潤色CC霜 SPF50  白皙色30ML</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SIS2906700</td>
+<td>S2906700</td>
+<td>KIEHLS 契爾氏 極限男性長效清爽止汗劑 75ML</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIS3198300</td>
+<td>S3198300</td>
+<td>KIEHLS 契爾氏 金盞花精萃亮采水凝霜（公司貨）50ML</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIS40762700</td>
+<td>S40762700</td>
+<td>Kiehl's 契爾氏 亞馬遜白泥淨緻毛孔化妝水(公司貨) 250ml</td>
+<td>4</td>
+</tr>
+<tr>
+<td>SISV12FLUFFY</td>
+<td>SV12FLUFFY</td>
+<td>DYSON SV12 FLUFFY 吸塵器更換頭</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIXS1CHLGNV0700</td>
+<td>XS1CHLGNV0700</td>
+<td>彩花蜜 台灣養蜂協會驗證-龍眼蜂蜜 700G</td>
+<td>8</td>
+</tr>
+<tr>
+<td>SIXS1CHTWFL1200</td>
+<td>XS1CHTWFL1200</td>
+<td>彩花蜜 台灣嚴選-百花蜂蜜 (Flowers HONEY) 1200g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIXS1CHTWLC0700</td>
+<td>XS1CHTWLC0700</td>
+<td>彩花蜜 台灣嚴選-荔枝蜂蜜 (LITCHI HONEY) 700g</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SIXS1CHTWLC1200</td>
+<td>XS1CHTWLC1200</td>
+<td>彩花蜜 台灣嚴選-荔枝蜂蜜 (LITCHI HONEY) 1200g</td>
+<td>9</td>
+</tr>
+<tr>
+<td>SIXS1CHTWLC3000</td>
+<td>XS1CHTWLC3000</td>
+<td>彩花蜜 台灣嚴選-荔枝蜂蜜 (LITCHI HONEY) 3000g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIXS1CHTWLG0700</td>
+<td>XS1CHTWLG0700</td>
+<td>彩花蜜 台灣嚴選-龍眼蜂蜜 (LONGAN HONEY) 700g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIXS1CHTWLG1200</td>
+<td>XS1CHTWLG1200</td>
+<td>彩花蜜 台灣嚴選-龍眼蜂蜜 (LONGAN HONEY) 1200g</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SIXS1CHTWLG3000</td>
+<td>XS1CHTWLG3000</td>
+<td>彩花蜜 台灣嚴選-龍眼蜂蜜 (LONGAN HONEY) 3000g</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SIXS1LTHNV0700A</td>
+<td>XS1LTHNV0700A</td>
+<td>彩花蜜 台灣養蜂協會驗證-荔枝蜂蜜 700G</td>
+<td>7</td>
+</tr>
+</tbody></table>
+
+
+
+
+
+
+ <style>
+::selection { background: none repeat scroll 0% 0% transparent;text-shadow: 0px 0px 5px cyan;}
+input::selection, textarea::selection { color: turquoise; background: none repeat scroll 0% 0% transparent;}
+a::selection { background: none repeat scroll 0% 0% transparent;text-shadow: 0px 0px 5px lime;}
+</style></body><style>.imu-333efda248-highlight{outline: 4px solid yellow !important}</style></html>
