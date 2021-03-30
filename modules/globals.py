@@ -10,4 +10,4 @@ log_file = "main.log"
 mock_web = True
 
 # similarity threshold to consider two products the same
-threshold = 0.8
+similarity_threshold = 0.8

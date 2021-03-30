@@ -1,6 +1,112 @@
 from modules.libraries import *
 import modules.utilities
 
+" ========== CLASSES ========== "
+
+class Purifier:
+    """Perform preprocessing on product name for more accurate comparison.
+    (Assume brand name is already removed)
+    """
+    purified: str
+
+    def __init__(self, product: str):
+        # original product name
+        self.original = product
+        # processed product name (initially equal to the original)
+        self.purified = product
+        # preprocess product name
+        self.purify()
+
+    def purify(self):
+        """Call various methods to clean up product name."""
+        # perform preprocessing here
+        self.replaceKeywords()
+        self.purified = self.purified.lower()
+        self.purified = self.purified.replace(" ", "")
+        # remove spaces before stripping quantity tag
+        self.stripQuantity()
+        return self.purified
+
+    def replaceKeywords(self):
+        # dict to map certain keywords to their standardized equivalents
+        # make sure to put longer keywords in front so they get replaced first
+        repl_dict = {
+            "公升": "L",
+            "毫升": "mL",
+            "毫米": "mm",
+            "公斤": "kg",
+            "公克": "g",
+            "毫克": "mg",
+            "微克": "ug",
+            "米" : "M",
+            "克" : "g",
+        }
+        for old, new in repl_dict.items():
+            self.purified = self.purified.replace(old, new)
+
+    def stripQuantity(self):
+        # self.purified = re.sub(r"[xX*][0-9]*入?組?$", "", self.purified)
+        # do nothing until certain what to do with quantities
+        pass
+
+class Filter:
+    IDENTICAL = 99999
+    SUBSTRING_RELATION = 111
+    MISSING_REQUIRED_KEYWORD = 222
+    NUMBER_MISMATCH = 333
+
+    def __init__(self, product: str, ware: str):
+        self.product: str = product
+        self.ware: str = ware
+
+    def verdict(self):
+        """Return True if ware if to be accepted as equal, False if ware is to be rejected, None if no conclusion can be drawn.
+        If no conclusion can be drawn, carry on with string similarity comparison.
+        """
+        if self.checkIdentical() is True:
+            return Filter.IDENTICAL
+        if self.checkSubstringRelation() is True:
+            return Filter.SUBSTRING_RELATION
+        if self.checkRequiredKeywords() is False:
+            return Filter.MISSING_REQUIRED_KEYWORD
+        if self.checkNumbers() is False:
+            return Filter.NUMBER_MISMATCH
+
+    def checkIdentical(self):
+        """Check if product and ware are identical without brand and spaces."""
+        if self.product.replace(" ", "") == self.ware.replace(" ", ""):
+            return True
+
+    def checkSubstringRelation(self):
+        """Check if product or ware contain each other as a substring.
+        If yes, consider them equal.
+        """
+        product_compact = self.product.replace(" ", "")
+        ware_compact = self.ware.replace(" ", "")
+        if (product_compact in ware_compact) or (ware_compact in product_compact):
+            return True
+
+    def checkRequiredKeywords(self):
+        """Check if the ware contains all *necessary keywords* in product.
+        If not, consider them unequal.
+        """
+        color_keywords = "黑紅藍綠橙黃紫黑白金銀"
+        for color in color_keywords:
+            if (color in self.product) and (color not in self.ware):
+                return False
+
+    def checkNumbers(self):
+        """Check if the numbers (weight, size, quantity, etc...) match.
+        If not, consider them unequal.
+        """
+        product_nums: list[str] = re.findall(r"[0-9]+(\.[0-9]+)?", self.product)
+        ware_nums: list[str] = re.findall(r"[0-9]+(\.[0-9]+)?", self.product)
+        for num in range(min(len(product_nums), len(ware_nums))):
+            if product_nums[num] != ware_nums[num]:
+                return False
+
+" ========== FUNCTIONS ========== "
+
 def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Brand]) -> dict[str, list[str]]:
     """Make a dict to classify wares by brand name
     Input: product list and brand list
@@ -42,7 +148,7 @@ def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Bra
     return ware_dict
 
 def stripBrand(product: str, brand: modules.utilities.Brand) -> str:
-    """Remove brand info from product name.
+    """Remove brand info from product name (need to know the brand beforehand).
     Input: Product name and brand name
     Output: Product name without chinese or english brand name
     """
@@ -56,25 +162,30 @@ def stripBrand(product: str, brand: modules.utilities.Brand) -> str:
     return product.strip()
 
 def splitBrandProduct(brand_list: list[modules.utilities.Brand], product: str) -> (modules.utilities.Brand, str):
-    """Split full product name into brand and pure product name.
+    """Split full product name into brand and pure product name (searches for a matching brand).
     Input: list of brands, product name to split
-    Output: (brand-obj, pure-product), or None if brand not found
+    Output: (brand, brandless-product), with brand=UNKNOWN_BRAND if not found
     """
     # only need to one of brand.ch/brand.eng to find its place in wares dict
-    pure_brand = modules.utilities.Brand(None, None, None)  # type:modules.utilities.Brand
     pure_product = product  # type:str
+    # identify brand and purify product name
+    matching_brand = None
     for cur_brand in brand_list:  # type:modules.utilities.Brand
-        if cur_brand.ch is not None and re.search(cur_brand.ch, pure_product, re.IGNORECASE):
-            pure_brand.ch = cur_brand.ch
-            pure_product = re.sub(cur_brand.ch, "", pure_product)  # return modules.utilities.Brand(brand.ch, None, None), re.sub(brand.ch, "", product, flags = re.IGNORECASE).strip()
-        if cur_brand.eng is not None and re.search(cur_brand.eng, product, re.IGNORECASE):
-            pure_brand.eng = cur_brand.eng
-            pure_product = re.sub(cur_brand.eng, "", pure_product)
-            break  # return modules.utilities.Brand(None, cur_brand.eng, None), re.sub(cur_brand.eng, "", product, flags = re.IGNORECASE).strip()
-
-    if pure_product != product:
-        # brand found
-        return pure_brand, pure_product.strip()
+        if cur_brand.ch is not None and re.search(cur_brand.ch, pure_product, flags = re.IGNORECASE) is not None:
+            matching_brand = cur_brand
+            break
+        if cur_brand.eng is not None and re.search(cur_brand.eng, pure_product, flags = re.IGNORECASE) is not None:
+            matching_brand = cur_brand
+            break
+    # if brand has been found
+    if matching_brand is not None:
+        if matching_brand.ch is not None:
+            pure_product = re.sub(matching_brand.ch, "", pure_product, flags = re.IGNORECASE)
+        if matching_brand.eng is not None:
+            pure_product = re.sub(matching_brand.eng, "", pure_product, flags = re.IGNORECASE)
+        if matching_brand.aliases is not None:
+            for alias in matching_brand.aliases:
+                pure_product = re.sub(alias, "", pure_product, flags = re.IGNORECASE)
+        return matching_brand, pure_product.strip()
     else:
-        # brand not found
-        return modules.utilities.Brand(None, None, None), product
+        return modules.utilities.UNKNOWN_BRAND, product

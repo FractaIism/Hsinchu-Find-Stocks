@@ -1,32 +1,7 @@
 from modules.libraries import *
 import modules.globals
 
-# ========== EXTERNALS ========== #
-# (to be accessed from other modules)
-def similarity(product1: str, product2: str, ws: xlwings.Sheet, row: int):
-    product1 = product1.lower()
-    product2 = product2.lower()
-    sim = difflib.SequenceMatcher(None, product1, product2).quick_ratio()
-    if sim >= modules.globals.threshold:
-        ws[f"T{row}"].value = product1
-        ws[f"U{row}"].value = product2
-        ws[f"V{row}"].value = sim
-        return True
-    else:
-        return False
-
-def isSamePureProduct(product1: str, product2: str) -> bool:
-    """Compare pure product names and determine if they are the same."""
-    if difflib.SequenceMatcher(None, product1.lower(), product2.lower()).quick_ratio() >= modules.globals.threshold:
-        return True
-    else:
-        return False
-
-def logNprint(msg, *args) -> None:
-    """Output message to both console and log file. (tee!)"""
-    for m in [msg, *args]:
-        print(m)
-        logging.info(m)
+" ========== CLASSES ========== "
 
 class Brand:
     def __init__(self, ch: str = None, eng: str = None, aliases: list[str] = None):
@@ -52,12 +27,38 @@ class Brand:
 class Success(Exception):
     pass
 
-# ========== INTERNALS ========== #
-# (only used within this module as subroutines)
+class Match:
+    def __init__(self, original: str, pure: str, similarity: float):
+        self.original = original
+        self.pure = pure
+        self.similarity = similarity
 
+" ========== CONSTANTS ========== "
 
-# ========== DEPRECATED ========== #
-""" Deprecated code """
+UNKNOWN_BRAND = Brand(None, None, None)
+
+" ========== FUNCTIONS ========== "
+
+def similarity(product1: str, product2: str):
+    # product1 = product1.lower()
+    # product2 = product2.lower()
+    sim = difflib.SequenceMatcher(None, product1, product2).quick_ratio()
+    return sim
+
+def isSamePureProduct(product1: str, product2: str) -> bool:
+    """Compare pure product names and determine if they are the same."""
+    if difflib.SequenceMatcher(None, product1.lower(), product2.lower()).quick_ratio() >= modules.globals.similarity_threshold:
+        return True
+    else:
+        return False
+
+def logNprint(msg, *args) -> None:
+    """Output message to both console and log file. (tee!)"""
+    for m in [msg, *args]:
+        print(m)
+        logging.info(m)
+
+" ========== DEPRECATED ========== "
 
 # def searchProduct(product_name):
 #     """DEPRECATED

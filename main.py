@@ -11,7 +11,7 @@ def main():
     timer.checkpoint("Acquired excel sheet")
 
     # fetch product list to search for
-    product_list = modules.excel_handler.getProductList(ws)
+    product_list = modules.excel_handler.getProductList()
     timer.checkpoint("Acquire product list")
     logNprint("Product list:", f"{len(product_list)} {product_list}")
 
@@ -28,31 +28,57 @@ def main():
     # perform pairwise compare to find matching products
     found_count = 0
     for idx, prod in enumerate(product_list):
-        # by "pure_brand" we mean the brand name alone without any specific product information
-        # by "pure_product" we mean the product name alone without any brand information
-        brand, pure_product = modules.preprocessing.splitBrandProduct(brand_list, prod)
-        found_ware = ""  # type:str
+        # store matching items in a list and similarity score, and output the best match at the end
+        match_list = list([])  # type:list[modules.utilities.Match]
+        brand, brandless_product = modules.preprocessing.splitBrandProduct(brand_list, prod)
+        pure_product = modules.preprocessing.Purifier(brandless_product).purify()
 
-        if brand != modules.utilities.Brand(None, None, None):
-            # if product brand is found, compare within the same brand
-            for ware in wares_by_brand[brand.primary()]:
-                pure_ware = modules.preprocessing.stripBrand(ware, brand)
-                # if modules.utilities.isSamePureProduct(pure_product, pure_ware):
-                if modules.utilities.similarity(pure_product, pure_ware, ws, idx + 2):
-                    found_ware = ware  # output original ware name to excel (including brand)
-                    found_count += 1
-                    break
-        else:
-            # if product has no brand, compare with unbranded products
-            for ware in wares_by_brand["unknown"]:
-                if modules.utilities.isSamePureProduct(pure_product, ware):
-                    found_ware = ware
-                    found_count += 1
-                    break
+        # compare against items of the same brand
+        for ware in wares_by_brand[brand.primary()]:
+            brandless_ware = modules.preprocessing.stripBrand(ware, brand)
+            # first perform some easy checks for fast results
+            verdict = modules.preprocessing.Filter(brandless_product, brandless_ware).verdict()
+            if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
+                match_list.append(modules.utilities.Match(ware, brandless_ware, verdict))
+                continue
+            elif verdict is not None:
+                continue
+            # compare pure products
+            pure_ware = modules.preprocessing.Purifier(brandless_ware).purify()
+            # if modules.utilities.isSamePureProduct(pure_product, pure_ware):
+            similarity = modules.utilities.similarity(pure_product, pure_ware)
+            if similarity >= modules.globals.similarity_threshold:
+                match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
         # write back to excel
-        ws[f'f{2 + idx}'].value = found_ware if found_ware != "" else r"¯\_(ツ)_/¯"
+        row = idx + 2  # row number of product in excel
+        print(row)
+        if len(match_list) > 0:
+            # find best match
+            best_match = max(match_list, key = lambda match: match.similarity)
+            ws[f'F{row}'].value = best_match.original
+            ws[f'T{row}'].value = pure_product
+            ws[f'U{row}'].value = best_match.pure
+            ws[f'V{row}'].value = best_match.similarity
+            if best_match.similarity in (1, modules.preprocessing.Filter.IDENTICAL):
+                ws[f'f{row}'].color = (0, 255, 0)  # bright green
+            elif best_match.similarity == modules.preprocessing.Filter.SUBSTRING_RELATION:
+                ws[f'f{row}'].color = (0, 200, 0)  # dark green
+            else:
+                ws[f'f{row}'].color = (255, 255, 0)  # bright yellow
+            found_count += 1
+        else:
+            ws[f'F{row}'].value = r"¯\_(ツ)_/¯"
+            ws[f'T{row}'].value = "-"
+            ws[f'U{row}'].value = "-"
+            ws[f'V{row}'].value = "-"
+            ws[f'F{row}'].color = (200, 200, 200)
+
     timer.checkpoint("Pairwise compare")
     logNprint(f"Found: {found_count}/{len(product_list)}")
+
+if __name__ == '__main__':
+    xlwings.Book(globals.bookname).set_mock_caller()
+    main()
 
 # def main_old():
 #     """DEPRECATED
@@ -72,7 +98,3 @@ def main():
 #     logNprint("Time elapsed: %.3f" % float(t2 - t1))
 #     # write results back to excel
 #     ws['f2'].value = results
-
-if __name__ == '__main__':
-    xlwings.Book(globals.bookname).set_mock_caller()
-    main()
