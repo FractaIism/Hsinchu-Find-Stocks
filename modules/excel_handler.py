@@ -34,7 +34,7 @@ def getBrandList() -> list[modules.utilities.Brand]:
         eng = ws[f"B{row}"].value
         aliases_str = ws[f"C{row}"].value
         # convert csv to list, default to empty list if no alias exists
-        aliases_list = csv2list(aliases_str) if aliases_str is not None else []
+        aliases_list = csv2list(aliases_str) if aliases_str is not None else None
         brand = modules.utilities.Brand(ch, eng, aliases_list)
         brand_list.append(brand)
         row += 1

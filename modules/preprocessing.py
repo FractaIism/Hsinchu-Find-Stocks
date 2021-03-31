@@ -120,8 +120,9 @@ def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Bra
     # chinese, english, and alias brand names all point to the same list object
     for brand in brand_list:  # type:modules.utilities.Brand
         ware_dict[brand.ch] = ware_dict[brand.eng] = []
-        for alias in brand.aliases:  # type:str
-            ware_dict[alias] = ware_dict[brand.eng]
+        if brand.aliases is not None:
+            for alias in brand.aliases:  # type:str
+                ware_dict[alias] = ware_dict[brand.eng]
 
     # add products to their brand list
     for product in ware_list:  # type:str
@@ -135,7 +136,7 @@ def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Bra
                     # ware_dict[brand.eng].append(stripBrand(product, brand))
                     ware_dict[brand.eng].append(product)
                     raise modules.utilities.Success
-                else:
+                elif brand.aliases is not None:
                     for alias in brand.aliases:  # type:str
                         if alias is not None and re.search(alias, product, flags = re.IGNORECASE):
                             ware_dict[alias].append(stripBrand(product, brand))

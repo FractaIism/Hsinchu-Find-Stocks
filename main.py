@@ -1,5 +1,4 @@
 from modules import *
-
 def main():
     # use this as a hack to set CWD to project dir in all modules (does it work?)
     os.chdir(os.path.dirname(sys.argv[0]))
@@ -36,7 +35,7 @@ def main():
         # compare against items of the same brand
         for ware in wares_by_brand[brand.primary()]:
             brandless_ware = modules.preprocessing.stripBrand(ware, brand)
-            # first perform some easy checks for fast results
+            # first perform some basic checks (heuristics)
             verdict = modules.preprocessing.Filter(brandless_product, brandless_ware).verdict()
             if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
                 match_list.append(modules.utilities.Match(ware, brandless_ware, verdict))
@@ -45,10 +44,35 @@ def main():
                 continue
             # compare pure products
             pure_ware = modules.preprocessing.Purifier(brandless_ware).purify()
-            # if modules.utilities.isSamePureProduct(pure_product, pure_ware):
             similarity = modules.utilities.similarity(pure_product, pure_ware)
             if similarity >= modules.globals.similarity_threshold:
                 match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
+
+        if len(match_list) == 0:
+            if brand.primary() != "unknown":
+                # if no match found in brand, try searching unbranded wares
+                for ware in wares_by_brand["unknown"]:
+                    pure_ware = modules.preprocessing.Purifier(ware).purify()
+                    similarity = modules.utilities.similarity(pure_product, pure_ware)
+                    if similarity >= modules.globals.similarity_threshold:
+                        match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
+            else:
+                # if no brand and no match, search through all wares
+                for ware in wares_by_brand["all"]:
+                    _, brandless_ware = modules.preprocessing.splitBrandProduct(brand_list, ware)
+                    # first perform some basic checks (heuristics)
+                    verdict = modules.preprocessing.Filter(brandless_product, brandless_ware).verdict()
+                    if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
+                        match_list.append(modules.utilities.Match(ware, brandless_ware, modules.preprocessing.Filter.SUBSTRING_RELATION))
+                        continue
+                    elif verdict is not None:
+                        continue
+                    # compare pure products
+                    pure_ware = modules.preprocessing.Purifier(brandless_ware).purify()
+                    similarity = modules.utilities.similarity(pure_product, pure_ware)
+                    if similarity >= modules.globals.similarity_threshold:
+                        match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
+
         # write back to excel
         row = idx + 2  # row number of product in excel
         print(row)

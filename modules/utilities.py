@@ -22,7 +22,7 @@ class Brand:
             return self.ch
         if self.eng is not None:
             return self.eng
-        return None
+        return "unknown"
 
 class Success(Exception):
     pass
