@@ -3,53 +3,8 @@ import modules.utilities
 
 " ========== CLASSES ========== "
 
-class Purifier:
-    """Perform preprocessing on product name for more accurate comparison.
-    (Assume brand name is already removed)
-    """
-    purified: str
-
-    def __init__(self, product: str):
-        # original product name
-        self.original = product
-        # processed product name (initially equal to the original)
-        self.purified = product
-        # preprocess product name
-        self.purify()
-
-    def purify(self):
-        """Call various methods to clean up product name."""
-        # perform preprocessing here
-        self.replaceKeywords()
-        self.purified = self.purified.lower()
-        self.purified = self.purified.replace(" ", "")
-        # remove spaces before stripping quantity tag
-        self.stripQuantity()
-        return self.purified
-
-    def replaceKeywords(self):
-        # dict to map certain keywords to their standardized equivalents
-        # make sure to put longer keywords in front so they get replaced first
-        repl_dict = {
-            "公升": "L",
-            "毫升": "mL",
-            "毫米": "mm",
-            "公斤": "kg",
-            "公克": "g",
-            "毫克": "mg",
-            "微克": "ug",
-            "米" : "M",
-            "克" : "g",
-        }
-        for old, new in repl_dict.items():
-            self.purified = self.purified.replace(old, new)
-
-    def stripQuantity(self):
-        # self.purified = re.sub(r"[xX*][0-9]*入?組?$", "", self.purified)
-        # do nothing until certain what to do with quantities
-        pass
-
 class Filter:
+    """Perform preliminary simple checks to directly accept/reject certain wares."""
     IDENTICAL = 999
     SUBSTRING_RELATION = 111
     MISSING_REQUIRED_KEYWORD = 222
@@ -195,3 +150,38 @@ def splitBrandProduct(brand_list: list[modules.utilities.Brand], product: str) -
         return matching_brand, pure_product.strip()
     else:
         return modules.utilities.UNKNOWN_BRAND, product
+
+@functools.cache
+def purify(product: str):
+    """Call various methods to clean up product name."""
+
+    def replaceKeywords(product: str):
+        # dict to map certain keywords to their standardized equivalents
+        # make sure to put longer keywords in front so they get replaced first
+        repl_dict = {
+            "公升": "L",
+            "毫升": "mL",
+            "毫米": "mm",
+            "公斤": "kg",
+            "公克": "g",
+            "毫克": "mg",
+            "微克": "ug",
+            "米" : "M",
+            "克" : "g",
+        }
+        new_product = product
+        for old, new in repl_dict.items():
+            new_product = new_product.replace(old, new)
+        return new_product
+
+    def stripQuantity():
+        # self.purified = re.sub(r"[xX*][0-9]*入?組?$", "", self.purified)
+        # do nothing until certain what to do with quantities
+        pass
+
+    # perform preprocessing here
+    purified: str = product
+    purified = replaceKeywords(purified)
+    purified = purified.lower()
+    purified = purified.replace(" ", "")
+    return purified

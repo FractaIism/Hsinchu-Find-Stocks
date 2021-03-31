@@ -1,9 +1,9 @@
 from modules import *
+import time
+
 def main():
-    # use this as a hack to set CWD to project dir in all modules (does it work?)
-    os.chdir(os.path.dirname(sys.argv[0]))
     # logging setup for use anywhere in the project
-    logging.basicConfig(filename = globals.log_file, filemode = 'w', level = logging.DEBUG)
+    logging.basicConfig(filename = modules.globals.log_file, filemode = 'w', level = logging.DEBUG)
     timer = modules.checkpoint_timer.Timer()
     timer.checkpoint("Initial")
     ws = xlwings.Book.caller().sheets[0]
@@ -30,9 +30,9 @@ def main():
         # store matching items in a list and similarity score, and output the best match at the end
         match_list = list([])  # type:list[modules.utilities.Match]
         brand, brandless_product = modules.preprocessing.splitBrandProduct(brand_list, prod)
-        pure_product = modules.preprocessing.Purifier(brandless_product).purify()
+        pure_product = modules.preprocessing.purify(brandless_product)
 
-        # compare against items of the same brand
+        # compare with items of the same brand (or "unknown" if no brand)
         for ware in wares_by_brand[brand.primary()]:
             brandless_ware = modules.preprocessing.stripBrand(ware, brand)
             # first perform some basic checks (heuristics)
@@ -43,7 +43,7 @@ def main():
             elif verdict is not None:
                 continue
             # compare pure products
-            pure_ware = modules.preprocessing.Purifier(brandless_ware).purify()
+            pure_ware = modules.preprocessing.purify(brandless_ware)
             similarity = modules.utilities.similarity(pure_product, pure_ware)
             if similarity >= modules.globals.similarity_threshold:
                 match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
@@ -52,7 +52,7 @@ def main():
             if brand.primary() != "unknown":
                 # if no match found in brand, try searching unbranded wares
                 for ware in wares_by_brand["unknown"]:
-                    pure_ware = modules.preprocessing.Purifier(ware).purify()
+                    pure_ware = modules.preprocessing.purify(ware)
                     similarity = modules.utilities.similarity(pure_product, pure_ware)
                     if similarity >= modules.globals.similarity_threshold:
                         match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
@@ -68,7 +68,7 @@ def main():
                     elif verdict is not None:
                         continue
                     # compare pure products
-                    pure_ware = modules.preprocessing.Purifier(brandless_ware).purify()
+                    pure_ware = modules.preprocessing.purify(brandless_ware)
                     similarity = modules.utilities.similarity(pure_product, pure_ware)
                     if similarity >= modules.globals.similarity_threshold:
                         match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
@@ -101,6 +101,7 @@ def main():
     logNprint(f"Found: {found_count}/{len(product_list)}")
 
 if __name__ == '__main__':
+    os.chdir(os.path.dirname(sys.argv[0]))
     xlwings.Book(globals.bookname).set_mock_caller()
     main()
 
