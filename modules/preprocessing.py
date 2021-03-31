@@ -50,7 +50,7 @@ class Purifier:
         pass
 
 class Filter:
-    IDENTICAL = 99999
+    IDENTICAL = 999
     SUBSTRING_RELATION = 111
     MISSING_REQUIRED_KEYWORD = 222
     NUMBER_MISMATCH = 333
@@ -166,17 +166,22 @@ def splitBrandProduct(brand_list: list[modules.utilities.Brand], product: str) -
     Input: list of brands, product name to split
     Output: (brand, brandless-product), with brand=UNKNOWN_BRAND if not found
     """
-    # only need to one of brand.ch/brand.eng to find its place in wares dict
+
+    def findMatchingBrand(brand_list, product):
+        for cur_brand in brand_list:  # type:modules.utilities.Brand
+            if cur_brand.ch is not None and re.search(cur_brand.ch, pure_product, flags = re.IGNORECASE) is not None:
+                return cur_brand
+            if cur_brand.eng is not None and re.search(cur_brand.eng, pure_product, flags = re.IGNORECASE) is not None:
+                return cur_brand
+            if cur_brand.aliases is not None:
+                for alias in cur_brand.aliases:
+                    if re.search(alias, pure_product, flags = re.IGNORECASE):
+                        return cur_brand
+
+    # only need one of brand.ch/brand.eng to find its place in wares dict
     pure_product = product  # type:str
-    # identify brand and purify product name
-    matching_brand = None
-    for cur_brand in brand_list:  # type:modules.utilities.Brand
-        if cur_brand.ch is not None and re.search(cur_brand.ch, pure_product, flags = re.IGNORECASE) is not None:
-            matching_brand = cur_brand
-            break
-        if cur_brand.eng is not None and re.search(cur_brand.eng, pure_product, flags = re.IGNORECASE) is not None:
-            matching_brand = cur_brand
-            break
+    # identify and strip brand from product
+    matching_brand = findMatchingBrand(brand_list, product)
     # if brand has been found
     if matching_brand is not None:
         if matching_brand.ch is not None:
