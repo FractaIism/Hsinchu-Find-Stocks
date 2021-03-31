@@ -62,7 +62,7 @@ class Filter:
 
 " ========== FUNCTIONS ========== "
 
-def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Brand]) -> dict[str, list[str]]:
+def getWaresByBrand(ware_list: list[modules.utilities.Ware], brand_list: list[modules.utilities.Brand]) -> dict[str, list[modules.utilities.Ware]]:
     """Make a dict to classify wares by brand name
     Input: product list and brand list
     Output: dict with keys=brand name and values=list of products pertaining to the brand
@@ -71,7 +71,7 @@ def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Bra
     ware_dict = {
         'unknown': [],
         'all'    : ware_list,
-    }
+    }  # type:dict[str,list[modules.utilities.Ware]]
     # chinese, english, and alias brand names all point to the same list object
     for brand in brand_list:  # type:modules.utilities.Brand
         ware_dict[brand.ch] = ware_dict[brand.eng] = []
@@ -80,24 +80,22 @@ def getWaresByBrand(ware_list: list[str], brand_list: list[modules.utilities.Bra
                 ware_dict[alias] = ware_dict[brand.eng]
 
     # add products to their brand list
-    for product in ware_list:  # type:str
+    for ware in ware_list:  # type:modules.utilities.Ware
         try:
             for brand in brand_list:  # type:modules.utilities.Brand
-                if brand.ch is not None and re.search(brand.ch, product, flags = re.IGNORECASE):
-                    # ware_dict[brand.ch].append(stripBrand(product, brand))
-                    ware_dict[brand.ch].append(product)
+                if brand.ch is not None and re.search(brand.ch, ware.name, flags = re.IGNORECASE):
+                    ware_dict[brand.ch].append(ware)
                     raise modules.utilities.Success
-                elif brand.eng is not None and re.search(brand.eng, product, flags = re.IGNORECASE):
-                    # ware_dict[brand.eng].append(stripBrand(product, brand))
-                    ware_dict[brand.eng].append(product)
+                elif brand.eng is not None and re.search(brand.eng, ware.name, flags = re.IGNORECASE):
+                    ware_dict[brand.eng].append(ware)
                     raise modules.utilities.Success
                 elif brand.aliases is not None:
                     for alias in brand.aliases:  # type:str
-                        if alias is not None and re.search(alias, product, flags = re.IGNORECASE):
-                            ware_dict[alias].append(stripBrand(product, brand))
+                        if alias is not None and re.search(alias, ware.name, flags = re.IGNORECASE):
+                            ware_dict[alias].append(ware)
                             raise modules.utilities.Success
             # if any of the above succeeds, this line is skipped
-            ware_dict['unknown'].append(product)
+            ware_dict['unknown'].append(ware)
         except modules.utilities.Success:
             # use a dummy exception to signify success
             continue

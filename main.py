@@ -1,5 +1,4 @@
 from modules import *
-import time
 
 def main():
     # logging setup for use anywhere in the project
@@ -11,13 +10,13 @@ def main():
 
     # fetch product list to search for
     product_list = modules.excel_handler.getProductList()
-    timer.checkpoint("Acquire product list")
+    timer.checkpoint("Acquired product list")
     logNprint("Product list:", f"{len(product_list)} {product_list}")
 
     # fetch ware list from hsinchu logistics
     ware_list = modules.web_crawler.listWarehouse()
     timer.checkpoint("Acquire ware list")
-    logNprint("Warehouse list:", f"{len(ware_list)} {ware_list}")
+    logNprint("Warehouse list:", f"{len(ware_list)} {[(ware.name, ware.quantity) for ware in ware_list]}")
 
     # organize ware list into a dict (classify by brand name)
     brand_list = modules.excel_handler.getBrandList()
@@ -34,44 +33,44 @@ def main():
 
         # compare with items of the same brand (or "unknown" if no brand)
         for ware in wares_by_brand[brand.primary()]:
-            brandless_ware = modules.preprocessing.stripBrand(ware, brand)
+            brandless_warename = modules.preprocessing.stripBrand(ware.name, brand)
             # first perform some basic checks (heuristics)
-            verdict = modules.preprocessing.Filter(brandless_product, brandless_ware).verdict()
+            verdict = modules.preprocessing.Filter(brandless_product, brandless_warename).verdict()
             if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
-                match_list.append(modules.utilities.Match(ware, brandless_ware, verdict))
+                match_list.append(modules.utilities.Match(ware, brandless_warename, verdict))
                 continue
             elif verdict is not None:
                 continue
             # compare pure products
-            pure_ware = modules.preprocessing.purify(brandless_ware)
-            similarity = modules.utilities.similarity(pure_product, pure_ware)
+            pure_warename = modules.preprocessing.purify(brandless_warename)
+            similarity = modules.utilities.similarity(pure_product, pure_warename)
             if similarity >= modules.globals.similarity_threshold:
-                match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
+                match_list.append(modules.utilities.Match(ware, pure_warename, similarity))
 
         if len(match_list) == 0:
             if brand.primary() != "unknown":
                 # if no match found in brand, try searching unbranded wares
                 for ware in wares_by_brand["unknown"]:
-                    pure_ware = modules.preprocessing.purify(ware)
-                    similarity = modules.utilities.similarity(pure_product, pure_ware)
+                    pure_warename = modules.preprocessing.purify(ware.name)
+                    similarity = modules.utilities.similarity(pure_product, pure_warename)
                     if similarity >= modules.globals.similarity_threshold:
-                        match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
+                        match_list.append(modules.utilities.Match(ware, pure_warename, similarity))
             else:
                 # if no brand and no match, search through all wares
                 for ware in wares_by_brand["all"]:
-                    _, brandless_ware = modules.preprocessing.splitBrandProduct(brand_list, ware)
+                    _, brandless_warename = modules.preprocessing.splitBrandProduct(brand_list, ware.name)
                     # first perform some basic checks (heuristics)
-                    verdict = modules.preprocessing.Filter(brandless_product, brandless_ware).verdict()
+                    verdict = modules.preprocessing.Filter(brandless_product, brandless_warename).verdict()
                     if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
-                        match_list.append(modules.utilities.Match(ware, brandless_ware, modules.preprocessing.Filter.SUBSTRING_RELATION))
+                        match_list.append(modules.utilities.Match(ware, brandless_warename, modules.preprocessing.Filter.SUBSTRING_RELATION))
                         continue
                     elif verdict is not None:
                         continue
                     # compare pure products
-                    pure_ware = modules.preprocessing.purify(brandless_ware)
-                    similarity = modules.utilities.similarity(pure_product, pure_ware)
+                    pure_warename = modules.preprocessing.purify(brandless_warename)
+                    similarity = modules.utilities.similarity(pure_product, pure_warename)
                     if similarity >= modules.globals.similarity_threshold:
-                        match_list.append(modules.utilities.Match(ware, pure_ware, similarity))
+                        match_list.append(modules.utilities.Match(ware, pure_warename, similarity))
 
         # write back to excel
         row = idx + 2  # row number of product in excel
@@ -79,19 +78,21 @@ def main():
         if len(match_list) > 0:
             # find best match
             best_match = max(match_list, key = lambda match: match.similarity)
-            ws[f'F{row}'].value = best_match.original
+            ws[f'F{row}'].value = best_match.original.name
+            ws[f'G{row}'].value = best_match.original.quantity
             ws[f'T{row}'].value = pure_product
             ws[f'U{row}'].value = best_match.pure
             ws[f'V{row}'].value = best_match.similarity
             if best_match.similarity in (1, modules.preprocessing.Filter.IDENTICAL):
-                ws[f'f{row}'].color = (0, 255, 0)  # bright green
+                ws[f'F{row}'].color = (0, 255, 0)  # bright green
             elif best_match.similarity == modules.preprocessing.Filter.SUBSTRING_RELATION:
-                ws[f'f{row}'].color = (0, 200, 0)  # dark green
+                ws[f'F{row}'].color = (0, 255, 255)  # dark cyan
             else:
-                ws[f'f{row}'].color = (255, 255, 0)  # bright yellow
+                ws[f'F{row}'].color = (255, 255, 0)  # bright yellow
             found_count += 1
         else:
             ws[f'F{row}'].value = r"¯\_(ツ)_/¯"
+            ws[f'G{row}'].value = "-"
             ws[f'T{row}'].value = "-"
             ws[f'U{row}'].value = "-"
             ws[f'V{row}'].value = "-"

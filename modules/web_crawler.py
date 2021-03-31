@@ -5,7 +5,7 @@ import modules.globals
 # start session to preserve cookies
 session = requests.Session()
 
-def listWarehouse() -> list[str]:
+def listWarehouse() -> list[modules.utilities.Ware]:
     """Get a list of wares from 庫存總表
     Input: None
     Output: List of product names in the warehouse"""
@@ -31,10 +31,13 @@ def listWarehouse() -> list[str]:
         logging.error(soup.prettify())
         raise Exception("You are not logged in.")
     trs = table.find_all('tr')  # type:list[BeautifulSoup]
-    # preallocate list for slight performance gains
-    ware_list = [r"¯\_(ツ)_/¯" for x in range(len(trs))]  # type:list[str]
+    # preallocate list for infinitesimal performance gains
+    ware_list = [modules.utilities.Ware(r"¯\_(ツ)_/¯", 1) for x in range(len(trs))]  # type:list[modules.utilities.Ware]
     for index, tr in enumerate(trs):
-        ware_list[index] = tr.find_all('td')[2].contents[0]
+        # ware_list[index] = tr.find_all('td')[2].contents[0]
+        ware_name = tr.find_all('td')[2].contents[0]
+        ware_quantity = tr.find_all('td')[3].contents[0]
+        ware_list[index] = modules.utilities.Ware(ware_name, ware_quantity)
     # remove 0th element '產品名稱'
     ware_list.pop(0)
     return ware_list

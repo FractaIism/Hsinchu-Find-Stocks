@@ -24,11 +24,16 @@ class Brand:
             return self.eng
         return "unknown"
 
+class Ware:
+    def __init__(self, name: str, quantity: int):
+        self.name = name
+        self.quantity = quantity
+
 class Success(Exception):
     pass
 
 class Match:
-    def __init__(self, original: str, pure: str, similarity: float):
+    def __init__(self, original: Ware, pure: str, similarity: float):
         self.original = original
         self.pure = pure
         self.similarity = similarity
