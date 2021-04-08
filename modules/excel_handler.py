@@ -7,7 +7,7 @@ def getProductList() -> list[str]:
     Input: Excel spreadsheet object (not workbook)
     Output: List of product names to search for
     """
-    ws = xlwings.Book(bookname).sheets[0]
+    ws = xlwings.Book.caller().sheets["新竹查庫存"]
     firstCell = ws.range('E2')  # type:xlwings.Range
     lastCell = ws.range('E:E').end("down")  # type:xlwings.Range
     product_list = ws.range(firstCell, lastCell).value
@@ -25,7 +25,7 @@ def getBrandList() -> list[modules.utilities.Brand]:
             mylist[index] = value.strip()
         return mylist
 
-    ws = xlwings.Book(bookname).sheets["廠牌列表"]
+    ws = xlwings.Book.caller().sheets["廠牌列表"]
     brand_list = []
     row = 2
     while ws[f"A{row}"].value or ws[f"B{row}"].value:
@@ -41,31 +41,6 @@ def getBrandList() -> list[modules.utilities.Brand]:
 
     return brand_list
 
-def clearResults() -> None:
-    """Clear search results in Excel spreadsheet."""
-    ws = xlwings.Book(bookname).sheets[0]
-    # ws = xlwings.sheets.active
-    firstCell = ws.range('F2')
-    lastCell = None
-    for row in range(3, 1048576):
-        if ws[f"F{row}"].value is None:
-            lastCell = ws[f"F{row - 1}"]
-            break
-    cells = ws.range(firstCell, lastCell)
-    cells.clear()
-
-def clearSimilarityData() -> None:
-    """Clear prod1, prod2, similarity fields in Excel."""
-    ws = xlwings.Book(bookname).sheets[0]
-    firstCell = ws.range('T2')
-    lastCell = None
-    for row in range(3, 1048576):
-        if ws[f"V{row}"].value is None:
-            lastCell = ws[f"V{row - 1}"]
-            break
-    cells = ws.range(firstCell, lastCell)
-    cells.clear()
-
 def generateVerificationData(ws: xlwings.Sheet) -> None:
     """Fill in exact matches to 應有品名 column."""
     ware_list = modules.web_crawler.listWarehouse()
@@ -75,3 +50,30 @@ def generateVerificationData(ws: xlwings.Sheet) -> None:
         if product.replace(" ", "") in new_ware_list:
             ws[f"L{row}"].value = product
             ws[f"L{row}"].color = (0, 200, 0)
+
+"""DEPRECATED (clearing can be done faster with VBA)"""
+
+# def clearResults() -> None:
+#     """Clear search results in Excel spreadsheet."""
+#     ws = xlwings.Book(bookname).sheets[0]
+#     # ws = xlwings.sheets.active
+#     firstCell = ws.range('F2')
+#     lastCell = None
+#     for row in range(3, 1048576):
+#         if ws[f"F{row}"].value is None:
+#             lastCell = ws[f"F{row - 1}"]
+#             break
+#     cells = ws.range(firstCell, lastCell)
+#     cells.clear()
+#
+# def clearSimilarityData() -> None:
+#     """Clear prod1, prod2, similarity fields in Excel."""
+#     ws = xlwings.Book(bookname).sheets[0]
+#     firstCell = ws.range('T2')
+#     lastCell = None
+#     for row in range(3, 1048576):
+#         if ws[f"V{row}"].value is None:
+#             lastCell = ws[f"V{row - 1}"]
+#             break
+#     cells = ws.range(firstCell, lastCell)
+#     cells.clear()

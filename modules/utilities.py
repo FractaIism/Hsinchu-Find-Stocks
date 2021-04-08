@@ -3,7 +3,13 @@ import modules.globals
 
 " ========== CLASSES ========== "
 
+@dataclass
 class Brand:
+    """A brand with chinese and/or english name, and with optional aliases"""
+    ch: str = None
+    eng: str = None
+    aliases: list[str] = None
+
     def __init__(self, ch: str = None, eng: str = None, aliases: list[str] = None):
         self.ch = ch
         self.eng = eng
@@ -24,19 +30,30 @@ class Brand:
             return self.eng
         return "unknown"
 
+@dataclass
 class Ware:
+    """An item in the warehouse inventory"""
+    name: str
+    quantity: int
+
     def __init__(self, name: str, quantity: int):
         self.name = name
         self.quantity = quantity
 
+@dataclass
+class Match:
+    """A ware that matches a certain product"""
+    original_ware_obj: Ware
+    pure_ware_name: str
+    similarity: float
+
+    def __init__(self, original: Ware, pure: str, similarity: float):
+        self.original_ware_obj = original
+        self.pure_ware_name = pure
+        self.similarity = similarity
+
 class Success(Exception):
     pass
-
-class Match:
-    def __init__(self, original: Ware, pure: str, similarity: float):
-        self.original = original
-        self.pure = pure
-        self.similarity = similarity
 
 " ========== CONSTANTS ========== "
 

@@ -5,10 +5,11 @@ import modules.utilities
 
 class Filter:
     """Perform preliminary simple checks to directly accept/reject certain wares."""
-    IDENTICAL = 999
-    SUBSTRING_RELATION = 111
-    MISSING_REQUIRED_KEYWORD = 222
-    NUMBER_MISMATCH = 333
+    IDENTICAL: int = 999
+    SUBSTRING_RELATION: int = 111
+    MISSING_REQUIRED_KEYWORD: int = 222
+    NUMBER_MISMATCH: int = 333
+    MODEL_MISMATCH: int = 444
 
     def __init__(self, product: str, ware: str):
         self.product: str = product
@@ -22,6 +23,8 @@ class Filter:
             return Filter.IDENTICAL
         if self.checkSubstringRelation() is True:
             return Filter.SUBSTRING_RELATION
+        if self.checkModel() is False:
+            return Filter.MODEL_MISMATCH
         if self.checkRequiredKeywords() is False:
             return Filter.MISSING_REQUIRED_KEYWORD
         if self.checkNumbers() is False:
@@ -59,6 +62,15 @@ class Filter:
         for num in range(min(len(product_nums), len(ware_nums))):
             if product_nums[num] != ware_nums[num]:
                 return False
+
+    def checkModel(self):
+        regex = r"[A-Z]+(-[0-9A-Z]+)+"
+        product_model = re.search(regex, self.product)
+        ware_model = re.search(regex, self.ware)
+        if not product_model:  # product has no model
+            return True
+        elif product_model and not ware_model:  # product has model but ware doesn't
+            return False
 
 " ========== FUNCTIONS ========== "
 

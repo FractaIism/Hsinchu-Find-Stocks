@@ -5,28 +5,29 @@ def main():
     logging.basicConfig(filename = modules.globals.log_file, filemode = 'w', level = logging.DEBUG)
     timer = modules.checkpoint_timer.Timer()
     timer.checkpoint("Initial")
-    ws = xlwings.Book.caller().sheets[0]
+    ws = xlwings.Book.caller().sheets["新竹查庫存"]
     timer.checkpoint("Acquired excel sheet")
 
-    # fetch product list to search for
+    # fetch list of products to search for
     product_list = modules.excel_handler.getProductList()
     timer.checkpoint("Acquired product list")
     logNprint("Product list:", f"{len(product_list)} {product_list}")
 
     # fetch ware list from hsinchu logistics
     ware_list = modules.web_crawler.listWarehouse()
-    timer.checkpoint("Acquire ware list")
+    timer.checkpoint("Acquired ware list")
     logNprint("Warehouse list:", f"{len(ware_list)} {[(ware.name, ware.quantity) for ware in ware_list]}")
 
     # organize ware list into a dict (classify by brand name)
     brand_list = modules.excel_handler.getBrandList()
     wares_by_brand = modules.preprocessing.getWaresByBrand(ware_list, brand_list)
-    timer.checkpoint("Group wares by brand")
+    timer.checkpoint("Grouped wares by brand")
 
     # perform pairwise compare to find matching products
-    found_count = 0
+    # this is the bread and butter of the program
+    found_count = 0  # number of products that have been matched
     for idx, prod in enumerate(product_list):
-        # store matching items in a list and similarity score, and output the best match at the end
+        # store matching items in a list, then output the best match at the end
         match_list = list([])  # type:list[modules.utilities.Match]
         brand, brandless_product = modules.preprocessing.splitBrandProduct(brand_list, prod)
         pure_product = modules.preprocessing.purify(brandless_product)
@@ -37,9 +38,11 @@ def main():
             # first perform some basic checks (heuristics)
             verdict = modules.preprocessing.Filter(brandless_product, brandless_warename).verdict()
             if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
+                # direct accept
                 match_list.append(modules.utilities.Match(ware, brandless_warename, verdict))
                 continue
             elif verdict is not None:
+                # direct reject
                 continue
             # compare pure products
             pure_warename = modules.preprocessing.purify(brandless_warename)
@@ -55,16 +58,18 @@ def main():
                     similarity = modules.utilities.similarity(pure_product, pure_warename)
                     if similarity >= modules.globals.similarity_threshold:
                         match_list.append(modules.utilities.Match(ware, pure_warename, similarity))
-            else:
+            elif modules.globals.search_all:
                 # if no brand and no match, search through all wares
                 for ware in wares_by_brand["all"]:
                     _, brandless_warename = modules.preprocessing.splitBrandProduct(brand_list, ware.name)
                     # first perform some basic checks (heuristics)
                     verdict = modules.preprocessing.Filter(brandless_product, brandless_warename).verdict()
                     if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
+                        # direct accept
                         match_list.append(modules.utilities.Match(ware, brandless_warename, modules.preprocessing.Filter.SUBSTRING_RELATION))
                         continue
                     elif verdict is not None:
+                        # direct reject
                         continue
                     # compare pure products
                     pure_warename = modules.preprocessing.purify(brandless_warename)
@@ -78,10 +83,10 @@ def main():
         if len(match_list) > 0:
             # find best match
             best_match = max(match_list, key = lambda match: match.similarity)
-            ws[f'F{row}'].value = best_match.original.name
-            ws[f'G{row}'].value = best_match.original.quantity
+            ws[f'F{row}'].value = best_match.original_ware_obj.name
+            ws[f'G{row}'].value = best_match.original_ware_obj.quantity
             ws[f'T{row}'].value = pure_product
-            ws[f'U{row}'].value = best_match.pure
+            ws[f'U{row}'].value = best_match.pure_ware_name
             ws[f'V{row}'].value = best_match.similarity
             if best_match.similarity in (1, modules.preprocessing.Filter.IDENTICAL):
                 ws[f'F{row}'].color = (0, 255, 0)  # bright green
@@ -100,6 +105,29 @@ def main():
 
     timer.checkpoint("Pairwise compare")
     logNprint(f"Found: {found_count}/{len(product_list)}")
+
+    # output ware_dict to excel for checking
+    # first create a hash table to combine chinese/english/alias brand names to prevent duplicate output
+    ws2 = xlwings.Book.caller().sheets["新竹庫存字典"]
+    hash_table: dict[int, list[str]] = {}
+    for _brand, _warelist in wares_by_brand.items():
+        if _brand in (None, "all"):
+            continue
+        elif id(_warelist) in hash_table:
+            hash_table[id(_warelist)].append(_brand)
+        else:
+            hash_table[id(_warelist)] = [_brand]
+    # print to excel
+    ws2.clear()
+    ws2[f"H{1}"].value = "最後更新: " + re.sub(r"\..*$", "", str(datetime.datetime.now()))
+    row = 1
+    for _, _brand in hash_table.items():
+        brand_combined = ",".join(_brand)
+        ws2[f"A{row}"].value = brand_combined
+        row += 1
+        for _ware in wares_by_brand[_brand[0]]:
+            ws2[f"B{row}"].value = _ware.name
+            row += 1
 
 if __name__ == '__main__':
     os.chdir(os.path.dirname(sys.argv[0]))

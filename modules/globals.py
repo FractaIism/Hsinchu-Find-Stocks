@@ -11,3 +11,6 @@ mock_web = True
 
 # similarity threshold to consider two products the same
 similarity_threshold = 0.8
+
+# search all wares if product has no brand and has no match in the "unknown" category
+search_all = False

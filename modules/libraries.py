@@ -1,9 +1,10 @@
+from bs4 import BeautifulSoup
+from dataclasses import dataclass
 import requests
 import browser_cookie3
 import xlwings
-from bs4 import BeautifulSoup
 import concurrent.futures
-import fake_useragent
+# import fake_useragent
 import difflib
 import sys
 import os
@@ -14,3 +15,4 @@ import re
 import json
 import traceback
 import typing
+import datetime

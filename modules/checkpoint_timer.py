@@ -1,10 +1,10 @@
 from modules.libraries import *
 from modules.utilities import logNprint
 
+@dataclass
 class Timer:
-    def __init__(self):
-        self.initial_time = None
-        self.last_time = None
+    initial_time: float = None
+    last_time: float = None
 
     def checkpoint(self, name: str):
         logNprint("*" * 50)

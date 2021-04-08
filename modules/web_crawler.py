@@ -75,7 +75,10 @@ def HCTLISP_login() -> None:
         "Accept-Encoding"          : "gzip, deflate, br",
         "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
     }
-    cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
+    try:
+        cookie_jar = browser_cookie3.load(domain_name = 'lisp-tw.hct.com.tw')
+    except KeyError:  # KeyError: 'os_crypt'
+        cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
     try:
         # Try to get cookie from chrome
         cookie = next(iter(cookie_jar))
