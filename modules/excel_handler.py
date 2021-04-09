@@ -51,7 +51,62 @@ def generateVerificationData(ws: xlwings.Sheet) -> None:
             ws[f"L{row}"].value = product
             ws[f"L{row}"].color = (0, 200, 0)
 
-"""DEPRECATED (clearing can be done faster with VBA)"""
+def writeSearchResult(index: int, best_match: typing.Optional[modules.utilities.Match] = None, pure_product: str = None):
+    """Write matching ware to Excel (or defaults if no match)
+    Input: index (product number starting from 0), best matching ware, pure product name (temp for debugging)
+    Output: None
+    """
+    ws = xlwings.Book.caller().sheets("新竹查庫存")
+    row = index + 2  # row number of product in excel
+    if best_match is not None:
+        ws[f'F{row}'].value = best_match.original_ware_obj.name
+        ws[f'G{row}'].value = best_match.original_ware_obj.quantity
+        ws[f'T{row}'].value = pure_product
+        ws[f'U{row}'].value = best_match.pure_ware_name
+        ws[f'V{row}'].value = best_match.similarity
+        if best_match.similarity in (1, modules.preprocessing.Filter.IDENTICAL):
+            ws[f'F{row}'].color = (0, 255, 0)  # bright green
+        elif best_match.similarity == modules.preprocessing.Filter.SUBSTRING_RELATION:
+            ws[f'F{row}'].color = (0, 255, 255)  # dark cyan
+        else:
+            ws[f'F{row}'].color = (255, 255, 0)  # bright yellow
+    else:
+        ws[f'F{row}'].value = r"¯\_(ツ)_/¯"
+        ws[f'G{row}'].value = "-"
+        ws[f'T{row}'].value = "-"
+        ws[f'U{row}'].value = "-"
+        ws[f'V{row}'].value = "-"
+        ws[f'F{row}'].color = (200, 200, 200)  # gray
+
+def writeWaresByBrand(wares_by_brand: dict[str, list[modules.utilities.Ware]]):
+    # output ware_dict to excel for checking
+    # first create a hash table to combine chinese/english/alias brand names to prevent duplicate output
+    ws2: xlwings.Sheet = xlwings.Book.caller().sheets["新竹庫存字典"]
+    hash_table: dict[int, list[str]] = {}
+    for _brand, _warelist in wares_by_brand.items():
+        if _brand in (None, "all"):
+            continue
+        elif id(_warelist) in hash_table:
+            hash_table[id(_warelist)].append(_brand)
+        else:
+            hash_table[id(_warelist)] = [_brand]
+    # print to excel
+    ws2.clear()
+    ws2.range("A1:C1").value = ["廠牌", "數量", "商品"]
+    ws2.range("A1:C1").color = (255, 192, 0)  # orange
+    ws2["E1"].value = "最後更新: " + re.sub(r"\..*$", "", str(datetime.datetime.now()))
+    row = 2
+    for _, _brand in hash_table.items():
+        brand_combined = ", ".join(_brand)
+        ws2[f"A{row}"].value = brand_combined
+        row += 1
+        for _ware in wares_by_brand[_brand[0]]:
+            ws2[f"B{row}"].value = _ware.quantity
+            ws2[f"C{row}"].value = _ware.name
+            row += 1
+
+" ========== DEPRECATED ========== "
+" (clearing can be done faster with VBA)"
 
 # def clearResults() -> None:
 #     """Clear search results in Excel spreadsheet."""

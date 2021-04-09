@@ -64,12 +64,14 @@ class Filter:
                 return False
 
     def checkModel(self):
-        regex = r"[A-Z]+(-[0-9A-Z]+)+"
+        regex = r"[A-Z]+(-[0-9A-Z]+)+"  # model should be in uppercase letters and numbers
         product_model = re.search(regex, self.product)
         ware_model = re.search(regex, self.ware)
         if not product_model:  # product has no model
             return True
         elif product_model and not ware_model:  # product has model but ware doesn't
+            return False
+        elif product_model.group() != ware_model.group():  # both have models but are different
             return False
 
 " ========== FUNCTIONS ========== "

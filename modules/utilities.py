@@ -57,22 +57,37 @@ class Success(Exception):
 
 " ========== CONSTANTS ========== "
 
-UNKNOWN_BRAND = Brand(None, None, None)
+UNKNOWN_BRAND = Brand("unknown", None, None)
 
 " ========== FUNCTIONS ========== "
 
-def similarity(product1: str, product2: str):
+def calcSimilarity(product1: str, product2: str):
     # product1 = product1.lower()
     # product2 = product2.lower()
     sim = difflib.SequenceMatcher(None, product1, product2).quick_ratio()
     return sim
 
-def isSamePureProduct(product1: str, product2: str) -> bool:
-    """Compare pure product names and determine if they are the same."""
-    if difflib.SequenceMatcher(None, product1.lower(), product2.lower()).quick_ratio() >= modules.globals.similarity_threshold:
-        return True
+def isSameProduct(prodname: str, warename: str, brand: Brand) -> (bool, str, int):
+    """Compare product with ware and determine if they are the same.
+    Input: Original product name, original ware name, brand
+    Output: is_same, processed_warename, verdict/similarity
+    """
+    brandless_product = modules.preprocessing.stripBrand(prodname, brand)
+    brandless_warename = modules.preprocessing.stripBrand(warename, brand)
+    # first perform some basic checks (heuristics)
+    verdict = modules.preprocessing.Filter(brandless_product, brandless_warename).verdict()
+    if verdict in (modules.preprocessing.Filter.IDENTICAL, modules.preprocessing.Filter.SUBSTRING_RELATION):
+        return True, brandless_warename, verdict  # direct accept
+    elif verdict is not None:
+        return False, brandless_warename, verdict  # direct reject
+    # compare pure products
+    pure_product = modules.preprocessing.purify(brandless_product)
+    pure_warename = modules.preprocessing.purify(brandless_warename)
+    similarity = calcSimilarity(pure_product, pure_warename)
+    if similarity >= modules.globals.similarity_threshold:
+        return True, pure_warename, similarity
     else:
-        return False
+        return False, pure_warename, similarity
 
 def logNprint(msg, *args) -> None:
     """Output message to both console and log file. (tee!)"""
@@ -83,8 +98,7 @@ def logNprint(msg, *args) -> None:
 " ========== DEPRECATED ========== "
 
 # def searchProduct(product_name):
-#     """DEPRECATED
-#     Search for a product on 新竹倉庫 by 報表查詢
+#     """Search for a product on 新竹倉庫 by 報表查詢
 #     Input: product name
 #     Output: list of products names found"""
 #     logNprint(f"Searching for: {product_name}")
