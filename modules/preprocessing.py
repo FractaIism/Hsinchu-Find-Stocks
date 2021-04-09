@@ -135,31 +135,31 @@ def splitBrandProduct(brand_list: list[modules.utilities.Brand], product: str) -
     Output: (brand, brandless-product), with brand=UNKNOWN_BRAND if not found
     """
 
-    def findMatchingBrand(brand_list, product):
+    def findMatchingBrand(brand_list: list[modules.utilities.Brand], product: str):
         for cur_brand in brand_list:  # type:modules.utilities.Brand
-            if cur_brand.ch is not None and re.search(cur_brand.ch, pure_product, flags = re.IGNORECASE) is not None:
+            if cur_brand.ch is not None and re.search(cur_brand.ch, product, flags = re.IGNORECASE) is not None:
                 return cur_brand
-            if cur_brand.eng is not None and re.search(cur_brand.eng, pure_product, flags = re.IGNORECASE) is not None:
+            if cur_brand.eng is not None and re.search(cur_brand.eng, product, flags = re.IGNORECASE) is not None:
                 return cur_brand
             if cur_brand.aliases is not None:
                 for alias in cur_brand.aliases:
-                    if re.search(alias, pure_product, flags = re.IGNORECASE):
+                    if re.search(alias, product, flags = re.IGNORECASE):
                         return cur_brand
 
     # only need one of brand.ch/brand.eng to find its place in wares dict
-    pure_product = product  # type:str
+    brandless_product = product  # type:str
     # identify and strip brand from product
-    matching_brand = findMatchingBrand(brand_list, product)
+    matching_brand = findMatchingBrand(brand_list, product)  # type:modules.utilities.Brand
     # if brand has been found
     if matching_brand is not None:
         if matching_brand.ch is not None:
-            pure_product = re.sub(matching_brand.ch, "", pure_product, flags = re.IGNORECASE)
+            brandless_product = re.sub(matching_brand.ch, "", brandless_product, flags = re.IGNORECASE)
         if matching_brand.eng is not None:
-            pure_product = re.sub(matching_brand.eng, "", pure_product, flags = re.IGNORECASE)
+            brandless_product = re.sub(matching_brand.eng, "", brandless_product, flags = re.IGNORECASE)
         if matching_brand.aliases is not None:
             for alias in matching_brand.aliases:
-                pure_product = re.sub(alias, "", pure_product, flags = re.IGNORECASE)
-        return matching_brand, pure_product.strip()
+                brandless_product = re.sub(alias, "", brandless_product, flags = re.IGNORECASE)
+        return matching_brand, brandless_product.strip()
     else:
         return modules.utilities.UNKNOWN_BRAND, product
 

@@ -44,12 +44,12 @@ class Ware:
 class Match:
     """A ware that matches a certain product"""
     original_ware_obj: Ware
-    pure_ware_name: str
+    processed_warename: str
     similarity: float
 
     def __init__(self, original: Ware, pure: str, similarity: float):
         self.original_ware_obj = original
-        self.pure_ware_name = pure
+        self.processed_warename = pure
         self.similarity = similarity
 
 class Success(Exception):

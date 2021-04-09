@@ -8,8 +8,8 @@ def getProductList() -> list[str]:
     Output: List of product names to search for
     """
     ws = xlwings.Book.caller().sheets["新竹查庫存"]
-    firstCell = ws.range('E2')  # type:xlwings.Range
-    lastCell = ws.range('E:E').end("down")  # type:xlwings.Range
+    firstCell = ws.range('B2')  # type:xlwings.Range
+    lastCell = ws.range('B:B').end("down")  # type:xlwings.Range
     product_list = ws.range(firstCell, lastCell).value
     return product_list if isinstance(product_list, list) else [product_list]
 
@@ -41,17 +41,7 @@ def getBrandList() -> list[modules.utilities.Brand]:
 
     return brand_list
 
-def generateVerificationData(ws: xlwings.Sheet) -> None:
-    """Fill in exact matches to 應有品名 column."""
-    ware_list = modules.web_crawler.listWarehouse()
-    new_ware_list = list(map(lambda x: x.replace(" ", ""), ware_list))
-    for row in range(2, 250):
-        product = ws[f"E{row}"].value
-        if product.replace(" ", "") in new_ware_list:
-            ws[f"L{row}"].value = product
-            ws[f"L{row}"].color = (0, 200, 0)
-
-def writeSearchResult(index: int, best_match: typing.Optional[modules.utilities.Match] = None, pure_product: str = None):
+def writeSearchResult(index: int, best_match: typing.Optional[modules.utilities.Match] = None, processed_prodname: str = None):
     """Write matching ware to Excel (or defaults if no match)
     Input: index (product number starting from 0), best matching ware, pure product name (temp for debugging)
     Output: None
@@ -59,24 +49,24 @@ def writeSearchResult(index: int, best_match: typing.Optional[modules.utilities.
     ws = xlwings.Book.caller().sheets("新竹查庫存")
     row = index + 2  # row number of product in excel
     if best_match is not None:
-        ws[f'F{row}'].value = best_match.original_ware_obj.name
-        ws[f'G{row}'].value = best_match.original_ware_obj.quantity
-        ws[f'T{row}'].value = pure_product
-        ws[f'U{row}'].value = best_match.pure_ware_name
-        ws[f'V{row}'].value = best_match.similarity
+        ws[f'C{row}'].value = best_match.original_ware_obj.name
+        ws[f'D{row}'].value = best_match.original_ware_obj.quantity
+        ws[f'F{row}'].value = processed_prodname
+        ws[f'G{row}'].value = best_match.processed_warename
+        ws[f'H{row}'].value = best_match.similarity
         if best_match.similarity in (1, modules.preprocessing.Filter.IDENTICAL):
-            ws[f'F{row}'].color = (0, 255, 0)  # bright green
+            ws[f'C{row}'].color = (0, 255, 0)  # bright green
         elif best_match.similarity == modules.preprocessing.Filter.SUBSTRING_RELATION:
-            ws[f'F{row}'].color = (0, 255, 255)  # dark cyan
+            ws[f'C{row}'].color = (0, 255, 255)  # dark cyan
         else:
-            ws[f'F{row}'].color = (255, 255, 0)  # bright yellow
+            ws[f'C{row}'].color = (255, 255, 0)  # bright yellow
     else:
-        ws[f'F{row}'].value = r"¯\_(ツ)_/¯"
+        ws[f'C{row}'].value = r"¯\_(ツ)_/¯"
+        ws[f'D{row}'].value = "-"
+        ws[f'F{row}'].value = "-"
         ws[f'G{row}'].value = "-"
-        ws[f'T{row}'].value = "-"
-        ws[f'U{row}'].value = "-"
-        ws[f'V{row}'].value = "-"
-        ws[f'F{row}'].color = (200, 200, 200)  # gray
+        ws[f'H{row}'].value = "-"
+        ws[f'C{row}'].color = (200, 200, 200)  # gray
 
 def writeWaresByBrand(wares_by_brand: dict[str, list[modules.utilities.Ware]]):
     # output ware_dict to excel for checking
@@ -106,8 +96,17 @@ def writeWaresByBrand(wares_by_brand: dict[str, list[modules.utilities.Ware]]):
             row += 1
 
 " ========== DEPRECATED ========== "
-" (clearing can be done faster with VBA)"
 
+# def generateVerificationData(ws: xlwings.Sheet) -> None:
+#     """Fill in exact matches to 應有品名 column. Not terribly useful."""
+#     ware_list = modules.web_crawler.listWarehouse()
+#     new_ware_list = list(map(lambda x: x.replace(" ", ""), ware_list))
+#     for row in range(2, 250):
+#         product = ws[f"E{row}"].value
+#         if product.replace(" ", "") in new_ware_list:
+#             ws[f"L{row}"].value = product
+#             ws[f"L{row}"].color = (0, 200, 0)
+#
 # def clearResults() -> None:
 #     """Clear search results in Excel spreadsheet."""
 #     ws = xlwings.Book(bookname).sheets[0]

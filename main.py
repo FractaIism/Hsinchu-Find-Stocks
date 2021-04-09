@@ -62,7 +62,7 @@ def main():
 
         print(idx)  # to show that the program is actually running
 
-    ws[f"F{len(product_list) + 3}"].value = f"找到{found_count}/{len(product_list)}"
+    ws[f"C{len(product_list) + 3}"].value = f"找到{found_count}/{len(product_list)}"
 
     timer.checkpoint("Pairwise compare")
     logNprint(f"Found: {found_count}/{len(product_list)}")
