@@ -25,21 +25,28 @@ def listWarehouse() -> list[modules.utilities.Ware]:
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # structure: table > (NO TBODY) > tr*N
+    table = None
     try:
-        table = soup.find_all('table')[1]  # type:BeautifulSoup
+        tables = soup.find_all('table')
+        for tbl in tables:
+            if len(tbl.find_all('tr')) > 100:  # the "big" table is what we want (prevent website changes from breaking this program)
+                table = tbl
+                raise modules.utilities.Success
+        raise IndexError  # table = soup.find_all('table')[2]  # type:BeautifulSoup
     except IndexError:
         logging.error(soup.prettify())
         raise Exception("You are not logged in.")
-    trs = table.find_all('tr')  # type:list[BeautifulSoup]
+    except modules.utilities.Success:
+        pass
+    trs = table.find_all('tr')[1:]  # type:list[BeautifulSoup]
     # preallocate list for infinitesimal performance gains
     ware_list = [modules.utilities.Ware(r"¯\_(ツ)_/¯", 1) for x in range(len(trs))]  # type:list[modules.utilities.Ware]
     for index, tr in enumerate(trs):
-        # ware_list[index] = tr.find_all('td')[2].contents[0]
         ware_name = tr.find_all('td')[2].contents[0]
         ware_quantity = tr.find_all('td')[3].contents[0]
         ware_list[index] = modules.utilities.Ware(ware_name, ware_quantity)
-    # remove 0th element '產品名稱'
-    ware_list.pop(0)
+    # # remove 0th element '產品名稱'
+    # ware_list.pop(0)
     return ware_list
 
 def HCTLISP_login() -> None:
