@@ -37,6 +37,8 @@ def main():
             is_same, processed_warename, similarity = modules.utilities.isSameProduct(prod, ware.name, brand)
             if is_same:
                 match_list.append(modules.utilities.Match(ware, processed_warename, similarity))
+
+        # if no match found in brand, try searching elsewhere
         if len(match_list) == 0:
             if brand.primary() != "unknown":
                 # if no match found in brand, try searching unbranded wares
@@ -55,7 +57,8 @@ def main():
         if len(match_list) > 0:
             # find match with highest similarity score (or filter code if found by Filter)
             best_match = max(match_list, key = lambda match: match.similarity)
-            modules.excel_handler.writeSearchResult(idx, best_match, pure_product)
+            processed_product = brandless_product if best_match.similarity > 1 else pure_product
+            modules.excel_handler.writeSearchResult(idx, best_match, processed_product)
             found_count += 1
         else:
             modules.excel_handler.writeSearchResult(idx, None, pure_product)

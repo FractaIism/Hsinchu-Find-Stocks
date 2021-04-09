@@ -48,7 +48,7 @@ class Filter:
         """Check if the ware contains all *necessary keywords* in product.
         If not, consider them unequal.
         """
-        color_keywords = "黑紅藍綠橙黃紫黑白金銀"
+        color_keywords = ["黑", "紅", "藍", "綠", "橙", "黃", "紫", "黑", "白", "金", "銀", "玫瑰金"]
         for color in color_keywords:
             if (color in self.product) and (color not in self.ware):
                 return False
@@ -57,10 +57,12 @@ class Filter:
         """Check if the numbers (weight, size, quantity, etc...) match.
         If not, consider them unequal.
         """
-        product_nums: list[str] = re.findall(r"[0-9]+(\.[0-9]+)?", self.product)
-        ware_nums: list[str] = re.findall(r"[0-9]+(\.[0-9]+)?", self.product)
-        for num in range(min(len(product_nums), len(ware_nums))):
-            if product_nums[num] != ware_nums[num]:
+        # use noncapturing group to obtain the full float (or int)
+        regex = r"[0-9]+(?:\.[0-9]+)?"
+        prod_nums: list[str] = re.findall(regex, self.product)
+        ware_nums: list[str] = re.findall(regex, self.product)
+        for num in range(min(len(prod_nums), len(ware_nums))):
+            if prod_nums[num] != ware_nums[num]:
                 return False
 
     def checkModel(self):
@@ -191,9 +193,18 @@ def purify(product: str):
         # do nothing until certain what to do with quantities
         pass
 
+    def stripParentheses(product: str):
+        return re.sub(r"[()]", "", product)
+
+    def stripUnits(product: str):
+        # todo:make a list of units and remove them from product
+        units = []
+        pass
+
     # perform preprocessing here
     purified: str = product
+    purified = purified.replace(" ", "")
+    purified = stripParentheses(purified)
     purified = replaceKeywords(purified)
     purified = purified.lower()
-    purified = purified.replace(" ", "")
     return purified
