@@ -169,10 +169,10 @@ def splitBrandProduct(brand_list: list[modules.utilities.Brand], product: str) -
 def purify(product: str):
     """Call various methods to clean up product name."""
 
-    def replaceKeywords(product: str):
+    def replaceMetricUnits(product: str):
         # dict to map certain keywords to their standardized equivalents
         # make sure to put longer keywords in front so they get replaced first
-        repl_dict = {
+        unit_dict = {
             "公升": "L",
             "毫升": "mL",
             "毫米": "mm",
@@ -184,7 +184,7 @@ def purify(product: str):
             "克" : "g",
         }
         new_product = product
-        for old, new in repl_dict.items():
+        for old, new in unit_dict.items():
             new_product = new_product.replace(old, new)
         return new_product
 
@@ -196,15 +196,29 @@ def purify(product: str):
     def stripParentheses(product: str):
         return re.sub(r"[()]", "", product)
 
-    def stripUnits(product: str):
-        # todo:make a list of units and remove them from product
-        units = []
+    def replaceSpecialChars(product: str):
+        char_dict = {
+            "℃": "ﾟC",
+        }
+        new_product = product
+        for oldchar, newchar in char_dict.items():
+            new_product = new_product.replace(oldchar, newchar)
+        return new_product
+
+    def stripKeywords(product: str):
         pass
+
+    def stripQuantityUnits(product: str):
+        regex = r"[xX*]?([0-9]+)(入組|入|小盒|盒|包|片|粒|錠|瓶|顆|條)*"
+        return re.sub(regex, r"\g<1>", product)
 
     # perform preprocessing here
     purified: str = product
     purified = purified.replace(" ", "")
     purified = stripParentheses(purified)
-    purified = replaceKeywords(purified)
+    # purified = stripKeywords(purified)
+    purified = stripQuantityUnits(purified)
+    purified = replaceSpecialChars(purified)
+    purified = replaceMetricUnits(purified)
     purified = purified.lower()
     return purified

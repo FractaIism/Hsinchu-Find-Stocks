@@ -14,7 +14,7 @@ def listWarehouse() -> list[modules.utilities.Ware]:
         url = "http://hsinchu"  # using WAMP
     else:
         # first log in (or else subsequent code will fail)
-        HCTLISP_login()
+        HCTLISP_login(use_existing_cookie = True)  # first try grabbing cookies from browser to save network requests
         # fetch warehouse inventory listing
         url = "https://lisp-tw.hct.com.tw/AA004.jsp"
 
@@ -24,20 +24,22 @@ def listWarehouse() -> list[modules.utilities.Ware]:
     # extract products from HTML table using BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # structure: table > (NO TBODY) > tr*N
-    table = None
-    try:
+    def getTable():
         tables = soup.find_all('table')
         for tbl in tables:
             if len(tbl.find_all('tr')) > 100:  # the "big" table is what we want (prevent website changes from breaking this program)
-                table = tbl
-                raise modules.utilities.Success
-        raise IndexError  # table = soup.find_all('table')[2]  # type:BeautifulSoup
-    except IndexError:
-        logging.error(soup.prettify())
-        raise Exception("You are not logged in.")
-    except modules.utilities.Success:
-        pass
+                return tbl
+        # if table not found, return None
+        return None
+
+    table = getTable()
+    if table is None:
+        # login failed, try again without using existing cookies
+        HCTLISP_login(use_existing_cookie = False)
+        table = getTable()
+        if table is None:
+            # if login still fails, crash the program
+            raise Exception("Login to Hsinchu Logistics failed. Login manually, then try again.")
     trs = table.find_all('tr')[1:]  # type:list[BeautifulSoup]
     # preallocate list for infinitesimal performance gains
     ware_list = [modules.utilities.Ware(r"¯\_(ツ)_/¯", 1) for x in range(len(trs))]  # type:list[modules.utilities.Ware]
@@ -45,11 +47,9 @@ def listWarehouse() -> list[modules.utilities.Ware]:
         ware_name = tr.find_all('td')[2].contents[0]
         ware_quantity = tr.find_all('td')[3].contents[0]
         ware_list[index] = modules.utilities.Ware(ware_name, ware_quantity)
-    # # remove 0th element '產品名稱'
-    # ware_list.pop(0)
     return ware_list
 
-def HCTLISP_login() -> None:
+def HCTLISP_login(use_existing_cookie: bool = True) -> None:
     """Login to HCTLISP to make the cookie "logged-in" so further operations can be performed."""
 
     def visitLoginPage():
@@ -58,8 +58,6 @@ def HCTLISP_login() -> None:
         Output: Cookies for lisp-tw.hct.com.tw"""
         url = "https://lisp-tw.hct.com.tw/login.jsp"
         response = session.get(url = url, headers = headers)
-        # logNprint(f"Login page headers = {response.headers}")
-        # logNprint(f"Login page cookie = {response.cookies}")
         return response.cookies
 
     # send HTTP request to perform search
@@ -78,11 +76,13 @@ def HCTLISP_login() -> None:
         "Sec-Fetch-Site"           : "none",
         "Sec-Fetch-Mode"           : "navigate",
         "Sec-Fetch-User"           : "?1",
-        "Sec-Fetch-Dest"           : "document",  # differs
+        "Sec-Fetch-Dest"           : "document",
         "Accept-Encoding"          : "gzip, deflate, br",
         "Accept-Language"          : "zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7",
     }
-    try:
+    try:  # try getting cookies from multiple browsers
+        if not use_existing_cookie:
+            raise StopIteration
         cookie_jar = browser_cookie3.load(domain_name = 'lisp-tw.hct.com.tw')
     except KeyError:  # KeyError: 'os_crypt'
         cookie_jar = browser_cookie3.chrome(domain_name = 'lisp-tw.hct.com.tw')
@@ -97,11 +97,7 @@ def HCTLISP_login() -> None:
         logging.debug(f"Chrome cookie = {cookie_jar}")
 
     headers["Cookie"] = f"{cookie.name}={cookie.value}"  # this header is necessary for some reason...
-    data = {
-        "USER_ID" : "USER",
-        "PASSWORD": "Clark2021",
-        "CUST"    : "SI",
-    }
+    credentials = modules.globals.hsinchu_credentials
     session.cookies.set_cookie(cookie)
     session.headers.update(headers)
     # Inconsistent bug: SSL wrong version...
@@ -112,12 +108,13 @@ def HCTLISP_login() -> None:
     https_url = "https://lisp-tw.hct.com.tw/checklogin.jsp"
     try:
         # first try using HTTPS
-        https_response = session.post(url = https_url, data = data, verify = False)
-        if re.search("alert\(", https_response.text):
+        https_response = session.post(url = https_url, data = credentials, verify = False)
+        # session expired message (?)
+        if https_response.text.find("alert(") > 0:
             raise Exception(https_response.text)
     except Exception as exc:
         # if it fails, fallback to HTTP
         print(exc)
         print("Trying HTTP ...")
-        http_response = session.post(url = http_url, data = data, verify = False)
+        http_response = session.post(url = http_url, data = credentials, verify = False)
         print(http_response)
